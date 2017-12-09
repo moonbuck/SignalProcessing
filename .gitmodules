@@ -1,0 +1,3 @@
+[submodule "submodules"]
+	path = submodules
+	url = https://jscardwell4@github.com/jscardwell4/docopt.swift.git
