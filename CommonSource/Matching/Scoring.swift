@@ -47,16 +47,17 @@ public func Fscore(TP: Int, FP: Int, FN: Int) -> Float {
 /// - Returns: The similarity score.
 public func score(template: ChromaTemplate,
                   for otherVector: ChromaVector,
-                  adjustments: [ScoreAdjustment],
-                  mostLikelyRoots: PossibleRoots,
-                  estimatedNoteCount: Int) -> Float64
+                  adjustments: [ScoreAdjustment]//,
+//                  mostLikelyRoots: PossibleRoots,
+//                  estimatedNoteCount: Int
+  ) -> Float64
 {
 
   // Create an evaluation that starts with a score set to the inner product of the vectors.
   var evaluation = TemplateEvaluation(template: template,
                                       otherVector: otherVector,
-                                      mostLikelyRoots: mostLikelyRoots,
-                                      estimatedNoteCount: estimatedNoteCount,
+//                                      mostLikelyRoots: mostLikelyRoots,
+//                                      estimatedNoteCount: estimatedNoteCount,
                                       score: otherVector ~ template.vector)
 
   for adjustment in adjustments {
@@ -80,10 +81,10 @@ private struct TemplateEvaluation {
   let otherVector: ChromaVector
 
   /// The supplied root chroma candidates.
-  let mostLikelyRoots: PossibleRoots
+//  let mostLikelyRoots: PossibleRoots
 
   /// The estimated number of notes in `otherVector`.
-  let estimatedNoteCount: Int
+//  let estimatedNoteCount: Int
 
   /// The resulting similarity score.
   var score: Float64
@@ -182,7 +183,7 @@ public enum ScoreAdjustment {
 ///   - matchingBonus: The bonus to apply should the number of notes match.
 private func noteCountAdjustment(evaluation: inout TemplateEvaluation, matchingBonus: Float64) {
 
-
+/*
   // Check whether the estimate matches the number of notes in the template's chord.
   if evaluation.template.chord.chromas.count == evaluation.estimatedNoteCount {
 
@@ -190,6 +191,7 @@ private func noteCountAdjustment(evaluation: inout TemplateEvaluation, matchingB
     evaluation.score += matchingBonus
 
   }
+*/
 
 }
 
@@ -208,7 +210,7 @@ private func chordRootAdjustment(evaluation: inout TemplateEvaluation,
                                  highEnergyThreshold: Float64,
                                  highEnergyBonus: Float64)
 {
-
+/*
   if evaluation.mostLikelyRoots.byFrequency.chroma == evaluation.template.chord.root {
 
     evaluation.score += matchingBonus
@@ -218,6 +220,7 @@ private func chordRootAdjustment(evaluation: inout TemplateEvaluation,
     evaluation.score -= mismatchPenalty
 
   }
+*/
 
 //  // Convert the tuple of most likely root chromas into an array.
 //  let possibleRoots = [evaluation.mostLikelyRoots.byFrequency.chroma,

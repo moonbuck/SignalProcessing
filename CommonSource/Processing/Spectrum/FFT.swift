@@ -19,9 +19,31 @@ public struct FFT {
   /// Storage for the energy values.
   public let bins: BinVector
 
+  /// Initializing with a pointer to the signal's samples and their count; as well as, the window
+  /// and hop sizes. This initializer creates single use values to pass to
+  /// `init(signal:sampleRate:setup:log2N`.
+  ///
+  /// - Parameters:
+  ///   - signal: The samples for the signal to transform.
+  ///   - sampleRate: The sample rate.
+  public init(signal: SignalVector, sampleRate: SampleRate, windowSize: Int, hopSize: Int) {
+
+    // Calculate the `windowSize` represented as a power of 2.
+    let log2N = vDSP_Length(log2(Float(windowSize)))
+
+    // Create the FFT support structure.
+    guard let fftSetup = vDSP_create_fftsetupD(log2N, FFTRadix(FFT_RADIX2)) else {
+      fatalError("Failed to create FFT setup support structure.")
+    }
+
+    defer { vDSP_destroy_fftsetupD(fftSetup) }
+
+    self.init(signal: signal, sampleRate: sampleRate, setup: fftSetup, log2N: log2N)
+
+  }
+
   /// Initializing with a pointer to the signal's samples and their count, the structure
-  /// with the weighted array to use. Optionally, a precalculated value for `log2N` may
-  /// be provided.
+  /// with the weighted array to use, and a precalculated value for `log2N`.
   ///
   /// - Parameters:
   ///   - signal: The samples for the signal to transform.

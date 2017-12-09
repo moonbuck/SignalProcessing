@@ -25,10 +25,10 @@ public struct FeatureReport: Report, ReportContentProvider {
   public let matchedChromaFeatures: MatchedChromaFeatures
 
   /// The most likely root chroma per frame.
-  public let mostLikelyRoots: [PossibleRoots]
+//  public let mostLikelyRoots: [PossibleRoots]
 
   /// The estimated note count by frame.
-  public let noteCountEstimates: [Int]
+//  public let noteCountEstimates: [Int]
 
   /// The actual chords present in `features.source`.
   public let expectedChords: ChordProgression
@@ -57,8 +57,8 @@ public struct FeatureReport: Report, ReportContentProvider {
   {
     self.features = features
     matchedChromaFeatures = MatchedChromaFeatures(features: features)
-    mostLikelyRoots = features.smoothedPitchFeatures.mostLikelyRoots
-    noteCountEstimates = features.smoothedPitchFeatures.noteCountEstimates
+//    mostLikelyRoots = features.smoothedPitchFeatures.mostLikelyRoots
+//    noteCountEstimates = features.smoothedPitchFeatures.noteCountEstimates
     self.expectedChords = expectedChords
     self.isBrief = isBrief
   }
@@ -116,7 +116,7 @@ public struct FeatureReport: Report, ReportContentProvider {
     text += ("Pitch Feature Vector", .thinItalic)
 
     // Create a variable for number of spaces to add before appending possible roots.
-    var possiblesPad = -69
+//    var possiblesPad = -69
 
     // Try getting the actual notes played to generate the feature.
     let pitches = expectedChords.composition(forFrame: frame,
@@ -129,38 +129,39 @@ public struct FeatureReport: Report, ReportContentProvider {
     text += (" \(pitchesDesc)", .extraLightItalic)
 
     // Subtract the number of characters appended from `possiblesPad`.
-    possiblesPad -= pitchesDesc.count + 1
+//    possiblesPad -= pitchesDesc.count + 1
 
     // Obtain the possible root chromas for this frame.
-    let possibles = mostLikelyRoots[frame]
+//    let possibles = mostLikelyRoots[frame]
 
     // Subtract the number of characters from the chroma descriptions.
-    possiblesPad -= possibles.byFrequency.description.count
-    possiblesPad -= possibles.byCount.description.count
-    possiblesPad -= possibles.byEnergy.description.count
-    possiblesPad -= possibles.averaged.description.count
+//    possiblesPad -= possibles.byFrequency.description.count
+//    possiblesPad -= possibles.byCount.description.count
+//    possiblesPad -= possibles.byEnergy.description.count
+//    possiblesPad -= possibles.averaged.description.count
 
     // Add the number of columns per line.
-    possiblesPad += ReportRenderer.columnCount
+//    possiblesPad += ReportRenderer.columnCount
 
     // Append the spaces and the label for the possible roots.
-    text += ("\(" " * possiblesPad)Possible Roots: ", .thinItalic)
+//    text += ("\(" " * possiblesPad)Possible Roots: ", .thinItalic)
 
     // Append the possible root chroma values and end the line.
-    text.append(possibleRoots: possibles)
+//    text.append(possibleRoots: possibles)
 
     // End the current line.
     text += "\n"
 
-    let possibleRoots = mostLikelyRoots[frame]
+//    let possibleRoots = mostLikelyRoots[frame]
 
     // Append the pitch feature values in a two column box with three tiers of bolded values.
     text.append(vector: features.smoothedPitchFeatures[frame],
-                boldCount: 15,
-                boldLabel: possibleRoots.byCount.rawValue,
-                italicLabel: possibleRoots.byEnergy.rawValue,
-                underlineLabel: possibleRoots.averaged.rawValue,
-                doubleUnderlineLabel: possibleRoots.byFrequency.chroma.rawValue)
+                boldCount: 15//,
+//                boldLabel: possibleRoots.byCount.rawValue,
+//                italicLabel: possibleRoots.byEnergy.rawValue,
+//                underlineLabel: possibleRoots.averaged.rawValue,
+//                doubleUnderlineLabel: possibleRoots.byFrequency.chroma.rawValue
+    )
 
     // Append an attribute to keep the frame label and table on the same page.
     text.addAttribute(NSAttributedStringKey(rawValue: ReportRenderer.samePageAttributeName),
@@ -177,25 +178,25 @@ public struct FeatureReport: Report, ReportContentProvider {
     text += ("Chroma Feature Vector", .thinItalic)
 
     // Create a variable for number of spaces to add before appending the note count.
-    var noteCountPad = -43
+//    var noteCountPad = -43
 
     // Get the note count.
-    let noteCount = noteCountEstimates[frame]
+//    let noteCount = noteCountEstimates[frame]
 
     // Create a description for `noteCount`.
-    let noteCountDesc = noteCount.description
+//    let noteCountDesc = noteCount.description
 
     // Subtract the number of characters in `noteCountDesc` from the pad value.
-    noteCountPad -= noteCountDesc.count
+//    noteCountPad -= noteCountDesc.count
 
     // Add the number of columns per line.
-    noteCountPad += ReportRenderer.columnCount
+//    noteCountPad += ReportRenderer.columnCount
 
     // Append the spaces and the label for the note count.
-    text += ("\(" " * noteCountPad)Estimated Note Count: ", .thinItalic)
+//    text += ("\(" " * noteCountPad)Estimated Note Count: ", .thinItalic)
 
     // Append the note count and end the line.
-    text += ("\(noteCountDesc)\n", .light)
+//    text += ("\(noteCountDesc)\n", .light)
 
     // Convert the pitches to chroma indices.
     let boldIndices = Set(pitches.map({$0.chroma.rawValue}))

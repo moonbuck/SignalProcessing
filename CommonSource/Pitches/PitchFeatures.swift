@@ -32,10 +32,10 @@ public struct PitchFeatures: ParameterizedFeatureCollection {
 
   /// The most likely root chromas per frame as a tuple of the most likely by count, by energy,
   /// and by the averaged count and energy rankings.
-  public let mostLikelyRoots: [PossibleRoots]
+//  public let mostLikelyRoots: [PossibleRoots]
 
   /// The estimated number of notes per frame.
-  public let noteCountEstimates: [Int]
+//  public let noteCountEstimates: [Int]
 
   /// Returns the successor for the specified index.
   ///
@@ -58,8 +58,8 @@ public struct PitchFeatures: ParameterizedFeatureCollection {
     features = buffer.array
     featureRate = buffer.featureRate
     self.parameters = parameters
-    mostLikelyRoots = features.map(estimateRoot(for:))
-    noteCountEstimates = Array<Int>(repeating: 3, count: features.count)
+//    mostLikelyRoots = features.map(estimateRoot(for:))
+//    noteCountEstimates = Array<Int>(repeating: 3, count: features.count)
   }
 
   /// Initializing with the URL for an audio file.
@@ -138,6 +138,7 @@ public struct PitchFeatures: ParameterizedFeatureCollection {
 
 }
 
+/*
 public struct PossibleRoots {
 
   let byFrequency: Pitch
@@ -146,6 +147,6 @@ public struct PossibleRoots {
   let averaged: Chroma
 
 }
-
+*/
 
 

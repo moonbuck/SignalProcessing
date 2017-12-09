@@ -92,6 +92,103 @@ public struct Features {
 
   }
 
+  /// A simple structure encapsulating parameters for extracting pitch and chroma features.
+  public struct Recipe {
+
+    /// Parameters for pitch feature extraction.
+    public let pitchFeatureParameters: PitchFeatures.Parameters
+
+    /// The chroma feature variant to extract.
+    public let chromaVariant: ChromaFeatures.Variant
+
+    /// Similarity score adjustments.
+    public let scoreAdjustments: [ScoreAdjustment]
+
+    /// Initializing with default property values.
+    ///
+    /// - Parameters:
+    ///   - pitchFeatureParameters: Parameters for pitch feature extraction.
+    ///   - chromaVariant: The chroma feature variant to extract.
+    ///   - scoreAdjustments: The adjusments to make when generating similarity scores.
+    public init(pitchFeatureParameters: PitchFeatures.Parameters = PitchFeatures.Parameters(),
+                chromaVariant: ChromaFeatures.Variant = .default,
+                scoreAdjustments: [ScoreAdjustment] = ScoreAdjustment.defaultAdjustments)
+    {
+      self.pitchFeatureParameters = pitchFeatureParameters
+      self.chromaVariant = chromaVariant
+      self.scoreAdjustments = scoreAdjustments
+    }
+
+  }
+
+  /// An enumeration of possible sources for feature extraction.
+  public enum Source {
+
+    /// The features are being extracted from audio captured by a microphone.
+    case mic
+
+    /// The features are being extracted from an audio file.
+    /// - Parameter url: The location of the audio file.
+    case file (url: URL)
+
+  }
+
+
+}
+
+/*
+extension Features {
+
+  /// An option set for specifying what to include when generating reports.
+  public struct ReportOptions: OptionSet {
+
+    /// The value on which bitwise operations are used to determine which options have been set.
+    public let rawValue: Int
+
+    /// Initializing with a raw value.
+    ///
+    /// - Parameter rawValue: The raw value for the options.
+    public init(rawValue: Int) { self.rawValue = rawValue }
+
+    /// An option to include a pitch feature report.
+    public static let pitch = ReportOptions(rawValue: 1 << 0)
+
+    /// An option to include an overview of pitch features.
+    public static let pitchBrief = ReportOptions(rawValue: 3 << 0)
+
+    /// An option to include a smoothed pitch feature report.
+    public static let smoothedPitch = ReportOptions(rawValue: 1 << 2)
+
+    /// An option to include an overview of smoothed pitch features.
+    public static let smoothedPitchBrief = ReportOptions(rawValue: 3 << 2)
+
+    /// An option to include a chroma feature report.
+    public static let chroma = ReportOptions(rawValue: 1 << 4)
+
+    /// An option to include an overview of chroma features.
+    public static let chromaBrief = ReportOptions(rawValue: 3 << 4)
+
+    /// An option to include a report of chroma features with matched and expected templates.
+    public static let template = ReportOptions(rawValue: 1 << 6)
+
+    /// An option to include an overview chroma features with matched and expected templates.
+    public static let templateBrief = ReportOptions(rawValue: 3 << 6)
+
+    /// An option to include a report of chroma features with matched and expected templates.
+    public static let feature = ReportOptions(rawValue: 1 << 8)
+
+    /// An option to include an overview chroma features with matched and expected templates.
+    public static let featureBrief = ReportOptions(rawValue: 3 << 8)
+
+  }
+
+  /// An enumeration of errors throwable by `Features`.
+  public enum Error: String, Swift.Error {
+
+    case invalidReportOptions = "The report options specified require a chord progression."
+
+  }
+
   /// Generates a PDF file containing the specified feature report and saves the file to `url`.
   ///
   /// - Parameters:
@@ -160,8 +257,6 @@ public struct Features {
                                       source: source,
                                       scoreAdjustments: recipe.scoreAdjustments,
                                       expectedChords: expectedChords,
-                                      mostLikelyRoots: smoothedPitchFeatures.mostLikelyRoots,
-                                      noteCountEstimates: smoothedPitchFeatures.noteCountEstimates,
                                       isBrief: reportOptions.contains(.templateBrief)))
 
       providerNames.append("Template")
@@ -205,95 +300,6 @@ public struct Features {
 
   }
 
-  /// A simple structure encapsulating parameters for extracting pitch and chroma features.
-  public struct Recipe {
-
-    /// Parameters for pitch feature extraction.
-    public let pitchFeatureParameters: PitchFeatures.Parameters
-
-    /// The chroma feature variant to extract.
-    public let chromaVariant: ChromaFeatures.Variant
-
-    /// Similarity score adjustments.
-    public let scoreAdjustments: [ScoreAdjustment]
-
-    /// Initializing with default property values.
-    ///
-    /// - Parameters:
-    ///   - pitchFeatureParameters: Parameters for pitch feature extraction.
-    ///   - chromaVariant: The chroma feature variant to extract.
-    ///   - scoreAdjustments: The adjusments to make when generating similarity scores.
-    public init(pitchFeatureParameters: PitchFeatures.Parameters = PitchFeatures.Parameters(),
-                chromaVariant: ChromaFeatures.Variant = .default,
-                scoreAdjustments: [ScoreAdjustment] = ScoreAdjustment.defaultAdjustments)
-    {
-      self.pitchFeatureParameters = pitchFeatureParameters
-      self.chromaVariant = chromaVariant
-      self.scoreAdjustments = scoreAdjustments
-    }
-
-  }
-
-  /// An enumeration of possible sources for feature extraction.
-  public enum Source {
-
-    /// The features are being extracted from audio captured by a microphone.
-    case mic
-
-    /// The features are being extracted from an audio file.
-    /// - Parameter url: The location of the audio file.
-    case file (url: URL)
-
-  }
-
-  /// An option set for specifying what to include when generating reports.
-  public struct ReportOptions: OptionSet {
-
-    /// The value on which bitwise operations are used to determine which options have been set.
-    public let rawValue: Int
-
-    /// Initializing with a raw value.
-    ///
-    /// - Parameter rawValue: The raw value for the options.
-    public init(rawValue: Int) { self.rawValue = rawValue }
-
-    /// An option to include a pitch feature report.
-    public static let pitch = ReportOptions(rawValue: 1 << 0)
-
-    /// An option to include an overview of pitch features.
-    public static let pitchBrief = ReportOptions(rawValue: 3 << 0)
-
-    /// An option to include a smoothed pitch feature report.
-    public static let smoothedPitch = ReportOptions(rawValue: 1 << 2)
-
-    /// An option to include an overview of smoothed pitch features.
-    public static let smoothedPitchBrief = ReportOptions(rawValue: 3 << 2)
-    
-    /// An option to include a chroma feature report.
-    public static let chroma = ReportOptions(rawValue: 1 << 4)
-
-    /// An option to include an overview of chroma features.
-    public static let chromaBrief = ReportOptions(rawValue: 3 << 4)
-
-    /// An option to include a report of chroma features with matched and expected templates.
-    public static let template = ReportOptions(rawValue: 1 << 6)
-
-    /// An option to include an overview chroma features with matched and expected templates.
-    public static let templateBrief = ReportOptions(rawValue: 3 << 6)
-
-    /// An option to include a report of chroma features with matched and expected templates.
-    public static let feature = ReportOptions(rawValue: 1 << 8)
-
-    /// An option to include an overview chroma features with matched and expected templates.
-    public static let featureBrief = ReportOptions(rawValue: 3 << 8)
-
-  }
-
-  /// An enumeration of errors throwable by `Features`.
-  public enum Error: String, Swift.Error {
-
-    case invalidReportOptions = "The report options specified require a chord progression."
-
-  }
-
 }
+*/
+

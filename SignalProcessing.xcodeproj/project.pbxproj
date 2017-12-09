@@ -17,22 +17,8 @@
 		C2F81BBA1FDB06D800D344FE /* FontStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B7E1FDB06D700D344FE /* FontStyle.swift */; };
 		C2F81BBB1FDB06D800D344FE /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B7F1FDB06D700D344FE /* Fonts.swift */; };
 		C2F81BBC1FDB06D800D344FE /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B7F1FDB06D700D344FE /* Fonts.swift */; };
-		C2F81BBD1FDB06D800D344FE /* ChromaReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B811FDB06D700D344FE /* ChromaReport.swift */; };
-		C2F81BBE1FDB06D800D344FE /* ChromaReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B811FDB06D700D344FE /* ChromaReport.swift */; };
-		C2F81BBF1FDB06D800D344FE /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B821FDB06D700D344FE /* Report.swift */; };
-		C2F81BC01FDB06D800D344FE /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B821FDB06D700D344FE /* Report.swift */; };
-		C2F81BC11FDB06D800D344FE /* AttributedStringContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B831FDB06D700D344FE /* AttributedStringContent.swift */; };
-		C2F81BC21FDB06D800D344FE /* AttributedStringContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B831FDB06D700D344FE /* AttributedStringContent.swift */; };
-		C2F81BC31FDB06D800D344FE /* FeatureReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B841FDB06D700D344FE /* FeatureReport.swift */; };
-		C2F81BC41FDB06D800D344FE /* FeatureReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B841FDB06D700D344FE /* FeatureReport.swift */; };
 		C2F81BC51FDB06D800D344FE /* GraphingFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B851FDB06D700D344FE /* GraphingFunctions.swift */; };
 		C2F81BC61FDB06D800D344FE /* GraphingFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B851FDB06D700D344FE /* GraphingFunctions.swift */; };
-		C2F81BC71FDB06D800D344FE /* TemplateReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B861FDB06D700D344FE /* TemplateReport.swift */; };
-		C2F81BC81FDB06D800D344FE /* TemplateReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B861FDB06D700D344FE /* TemplateReport.swift */; };
-		C2F81BC91FDB06D800D344FE /* ReportRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B871FDB06D700D344FE /* ReportRenderer.swift */; };
-		C2F81BCA1FDB06D800D344FE /* ReportRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B871FDB06D700D344FE /* ReportRenderer.swift */; };
-		C2F81BCB1FDB06D800D344FE /* PitchReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B881FDB06D700D344FE /* PitchReport.swift */; };
-		C2F81BCC1FDB06D800D344FE /* PitchReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B881FDB06D700D344FE /* PitchReport.swift */; };
 		C2F81BCD1FDB06D800D344FE /* Pitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B8A1FDB06D700D344FE /* Pitch.swift */; };
 		C2F81BCE1FDB06D800D344FE /* Pitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B8A1FDB06D700D344FE /* Pitch.swift */; };
 		C2F81BCF1FDB06D800D344FE /* PitchInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B8B1FDB06D700D344FE /* PitchInterval.swift */; };
@@ -161,6 +147,10 @@
 		C2F81C641FDB33AF00D344FE /* Attachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C581FDB33AF00D344FE /* Attachments.swift */; };
 		C2F81C671FDB37BB00D344FE /* 16-Bar-Progression_Boesendorfer_Grand_Piano.aif in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C661FDB37BA00D344FE /* 16-Bar-Progression_Boesendorfer_Grand_Piano.aif */; };
 		C2F81C681FDB37BB00D344FE /* 16-Bar-Progression_Boesendorfer_Grand_Piano.aif in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C661FDB37BA00D344FE /* 16-Bar-Progression_Boesendorfer_Grand_Piano.aif */; };
+		C2F81C6A1FDB66F300D344FE /* Cmaj_boesendorfer_th=3.aif in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C691FDB66F300D344FE /* Cmaj_boesendorfer_th=3.aif */; };
+		C2F81C6B1FDB66F300D344FE /* Cmaj_boesendorfer_th=3.aif in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C691FDB66F300D344FE /* Cmaj_boesendorfer_th=3.aif */; };
+		C2F81C841FDC286400D344FE /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C831FDC286400D344FE /* main.swift */; };
+		C2F81C891FDC392A00D344FE /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C881FDC392A00D344FE /* Command.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -179,6 +169,18 @@
 			remoteInfo = SignalProcessing_Mac;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C2F81C7F1FDC286400D344FE /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		C2F81B3D1FDB038800D344FE /* SignalProcessing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SignalProcessing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -263,6 +265,10 @@
 		C2F81C571FDB33AF00D344FE /* MathExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathExtensions.swift; sourceTree = "<group>"; };
 		C2F81C581FDB33AF00D344FE /* Attachments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attachments.swift; sourceTree = "<group>"; };
 		C2F81C661FDB37BA00D344FE /* 16-Bar-Progression_Boesendorfer_Grand_Piano.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = "16-Bar-Progression_Boesendorfer_Grand_Piano.aif"; sourceTree = "<group>"; };
+		C2F81C691FDB66F300D344FE /* Cmaj_boesendorfer_th=3.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cmaj_boesendorfer_th=3.aif"; sourceTree = "<group>"; };
+		C2F81C811FDC286400D344FE /* extract */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = extract; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2F81C831FDC286400D344FE /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		C2F81C881FDC392A00D344FE /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -296,6 +302,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C2F81C7E1FDC286400D344FE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -305,6 +318,7 @@
 				C2F81B731FDB043800D344FE /* CommonSource */,
 				C2F81B761FDB047200D344FE /* CommonTests */,
 				C2F81C211FDB074200D344FE /* CommonResources */,
+				C2F81C821FDC286400D344FE /* extract */,
 				C2F81B3E1FDB038800D344FE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -316,6 +330,7 @@
 				C2F81B461FDB038800D344FE /* SignalProcessing_iOSTests.xctest */,
 				C2F81B5C1FDB03CA00D344FE /* SignalProcessing.framework */,
 				C2F81B641FDB03CA00D344FE /* SignalProcessing_MacTests.xctest */,
+				C2F81C811FDC286400D344FE /* extract */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -388,30 +403,13 @@
 		C2F81B8E1FDB06D700D344FE /* Processing */ = {
 			isa = PBXGroup;
 			children = (
-				C2F81B8F1FDB06D700D344FE /* SignalFilter.swift */,
-				C2F81B901FDB06D700D344FE /* SincWindow.swift */,
-				C2F81B911FDB06D700D344FE /* EqualLoudnessFilter.swift */,
-				C2F81B921FDB06D700D344FE /* KaiserWindow.swift */,
-				C2F81B931FDB06D700D344FE /* Float64Vector.swift */,
-				C2F81B941FDB06D700D344FE /* STFT.swift */,
-				C2F81B951FDB06D700D344FE /* Buffers.swift */,
-				C2F81B961FDB06D700D344FE /* Quantization.swift */,
-				C2F81B971FDB06D700D344FE /* FFT.swift */,
-				C2F81B981FDB06D700D344FE /* Smoothing.swift */,
-				C2F81B991FDB06D700D344FE /* AudioBuffers.swift */,
-				C2F81B9A1FDB06D700D344FE /* MultirateFilterBank.swift */,
-				C2F81B9B1FDB06D700D344FE /* SampleRate.swift */,
-				C2F81B9C1FDB06D700D344FE /* PitchFilterBank.swift */,
-				C2F81B9D1FDB06D700D344FE /* Resampler.swift */,
-				C2F81B9E1FDB06D700D344FE /* FeatureBuffer.swift */,
-				C2F81B9F1FDB06D700D344FE /* IIRFilter.swift */,
-				C2F81BA01FDB06D700D344FE /* Compression.swift */,
-				C2F81BA11FDB06D700D344FE /* Normalization.swift */,
-				C2F81BA21FDB06D700D344FE /* Window.swift */,
+				C2F81C711FDB952100D344FE /* Buffers */,
+				C2F81C701FDB8DB300D344FE /* Other */,
+				C2F81C6F1FDB8D5C00D344FE /* Spectrum */,
+				C2F81C6E1FDB8D1F00D344FE /* Signal Filters */,
+				C2F81C6D1FDB8CF100D344FE /* Windowing */,
+				C2F81C6C1FDB8C9A00D344FE /* Feature Filters */,
 				C2F81BA31FDB06D700D344FE /* Features.swift */,
-				C2F81BA51FDB06D700D344FE /* Filter.swift */,
-				C2F81BA61FDB06D700D344FE /* Windower.swift */,
-				C2F81BA71FDB06D700D344FE /* FeatureFilter.swift */,
 			);
 			path = Processing;
 			sourceTree = "<group>";
@@ -494,9 +492,84 @@
 		C2F81C651FDB37BA00D344FE /* Audio */ = {
 			isa = PBXGroup;
 			children = (
+				C2F81C691FDB66F300D344FE /* Cmaj_boesendorfer_th=3.aif */,
 				C2F81C661FDB37BA00D344FE /* 16-Bar-Progression_Boesendorfer_Grand_Piano.aif */,
 			);
 			path = Audio;
+			sourceTree = "<group>";
+		};
+		C2F81C6C1FDB8C9A00D344FE /* Feature Filters */ = {
+			isa = PBXGroup;
+			children = (
+				C2F81B961FDB06D700D344FE /* Quantization.swift */,
+				C2F81B981FDB06D700D344FE /* Smoothing.swift */,
+				C2F81BA01FDB06D700D344FE /* Compression.swift */,
+				C2F81BA11FDB06D700D344FE /* Normalization.swift */,
+				C2F81BA71FDB06D700D344FE /* FeatureFilter.swift */,
+			);
+			path = "Feature Filters";
+			sourceTree = "<group>";
+		};
+		C2F81C6D1FDB8CF100D344FE /* Windowing */ = {
+			isa = PBXGroup;
+			children = (
+				C2F81BA61FDB06D700D344FE /* Windower.swift */,
+				C2F81B921FDB06D700D344FE /* KaiserWindow.swift */,
+				C2F81BA21FDB06D700D344FE /* Window.swift */,
+				C2F81B901FDB06D700D344FE /* SincWindow.swift */,
+			);
+			path = Windowing;
+			sourceTree = "<group>";
+		};
+		C2F81C6E1FDB8D1F00D344FE /* Signal Filters */ = {
+			isa = PBXGroup;
+			children = (
+				C2F81B8F1FDB06D700D344FE /* SignalFilter.swift */,
+				C2F81B911FDB06D700D344FE /* EqualLoudnessFilter.swift */,
+				C2F81BA51FDB06D700D344FE /* Filter.swift */,
+				C2F81B9F1FDB06D700D344FE /* IIRFilter.swift */,
+			);
+			path = "Signal Filters";
+			sourceTree = "<group>";
+		};
+		C2F81C6F1FDB8D5C00D344FE /* Spectrum */ = {
+			isa = PBXGroup;
+			children = (
+				C2F81B9C1FDB06D700D344FE /* PitchFilterBank.swift */,
+				C2F81B9A1FDB06D700D344FE /* MultirateFilterBank.swift */,
+				C2F81B941FDB06D700D344FE /* STFT.swift */,
+				C2F81B971FDB06D700D344FE /* FFT.swift */,
+			);
+			path = Spectrum;
+			sourceTree = "<group>";
+		};
+		C2F81C701FDB8DB300D344FE /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				C2F81B9D1FDB06D700D344FE /* Resampler.swift */,
+				C2F81B9B1FDB06D700D344FE /* SampleRate.swift */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		C2F81C711FDB952100D344FE /* Buffers */ = {
+			isa = PBXGroup;
+			children = (
+				C2F81B951FDB06D700D344FE /* Buffers.swift */,
+				C2F81B991FDB06D700D344FE /* AudioBuffers.swift */,
+				C2F81B931FDB06D700D344FE /* Float64Vector.swift */,
+				C2F81B9E1FDB06D700D344FE /* FeatureBuffer.swift */,
+			);
+			path = Buffers;
+			sourceTree = "<group>";
+		};
+		C2F81C821FDC286400D344FE /* extract */ = {
+			isa = PBXGroup;
+			children = (
+				C2F81C831FDC286400D344FE /* main.swift */,
+				C2F81C881FDC392A00D344FE /* Command.swift */,
+			);
+			path = extract;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -593,6 +666,23 @@
 			productReference = C2F81B641FDB03CA00D344FE /* SignalProcessing_MacTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		C2F81C801FDC286400D344FE /* extract */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C2F81C851FDC286400D344FE /* Build configuration list for PBXNativeTarget "extract" */;
+			buildPhases = (
+				C2F81C7D1FDC286400D344FE /* Sources */,
+				C2F81C7E1FDC286400D344FE /* Frameworks */,
+				C2F81C7F1FDC286400D344FE /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = extract;
+			productName = extract;
+			productReference = C2F81C811FDC286400D344FE /* extract */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -619,6 +709,10 @@
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
 					};
+					C2F81C801FDC286400D344FE = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = C2F81B371FDB038800D344FE /* Build configuration list for PBXProject "SignalProcessing" */;
@@ -637,6 +731,7 @@
 				C2F81B451FDB038800D344FE /* SignalProcessing_iOSTests */,
 				C2F81B5B1FDB03CA00D344FE /* SignalProcessing_Mac */,
 				C2F81B631FDB03CA00D344FE /* SignalProcessing_MacTests */,
+				C2F81C801FDC286400D344FE /* extract */,
 			);
 		};
 /* End PBXProject section */
@@ -668,6 +763,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2F81C671FDB37BB00D344FE /* 16-Bar-Progression_Boesendorfer_Grand_Piano.aif in Resources */,
+				C2F81C6A1FDB66F300D344FE /* Cmaj_boesendorfer_th=3.aif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -697,6 +793,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2F81C681FDB37BB00D344FE /* 16-Bar-Progression_Boesendorfer_Grand_Piano.aif in Resources */,
+				C2F81C6B1FDB66F300D344FE /* Cmaj_boesendorfer_th=3.aif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -711,13 +808,11 @@
 				C2F81BD71FDB06D800D344FE /* SincWindow.swift in Sources */,
 				C2F81C091FDB06D800D344FE /* Chord.swift in Sources */,
 				C2F81BD91FDB06D800D344FE /* EqualLoudnessFilter.swift in Sources */,
-				C2F81BC31FDB06D800D344FE /* FeatureReport.swift in Sources */,
 				C2F81C171FDB06D800D344FE /* ChromaTemplate.swift in Sources */,
 				C2F81BD31FDB06D800D344FE /* PitchFeatures.swift in Sources */,
 				C2F81BBB1FDB06D800D344FE /* Fonts.swift in Sources */,
 				C2F81BF11FDB06D800D344FE /* Resampler.swift in Sources */,
 				C2F81BEB1FDB06D800D344FE /* MultirateFilterBank.swift in Sources */,
-				C2F81BBD1FDB06D800D344FE /* ChromaReport.swift in Sources */,
 				C2F81BFD1FDB06D800D344FE /* Features.swift in Sources */,
 				C2F81BCF1FDB06D800D344FE /* PitchInterval.swift in Sources */,
 				C2F81BE91FDB06D800D344FE /* AudioBuffers.swift in Sources */,
@@ -727,19 +822,15 @@
 				C2F81C111FDB06D800D344FE /* MatchedChromaFeatures.swift in Sources */,
 				C2F81BFB1FDB06D800D344FE /* Window.swift in Sources */,
 				C2F81C501FDB174000D344FE /* PlatformAliases.swift in Sources */,
-				C2F81BC91FDB06D800D344FE /* ReportRenderer.swift in Sources */,
 				C2F81BF91FDB06D800D344FE /* Normalization.swift in Sources */,
 				C2F81BC51FDB06D800D344FE /* GraphingFunctions.swift in Sources */,
 				C2F81C071FDB06D800D344FE /* ChordPattern.swift in Sources */,
-				C2F81BBF1FDB06D800D344FE /* Report.swift in Sources */,
 				C2F81C131FDB06D800D344FE /* Scoring.swift in Sources */,
 				C2F81BD51FDB06D800D344FE /* SignalFilter.swift in Sources */,
 				C2F81BEF1FDB06D800D344FE /* PitchFilterBank.swift in Sources */,
 				C2F81BE11FDB06D800D344FE /* Buffers.swift in Sources */,
-				C2F81BC11FDB06D800D344FE /* AttributedStringContent.swift in Sources */,
 				C2F81BE31FDB06D800D344FE /* Quantization.swift in Sources */,
 				C2F81C0D1FDB06D800D344FE /* ChordProgression.swift in Sources */,
-				C2F81BCB1FDB06D800D344FE /* PitchReport.swift in Sources */,
 				C2F81BCD1FDB06D800D344FE /* Pitch.swift in Sources */,
 				C2F81C051FDB06D800D344FE /* FeatureFilter.swift in Sources */,
 				C2F81BD11FDB06D800D344FE /* Frequency.swift in Sources */,
@@ -751,7 +842,6 @@
 				C2F81C191FDB06D800D344FE /* ChromaFeatures.swift in Sources */,
 				C2F81BED1FDB06D800D344FE /* SampleRate.swift in Sources */,
 				C2F81C0F1FDB06D800D344FE /* VectorCharacteristics.swift in Sources */,
-				C2F81BC71FDB06D800D344FE /* TemplateReport.swift in Sources */,
 				C2F81C1F1FDB06D800D344FE /* RegularExpression.swift in Sources */,
 				C2F81BDF1FDB06D800D344FE /* STFT.swift in Sources */,
 				C2F81C011FDB06D800D344FE /* Filter.swift in Sources */,
@@ -785,13 +875,11 @@
 				C2F81BD81FDB06D800D344FE /* SincWindow.swift in Sources */,
 				C2F81C0A1FDB06D800D344FE /* Chord.swift in Sources */,
 				C2F81BDA1FDB06D800D344FE /* EqualLoudnessFilter.swift in Sources */,
-				C2F81BC41FDB06D800D344FE /* FeatureReport.swift in Sources */,
 				C2F81C181FDB06D800D344FE /* ChromaTemplate.swift in Sources */,
 				C2F81BD41FDB06D800D344FE /* PitchFeatures.swift in Sources */,
 				C2F81BBC1FDB06D800D344FE /* Fonts.swift in Sources */,
 				C2F81BF21FDB06D800D344FE /* Resampler.swift in Sources */,
 				C2F81BEC1FDB06D800D344FE /* MultirateFilterBank.swift in Sources */,
-				C2F81BBE1FDB06D800D344FE /* ChromaReport.swift in Sources */,
 				C2F81BFE1FDB06D800D344FE /* Features.swift in Sources */,
 				C2F81BD01FDB06D800D344FE /* PitchInterval.swift in Sources */,
 				C2F81BEA1FDB06D800D344FE /* AudioBuffers.swift in Sources */,
@@ -801,19 +889,15 @@
 				C2F81C121FDB06D800D344FE /* MatchedChromaFeatures.swift in Sources */,
 				C2F81BFC1FDB06D800D344FE /* Window.swift in Sources */,
 				C2F81C511FDB174000D344FE /* PlatformAliases.swift in Sources */,
-				C2F81BCA1FDB06D800D344FE /* ReportRenderer.swift in Sources */,
 				C2F81BFA1FDB06D800D344FE /* Normalization.swift in Sources */,
 				C2F81BC61FDB06D800D344FE /* GraphingFunctions.swift in Sources */,
 				C2F81C081FDB06D800D344FE /* ChordPattern.swift in Sources */,
-				C2F81BC01FDB06D800D344FE /* Report.swift in Sources */,
 				C2F81C141FDB06D800D344FE /* Scoring.swift in Sources */,
 				C2F81BD61FDB06D800D344FE /* SignalFilter.swift in Sources */,
 				C2F81BF01FDB06D800D344FE /* PitchFilterBank.swift in Sources */,
 				C2F81BE21FDB06D800D344FE /* Buffers.swift in Sources */,
-				C2F81BC21FDB06D800D344FE /* AttributedStringContent.swift in Sources */,
 				C2F81BE41FDB06D800D344FE /* Quantization.swift in Sources */,
 				C2F81C0E1FDB06D800D344FE /* ChordProgression.swift in Sources */,
-				C2F81BCC1FDB06D800D344FE /* PitchReport.swift in Sources */,
 				C2F81BCE1FDB06D800D344FE /* Pitch.swift in Sources */,
 				C2F81C061FDB06D800D344FE /* FeatureFilter.swift in Sources */,
 				C2F81BD21FDB06D800D344FE /* Frequency.swift in Sources */,
@@ -825,7 +909,6 @@
 				C2F81C1A1FDB06D800D344FE /* ChromaFeatures.swift in Sources */,
 				C2F81BEE1FDB06D800D344FE /* SampleRate.swift in Sources */,
 				C2F81C101FDB06D800D344FE /* VectorCharacteristics.swift in Sources */,
-				C2F81BC81FDB06D800D344FE /* TemplateReport.swift in Sources */,
 				C2F81C201FDB06D800D344FE /* RegularExpression.swift in Sources */,
 				C2F81BE01FDB06D800D344FE /* STFT.swift in Sources */,
 				C2F81C021FDB06D800D344FE /* Filter.swift in Sources */,
@@ -848,6 +931,15 @@
 				C2F81C601FDB33AF00D344FE /* Assertions.swift in Sources */,
 				C2F81C5A1FDB33AF00D344FE /* test.swift in Sources */,
 				C2F81C621FDB33AF00D344FE /* MathExtensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C2F81C7D1FDC286400D344FE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2F81C841FDC286400D344FE /* main.swift in Sources */,
+				C2F81C891FDC392A00D344FE /* Command.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1136,6 +1228,38 @@
 			};
 			name = Release;
 		};
+		C2F81C861FDC286400D344FE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JT6STF4SHA;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx @executable_path";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
+				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		C2F81C871FDC286400D344FE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JT6STF4SHA;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx @executable_path";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
+				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1180,6 +1304,15 @@
 			buildConfigurations = (
 				C2F81B711FDB03CA00D344FE /* Debug */,
 				C2F81B721FDB03CA00D344FE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C2F81C851FDC286400D344FE /* Build configuration list for PBXNativeTarget "extract" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C2F81C861FDC286400D344FE /* Debug */,
+				C2F81C871FDC286400D344FE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -9,15 +9,9 @@ import Foundation
 import CoreText
 
 #if os(iOS)
-
   import UIKit
-  public typealias Image = UIImage
-
 #else
-
   import AppKit
-  public typealias Image = NSImage
-
 #endif
 
 public protocol Report {

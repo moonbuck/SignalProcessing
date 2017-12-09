@@ -7,6 +7,7 @@
 //
 import Foundation
 import Accelerate
+import AVFoundation
 
 public protocol Float64Vector: CustomReflectable, CustomStringConvertible {
 
@@ -514,6 +515,27 @@ public struct SignalVector: Collection, Float64Vector, Equatable {
   public init(array: inout [Float64]) {
     storage = Float64Buffer(&array)
     count = array.count
+  }
+
+  /// Initializing with the contents of an audio buffer.
+  ///
+  /// - Parameter buffer: The buffer with the content to use.
+  public init(buffer: AVAudioPCMBuffer, copy: Bool = false) {
+
+    guard let channelData = buffer.float64ChannelData?.pointee else {
+      fatalError("Buffer contains invalid channel data.")
+    }
+
+    let count = Int(buffer.frameLength)
+
+    if copy {
+      self.init(count: count)
+      let countu = vDSP_Length(count)
+      vDSP_mmovD(channelData, storage, countu, 1, countu, countu)
+    } else {
+      self.init(storage: channelData, count: count)
+    }
+
   }
 
 }

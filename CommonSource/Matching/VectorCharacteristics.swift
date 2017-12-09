@@ -34,6 +34,7 @@ public func estimateNoteCount(for feature: ChromaVector) -> Int {
   
 }
 
+/*
 /// Estimates the most likely root chroma in a feature returning a tuple with the estimated
 /// root chroma based on frequency, the number of partials present, the sum of the energies for
 /// partials present, and the averaged positions in sorted count and energy collections.
@@ -114,3 +115,5 @@ public func estimateRoot(for feature: PitchVector) -> PossibleRoots {
   return PossibleRoots(byFrequency: startingPitch, byCount: count, byEnergy: energy, averaged: average)
 
 }
+*/
+

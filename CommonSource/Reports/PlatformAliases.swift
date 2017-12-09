@@ -15,6 +15,7 @@ import Foundation
   public typealias EdgeInsets = UIEdgeInsets
   public typealias BezierPath = UIBezierPath
   public typealias Font = UIFont
+  public typealias Image = UIImage
 
 #else
 
@@ -24,6 +25,7 @@ import Foundation
   public typealias EdgeInsets = NSEdgeInsets
   public typealias BezierPath = NSBezierPath
   public typealias Font = NSFont
+  public typealias Image = NSImage
 
   extension NSFont {
 

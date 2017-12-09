@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:../Essentia/docopt/docopt.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:../Essentia/PitchAnalysis/PitchAnalysis.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:../Essentia/Essentia.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "container:SignalProcessing.xcodeproj">
+   </FileRef>
+</Workspace>

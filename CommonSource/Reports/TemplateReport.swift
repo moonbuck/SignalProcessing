@@ -16,7 +16,7 @@ public struct TemplateReport: Report, ReportContentProvider {
   public let expectedChords: ChordProgression
 
   /// A list of possible root chromas for each frame if provided.
-  public let mostLikelyRoots: [PossibleRoots]
+//  public let mostLikelyRoots: [PossibleRoots]
 
   /// The source from which `chromaFeatures` were extracted.
   public let source: Features.Source
@@ -43,25 +43,23 @@ public struct TemplateReport: Report, ReportContentProvider {
   ///   - source: The source of `features`.
   ///   - scoreAdjustments: Adjustments to apply to similarity scores.
   ///   - expectedChords: The actual chords present in `source`.
-  ///   - mostLikelyRoots: A collection of possible root chromas per frame.
-  ///   - noteCountEstimates: The estimated note count for each feature.
   ///   - isBrief: Whether the report should be brief.
   public init(features: ChromaFeatures,
               source: Features.Source,
               scoreAdjustments: [ScoreAdjustment],
               expectedChords: ChordProgression,
-              mostLikelyRoots: [PossibleRoots],
-              noteCountEstimates: [Int],
+//              mostLikelyRoots: [PossibleRoots],
+//              noteCountEstimates: [Int],
               isBrief: Bool = false)
   {
     self.features = MatchedChromaFeatures(features: features,
-                                          mostLikelyRoots: mostLikelyRoots,
-                                          noteCountEstimates: noteCountEstimates,
+//                                          mostLikelyRoots: mostLikelyRoots,
+//                                          noteCountEstimates: noteCountEstimates,
                                           scoreAdjustments: scoreAdjustments)
     self.source = source
     self.scoreAdjustments = scoreAdjustments
     self.expectedChords = expectedChords
-    self.mostLikelyRoots = mostLikelyRoots
+//    self.mostLikelyRoots = mostLikelyRoots
     self.isBrief = isBrief
   }
 
@@ -127,23 +125,23 @@ public struct TemplateReport: Report, ReportContentProvider {
 
 
     // Try obtaining the possible root chromas for this frame.
-    let possibles = mostLikelyRoots[frame]
+//    let possibles = mostLikelyRoots[frame]
 
 
     // Subtract the number of characters from the chroma descriptions.
-    possiblesPad -= possibles.byFrequency.description.count
-    possiblesPad -= possibles.byCount.description.count
-    possiblesPad -= possibles.byEnergy.description.count
-    possiblesPad -= possibles.averaged.description.count
+//    possiblesPad -= possibles.byFrequency.description.count
+//    possiblesPad -= possibles.byCount.description.count
+//    possiblesPad -= possibles.byEnergy.description.count
+//    possiblesPad -= possibles.averaged.description.count
 
     // Add the number of columns per line.
-    possiblesPad += ReportRenderer.columnCount
+//    possiblesPad += ReportRenderer.columnCount
 
     // Append the spaces and the label for the possible roots.
-    text += ("\(" " * possiblesPad)Possible Roots: ", .thinItalic)
+//    text += ("\(" " * possiblesPad)Possible Roots: ", .thinItalic)
 
     // Append the possible root chroma values and end the line.
-    text.append(possibleRoots: possibles)
+//    text.append(possibleRoots: possibles)
 
     // End the current line.
     text += "\n"

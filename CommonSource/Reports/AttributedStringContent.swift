@@ -636,7 +636,8 @@ extension NSMutableAttributedString {
     self += ("└\(line)┘\n", .regular)
 
   }
-
+  
+/*
   /// Appends a description of the tuple of possible root chromas.
   ///
   /// - Parameter possibleRoots: The tuple for which to append a description.
@@ -653,6 +654,7 @@ extension NSMutableAttributedString {
     self += (")", .thin)
 
   }
+*/
 
   /// Appends the values of a pitch vector within a double column box below a header. The top
   /// `boldCount` values will be bolded.

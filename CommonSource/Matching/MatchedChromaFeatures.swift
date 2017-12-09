@@ -50,8 +50,8 @@ public struct MatchedChromaFeatures: Collection {
   ///   - noteCountEstimates: The estimated note count for each feature.
   ///   - scoreAdjustments: Adjustments to apply to similarity scores.
   public init(features: ChromaFeatures,
-              mostLikelyRoots: [PossibleRoots],
-              noteCountEstimates: [Int],
+//              mostLikelyRoots: [PossibleRoots],
+//              noteCountEstimates: [Int],
               scoreAdjustments: [ScoreAdjustment] = [])
   {
 
@@ -68,13 +68,14 @@ public struct MatchedChromaFeatures: Collection {
     matchResults.reserveCapacity(normalizedFeatures.count)
 
     // Iterate the enumerated features.
-    for (frame, vector) in normalizedFeatures.enumerated() {
+    for (/*frame*/_, vector) in normalizedFeatures.enumerated() {
 
       // Match the normalized vector against the chord templates.
       let results = MatchResults(sourceVector: vector,
-                                 scoreAdjustments: scoreAdjustments,
-                                 mostLikelyRoots: mostLikelyRoots[frame],
-                                 estimatedNoteCount: noteCountEstimates[frame])
+                                 scoreAdjustments: scoreAdjustments//,
+//                                 mostLikelyRoots: mostLikelyRoots[frame],
+//                                 estimatedNoteCount: noteCountEstimates[frame]
+      )
 
       // Append the results for this frame.
       matchResults.append(results)
@@ -95,8 +96,8 @@ public struct MatchedChromaFeatures: Collection {
   public init(features: Features) {
 
     self.init(features: features.chromaFeatures,
-              mostLikelyRoots: features.smoothedPitchFeatures.mostLikelyRoots,
-              noteCountEstimates: features.smoothedPitchFeatures.noteCountEstimates,
+//              mostLikelyRoots: features.smoothedPitchFeatures.mostLikelyRoots,
+//              noteCountEstimates: features.smoothedPitchFeatures.noteCountEstimates,
               scoreAdjustments: features.recipe.scoreAdjustments)
 
   }

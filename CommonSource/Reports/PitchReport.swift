@@ -14,7 +14,7 @@ public struct PitchReport: Report, ReportContentProvider {
   public let features: PitchFeatures
 
   /// The most likely root chroma per frame.
-  public let mostLikelyRoots: [PossibleRoots]
+//  public let mostLikelyRoots: [PossibleRoots]
 
   /// The source from which `pitchFeatures` were extracted.
   public let source: Features.Source
@@ -45,7 +45,7 @@ public struct PitchReport: Report, ReportContentProvider {
               isBrief: Bool = false)
   {
     self.features = features
-    mostLikelyRoots = features.mostLikelyRoots
+//    mostLikelyRoots = features.mostLikelyRoots
     self.source = source
     self.isBrief = isBrief
   }
@@ -87,15 +87,16 @@ public struct PitchReport: Report, ReportContentProvider {
     // Append a frame label
     text.append(frame: frame)
 
-    let possibleRoots = mostLikelyRoots[frame]
+//    let possibleRoots = mostLikelyRoots[frame]
 
     // Append the pitch feature values in a two column box with three tiers of bolded values.
     text.append(vector: features[frame],
-                boldCount: 15,
-                boldLabel: possibleRoots.byCount.rawValue,
-                italicLabel: possibleRoots.byEnergy.rawValue,
-                underlineLabel: possibleRoots.averaged.rawValue,
-                doubleUnderlineLabel: possibleRoots.byFrequency.chroma.rawValue)
+                boldCount: 15//,
+//                boldLabel: possibleRoots.byCount.rawValue,
+//                italicLabel: possibleRoots.byEnergy.rawValue,
+//                underlineLabel: possibleRoots.averaged.rawValue,
+//                doubleUnderlineLabel: possibleRoots.byFrequency.chroma.rawValue
+    )
 
     // Append an attribute to keep the frame label and table on the same page.
     text.addAttribute(NSAttributedStringKey(rawValue: ReportRenderer.samePageAttributeName), value: true, range: text.textRange)

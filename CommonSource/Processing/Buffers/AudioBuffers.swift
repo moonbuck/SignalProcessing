@@ -164,13 +164,14 @@ extension AVAudioPCMBuffer {
 
     let underlyingBuffers = UnsafeMutableAudioBufferListPointer(mutableAudioBufferList)
 
-    let channels = UnsafeMutablePointer<UnsafeMutablePointer<Float64>>.allocate(capacity: Int(format.channelCount))
+    let channels = Float64Buffer2D.allocate(capacity: Int(format.channelCount))
 
     for (index, channelBuffer) in underlyingBuffers.enumerated() {
 
       guard let channelData = channelBuffer.mData else { return nil }
 
-      let float64ChannelData = channelData.bindMemory(to: Float64.self, capacity: Int(frameCapacity))
+      let float64ChannelData = channelData.bindMemory(to: Float64.self,
+                                                      capacity: Int(frameCapacity))
 
       (channels + index).initialize(to: float64ChannelData)
 
@@ -201,7 +202,168 @@ extension AVAudioPCMBuffer {
 
   }
 
+  /// A type for specifying how a stereo signal should be downmixed into a mono signal.
+  public enum DownmixMethod { case left, right, mix }
+
+  /// Creates a mono version of the buffer using the specified method to downmix the signal.
+  ///
+  /// - Parameters:
+  ///   - method: The method to use when downmixing.
+  ///   - sampleRate: The sample rate for the new buffer or `nil` to use the buffer's rate.
+  /// - Returns: `self` if the buffer is already a mono signal and a downmixed buffer otherwise.
+  internal func downmixed(method: DownmixMethod = .mix,
+                        sampleRate: SampleRate? = nil) -> AVAudioPCMBuffer
+  {
+
+    guard sampleRate == nil || format.sampleRate == Double(sampleRate!.rawValue) else {
+
+      guard let resampledBuffer = try? convert(sourceBuffer: self, to: sampleRate!) else {
+        fatalError("Failed to resample buffer to \(sampleRate!).")
+      }
+
+      return resampledBuffer.downmixed(method: method)
+
+    }
+
+    // Check that the buffer isn't already mono or just return it.
+    guard format.channelCount > 1 else { return self }
+
+    // Create a new format the same as the current format except for the number of channels.
+    guard let newFormat = AVAudioFormat(commonFormat: format.commonFormat,
+                                        sampleRate: format.sampleRate,
+                                        channels: 1,
+                                        interleaved: format.isInterleaved)
+      else
+    {
+      fatalError("Failed to create single channel audio format.")
+    }
+
+    // Create a new audio converter.
+    guard let audioConverter = AVAudioConverter(from: format, to: newFormat) else {
+      fatalError("Failed to create audio converter.")
+    }
+
+    // Create a new buffer to hold the downmixed audio.
+    guard let monoBuffer = AVAudioPCMBuffer(pcmFormat: newFormat,
+                                            frameCapacity: frameCapacity)
+      else
+    {
+      fatalError("Failed to create new buffer using mono format.")
+    }
+
+    switch method {
+
+    case .left:
+
+      guard let leftChannel = floatChannelData?.pointee else {
+        fatalError("Failed to get left channel from the buffer.")
+      }
+
+      guard let monoChannel = monoBuffer.floatChannelData?.pointee else {
+        fatalError("Failed to get mono channel from the new buffer.")
+      }
+
+      guard stride == 1 else {
+        fatalError("Downmixing interleaved buffers not yet implemented.")
+      }
+
+      let count = vDSP_Length(frameLength)
+      vDSP_mmov(leftChannel, monoChannel, count, 1, count, count)
+
+      monoBuffer.frameLength = frameLength
+
+      return monoBuffer
+
+    case .right:
+
+      assert(format.channelCount > 1, "Expected more than one audio channel.")
+
+      guard let channelData = floatChannelData else {
+        fatalError("Failed to get channels from the buffer.")
+      }
+
+      let rightChannel = (channelData + 1).pointee
+
+      guard let monoChannel = monoBuffer.floatChannelData?.pointee else {
+        fatalError("Failed to get mono channel from the new buffer.")
+      }
+
+      guard stride == 1 else {
+        fatalError("Downmixing interleaved buffers not yet implemented.")
+      }
+
+      let count = vDSP_Length(frameLength)
+      vDSP_mmov(rightChannel, monoChannel, count, 1, count, count)
+
+      monoBuffer.frameLength = frameLength
+
+      return monoBuffer
+
+
+    case .mix:
+
+      // Not sure if this affects anything.
+      audioConverter.downmix = true
+
+      // Create a flag to indicate whether the source buffer has been returned from the callback.
+      var sourceBufferReturned = false
+
+      // Create the callback that feeds input to the converter.
+      let inputBlock: AVAudioConverterInputBlock = {
+        [unowned self] in
+
+        // Check whether the buffer's content has already been provided.
+        guard !sourceBufferReturned else {
+          $1.pointee = .endOfStream
+          return nil
+        }
+
+        $1.pointee = .haveData
+        sourceBufferReturned = true
+
+        return self
+
+      }
+
+      // Create an error pointer.
+      var error: NSError? = nil
+
+      // Convert the buffer.
+      let status = audioConverter.convert(to: monoBuffer, error: &error, withInputFrom: inputBlock)
+
+      // Check thet status.
+      switch status {
+
+      case .haveData, .inputRanDry:
+        // The mono buffer has data.
+
+        return monoBuffer
+
+      case .endOfStream, .error:
+        // Conversion failed and/or target buffer has no data.
+
+        fatalError("Conversion to single channel failed: \(error!)")
+
+      }
+
+    }
+
+  }
+
 }
+
+public enum AudioBufferError: String, Error {
+
+  case invalidSampleRate = "The supplied buffer must have a sample rate ≥ 44100 Hz."
+  case failureToCreateConverter = "Failed to create the `AVAudioConverter`."
+  case invalidFormat = "Invalid audio format configuration."
+  case invalidBuffer = "Invalid buffer configuration."
+  case conversionError = "Error converting buffer."
+  case channelDataError = "Failed to access the buffer's channel data."
+  case invalidFile = "Failed to load audio file content."
+
+}
+
 
 /// A single channel audio buffer with data sampled at 44100 Hz, 22050 Hz, 4410 Hz, and 882 Hz.
 public struct MultirateAudioPCMBuffer {
@@ -218,7 +380,7 @@ public struct MultirateAudioPCMBuffer {
   ///   - url: The url for the audio file to load.
   ///   - filters: An array of filters to be applied to the audio signal.
   /// - Throws: Any error encountered creating the `AVAudioPCMBuffer` or
-  ///           `MultirateAudioPCMBuffer.Error.failureToCreateConverter` if conversion fails
+  ///           `AudioBufferError.failureToCreateConverter` if conversion fails
   public init(contentsOf url: URL, filters: [SignalFilter] = []) throws {
 
     // Get the audio file.
@@ -232,7 +394,7 @@ public struct MultirateAudioPCMBuffer {
                                              frameCapacity: capacity)
     else
     {
-      throw Error.invalidFile
+      throw AudioBufferError.invalidFile
     }
 
     // Read the audio file into the buffer.
@@ -250,11 +412,11 @@ public struct MultirateAudioPCMBuffer {
   ///   - buffer: The buffer from which the three buffers will be generated.
   ///   - filters: An array of filters to be applied to the audio signal.
   /// - Requires: `buffer` must have a sample rate equal to or greater than 44100 Hz.
-  /// - Throws: `MultirateAudioPCMBuffer.Error.invalidSampleRate`
+  /// - Throws: `AudioBufferError.invalidSampleRate`
   public init(buffer: AVAudioPCMBuffer, filters: [SignalFilter] = []) throws {
 
     // Check whether `buffer` has a high enough sample rate.
-    guard buffer.format.sampleRate >= 44100 else { throw Error.invalidSampleRate }
+    guard buffer.format.sampleRate >= 44100 else { throw AudioBufferError.invalidSampleRate }
 
     // Obtain the buffer downmixed to mono and using 64 bit floating point values.
     let monoBuffer = buffer.mono64
@@ -264,11 +426,11 @@ public struct MultirateAudioPCMBuffer {
 
     // Convert `buffer` to create the four single-channel buffers.
     var signals: [SampleRate:SignalVector] = [:]
-    signals[44100] = try convert(sourceBuffer: monoBuffer, to: 44100)
-    signals[22050] = try convert(sourceBuffer: monoBuffer, to: 22050)
-    signals[4410]  = try convert(sourceBuffer: monoBuffer, to: 4410)
-    signals[882]   = try convert(sourceBuffer: monoBuffer, to: 882)
-    signals[441]   = try convert(sourceBuffer: monoBuffer, to: 441)
+    signals[44100] = SignalVector(buffer: try convert(sourceBuffer: monoBuffer, to: 44100))
+    signals[22050] = SignalVector(buffer: try convert(sourceBuffer: monoBuffer, to: 22050))
+    signals[4410]  = SignalVector(buffer: try convert(sourceBuffer: monoBuffer, to: 4410))
+    signals[882]   = SignalVector(buffer: try convert(sourceBuffer: monoBuffer, to: 882))
+    signals[441]   = SignalVector(buffer: try convert(sourceBuffer: monoBuffer, to: 441))
 
     self.signals = signals
 
@@ -278,19 +440,6 @@ public struct MultirateAudioPCMBuffer {
   /// Returns the signal for the specified sample rate.
   public subscript(sampleRate: SampleRate) -> SignalVector {
     return signals[sampleRate]!
-  }
-
-
-  public enum Error: String, Swift.Error {
-
-    case invalidSampleRate = "The supplied buffer must have a sample rate ≥ 44100 Hz."
-    case failureToCreateConverter = "Failed to create the `AVAudioConverter`."
-    case invalidFormat = "Invalid audio format configuration."
-    case invalidBuffer = "Invalid buffer configuration."
-    case conversionError = "Error converting buffer."
-    case channelDataError = "Failed to access the buffer's channel data."
-    case invalidFile = "Failed to load audio file content."
-
   }
 
 }
@@ -309,7 +458,7 @@ private func audioConverter(withSourceFormat sourceFormat: AVAudioFormat,
   // Create the converter.
   guard let converter = AVAudioConverter(from: sourceFormat, to: targetFormat) else {
 
-    throw MultirateAudioPCMBuffer.Error.failureToCreateConverter
+    throw AudioBufferError.failureToCreateConverter
 
   }
 
@@ -331,21 +480,25 @@ private func audioConverter(withSourceFormat sourceFormat: AVAudioFormat,
 /// - Parameters:
 ///   - sourceBuffer: The buffer with the signal to convert.
 ///   - rate: The sample rate to which the signal will be converted.
+///   - format: The pcm format to use.
 /// - Returns: A buffer with the converted signal.
 /// - Throws: Any error that arises from a problem audio format or invalid buffer data.
-private func convert(sourceBuffer: AVAudioPCMBuffer, to rate: SampleRate) throws -> SignalVector {
+public func convert(sourceBuffer: AVAudioPCMBuffer,
+                    to rate: SampleRate,
+                    format: AVAudioCommonFormat = .pcmFormatFloat64) throws -> AVAudioPCMBuffer
+{
 
   // Get the sample rate as a `Double` value.
   let targetSampleRate = Float64(rate.rawValue)
 
   // Create the target format.
-  guard let targetFormat = AVAudioFormat(commonFormat: .pcmFormatFloat64,
+  guard let targetFormat = AVAudioFormat(commonFormat: format,
                                          sampleRate: targetSampleRate,
                                          channels: 1,
                                          interleaved: false)
     else
   {
-    throw MultirateAudioPCMBuffer.Error.invalidFormat
+    throw AudioBufferError.invalidFormat
   }
 
   // Get the input format from the buffer.
@@ -368,7 +521,7 @@ private func convert(sourceBuffer: AVAudioPCMBuffer, to rate: SampleRate) throws
                                             frameCapacity: AVAudioFrameCount(targetTotalFrames))
   else
   {
-    throw MultirateAudioPCMBuffer.Error.invalidBuffer
+    throw AudioBufferError.invalidBuffer
   }
 
   // Create a flag for indicating whether the source buffer has been returned from the callback.
@@ -401,17 +554,12 @@ private func convert(sourceBuffer: AVAudioPCMBuffer, to rate: SampleRate) throws
     case .haveData, .inputRanDry:
       // The target buffer has data.
 
-      guard let float64BufferData = targetBuffer.float64ChannelData?.pointee else {
-        throw MultirateAudioPCMBuffer.Error.channelDataError
-      }
-
-      // Allocate storage for copying the data.
-      return SignalVector(copying: float64BufferData, count: Int(targetBuffer.frameLength))
+      return targetBuffer
 
     case .endOfStream, .error:
       // Conversion failed and/or target buffer has no data.
 
-      throw error ?? MultirateAudioPCMBuffer.Error.conversionError
+      throw error ?? AudioBufferError.conversionError
 
   }
 

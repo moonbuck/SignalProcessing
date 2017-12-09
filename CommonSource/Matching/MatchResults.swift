@@ -15,7 +15,7 @@ public struct MatchResults {
   public let sourceVector: ChromaVector
 
   /// The chroma values most likely to be the root of the chord.
-  public let mostLikelyRoots: PossibleRoots
+//  public let mostLikelyRoots: PossibleRoots
 
   /// Adjustments applied to similarity scores.
   public let scoreAdjustments: [ScoreAdjustment]
@@ -30,13 +30,14 @@ public struct MatchResults {
   ///   - possibleRoots: An optional array of chroma values most likely to be the root of the chord.
   ///   - estimatedNoteCount: The estimated note count for `sourceVector`.
   public init(sourceVector: ChromaVector,
-              scoreAdjustments: [ScoreAdjustment] = [],
-              mostLikelyRoots: PossibleRoots,
-              estimatedNoteCount: Int)
+              scoreAdjustments: [ScoreAdjustment] = []//,
+//              mostLikelyRoots: PossibleRoots,
+//              estimatedNoteCount: Int
+    )
   {
 
     // Initialize the `mostLikelyRoots` property.
-    self.mostLikelyRoots = mostLikelyRoots
+//    self.mostLikelyRoots = mostLikelyRoots
 
     // Initialize the `scoreAdjustments` property.
     self.scoreAdjustments = scoreAdjustments
@@ -55,9 +56,10 @@ public struct MatchResults {
 
         scores[chord] = score(template: chord.template,
                               for: sourceVector,
-                              adjustments: scoreAdjustments,
-                              mostLikelyRoots: mostLikelyRoots,
-                              estimatedNoteCount: estimatedNoteCount)
+                              adjustments: scoreAdjustments//,
+//                              mostLikelyRoots: mostLikelyRoots,
+//                              estimatedNoteCount: estimatedNoteCount
+        )
       }
 
     }

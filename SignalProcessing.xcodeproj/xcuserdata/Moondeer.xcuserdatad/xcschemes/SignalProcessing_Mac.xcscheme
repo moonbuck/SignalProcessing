@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C2F81B5B1FDB03CA00D344FE"
-               BuildableName = "SignalProcessing_Mac.framework"
+               BuildableName = "SignalProcessing.framework"
                BlueprintName = "SignalProcessing_Mac"
                ReferencedContainer = "container:SignalProcessing.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C2F81B5B1FDB03CA00D344FE"
-            BuildableName = "SignalProcessing_Mac.framework"
+            BuildableName = "SignalProcessing.framework"
             BlueprintName = "SignalProcessing_Mac"
             ReferencedContainer = "container:SignalProcessing.xcodeproj">
          </BuildableReference>
@@ -69,7 +69,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C2F81B5B1FDB03CA00D344FE"
-            BuildableName = "SignalProcessing_Mac.framework"
+            BuildableName = "SignalProcessing.framework"
             BlueprintName = "SignalProcessing_Mac"
             ReferencedContainer = "container:SignalProcessing.xcodeproj">
          </BuildableReference>
@@ -87,7 +87,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C2F81B5B1FDB03CA00D344FE"
-            BuildableName = "SignalProcessing_Mac.framework"
+            BuildableName = "SignalProcessing.framework"
             BlueprintName = "SignalProcessing_Mac"
             ReferencedContainer = "container:SignalProcessing.xcodeproj">
          </BuildableReference>
