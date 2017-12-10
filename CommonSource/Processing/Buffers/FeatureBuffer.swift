@@ -265,7 +265,10 @@ private func extractUsingSTFT(buffer: AVAudioPCMBuffer,
     let stftResult = try STFT(windowSize: windowSize, hopSize: hopSize, buffer: buffer.mono64)
 
     // Retrieve the pitch vector of each frame.
-    var frames = stftResult.map({ PitchVector(bins: $0, sampleRate: sampleRate) })
+    let pitchIndex = binMap(windowLength: windowSize, sampleRate: sampleRate)
+    var frames = stftResult.map {
+      PitchVector(bins: $0, sampleRate: sampleRate, pitchIndex: pitchIndex)
+    }
 
     // Calculate the feature rate.
     let featureRate = Float(sampleRate.rawValue)/Float(windowSize - hopSize)

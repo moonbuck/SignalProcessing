@@ -275,12 +275,13 @@ public struct PitchVector: Collection, ConstantSizeFloat64Vector, Equatable {
   /// - Parameters:
   ///   - fft: The FFT bins to redistribute into pitch energies.
   ///   - sampleRate: The sample rate of the signal.
-  public init(bins: BinVector, sampleRate: SampleRate) {
+  ///   - pitchIndex: A cached pitch index or `nil`.
+  public init(bins: BinVector, sampleRate: SampleRate, pitchIndex: [Pitch]? = nil) {
 
     self.init()
 
     // Create an index for bin-to-pitch conversion.
-    let pitchIndex = binMap(windowLength: bins.count * 2, sampleRate: sampleRate)
+    let pitchIndex = pitchIndex ?? binMap(windowLength: bins.count * 2, sampleRate: sampleRate)
 
     // Iterate the enumerated `pitchIndex` to generate bin-pitch pairs.
     for (bin, pitch) in pitchIndex.enumerated() {
@@ -323,7 +324,7 @@ public struct PitchVector: Collection, ConstantSizeFloat64Vector, Equatable {
 ///   - windowLength: The length of the window used in FFT calculations.
 ///   - sampleRate: The sample rate of the signal being processed.
 /// - Returns: An array holding raw pitch values for each bin.
-private func binMap(windowLength: Int, sampleRate: SampleRate) -> [Int] {
+public func binMap(windowLength: Int, sampleRate: SampleRate) -> [Pitch] {
 
   // Get the sample rate as a float value.
   let sampleRate = Float(sampleRate.rawValue)
@@ -361,17 +362,17 @@ private func binMap(windowLength: Int, sampleRate: SampleRate) -> [Int] {
   let pitches8 = UnsafeMutablePointer<Int8>.allocate(capacity: count)
   vDSP_vfix8(binIndices, 1, pitches8, 1, countu)
 
-  let pitches = UnsafeMutablePointer<Int>.allocate(capacity: count)
+  let pitches = UnsafeMutablePointer<Pitch>.allocate(capacity: count)
 
   // Initialize `pitches` by converting each value in `binIndices`.
   for index in 0 ..< count {
 
-    (pitches + index).initialize(to: Int(pitches8[index]))
+    (pitches + index).initialize(to: Pitch(rawValue: Int(pitches8[index])))
 
   }
 
   // Fix the first value if the second is less than 0.
-  if pitches[1] < 0 { pitches[0] = Int.min }
+  if pitches[1] < 0 { pitches[0] = Pitch(rawValue: Int.min) }
 
   return Array(UnsafeBufferPointer(start: pitches, count: count))
 

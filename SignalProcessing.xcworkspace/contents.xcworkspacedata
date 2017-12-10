@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../Essentia/docopt/docopt.xcodeproj">
+      location = "group:docopt/docopt.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:../Essentia/PitchAnalysis/PitchAnalysis.xcodeproj">

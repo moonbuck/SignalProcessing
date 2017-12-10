@@ -6,6 +6,7 @@
 //  Copyright © 2017 Moondeer Studios. All rights reserved.
 //
 import Foundation
+import AVFoundation
 
 public final class EqualLoudnessFilter: SignalFilter {
 
@@ -36,7 +37,16 @@ public final class EqualLoudnessFilter: SignalFilter {
     yulewalkFilter.process(signal: x, y: &buffer)
     butterworthFilter.process(signal: buffer, y: &y)
 
+  }
 
+  public init() {}
+
+  public static func process(signal buffer: AVAudioPCMBuffer) {
+    EqualLoudnessFilter().process(signal: buffer)
+  }
+
+  public static func process(signal x: SignalVector, y: inout SignalVector) {
+    EqualLoudnessFilter().process(signal: x, y: &y)
   }
 
 }

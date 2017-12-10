@@ -151,6 +151,10 @@
 		C2F81C6B1FDB66F300D344FE /* Cmaj_boesendorfer_th=3.aif in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C691FDB66F300D344FE /* Cmaj_boesendorfer_th=3.aif */; };
 		C2F81C841FDC286400D344FE /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C831FDC286400D344FE /* main.swift */; };
 		C2F81C891FDC392A00D344FE /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C881FDC392A00D344FE /* Command.swift */; };
+		C2F81C8B1FDC9E1900D344FE /* Arguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C8A1FDC9E1900D344FE /* Arguments.swift */; };
+		C2F81C8D1FDCA3FF00D344FE /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C8C1FDCA3FF00D344FE /* Error.swift */; };
+		C2F81C8F1FDCA6C100D344FE /* Spectrum.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C8E1FDCA6C100D344FE /* Spectrum.swift */; };
+		C2F81C931FDCB57200D344FE /* ResultIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C921FDCB57200D344FE /* ResultIO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -269,6 +273,10 @@
 		C2F81C811FDC286400D344FE /* extract */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = extract; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2F81C831FDC286400D344FE /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		C2F81C881FDC392A00D344FE /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
+		C2F81C8A1FDC9E1900D344FE /* Arguments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arguments.swift; sourceTree = "<group>"; };
+		C2F81C8C1FDCA3FF00D344FE /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		C2F81C8E1FDCA6C100D344FE /* Spectrum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spectrum.swift; sourceTree = "<group>"; };
+		C2F81C921FDCB57200D344FE /* ResultIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultIO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -566,7 +574,11 @@
 		C2F81C821FDC286400D344FE /* extract */ = {
 			isa = PBXGroup;
 			children = (
+				C2F81C921FDCB57200D344FE /* ResultIO.swift */,
+				C2F81C8C1FDCA3FF00D344FE /* Error.swift */,
+				C2F81C8E1FDCA6C100D344FE /* Spectrum.swift */,
 				C2F81C831FDC286400D344FE /* main.swift */,
+				C2F81C8A1FDC9E1900D344FE /* Arguments.swift */,
 				C2F81C881FDC392A00D344FE /* Command.swift */,
 			);
 			path = extract;
@@ -938,6 +950,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2F81C8F1FDCA6C100D344FE /* Spectrum.swift in Sources */,
+				C2F81C8D1FDCA3FF00D344FE /* Error.swift in Sources */,
+				C2F81C931FDCB57200D344FE /* ResultIO.swift in Sources */,
+				C2F81C8B1FDC9E1900D344FE /* Arguments.swift in Sources */,
 				C2F81C841FDC286400D344FE /* main.swift in Sources */,
 				C2F81C891FDC392A00D344FE /* Command.swift in Sources */,
 			);

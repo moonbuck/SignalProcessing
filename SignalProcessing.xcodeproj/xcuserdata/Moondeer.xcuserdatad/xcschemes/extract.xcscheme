@@ -69,39 +69,35 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "fartKnocker"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
             argument = "spectrum"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--essentia"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-e"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--win=2048"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--hop=1024"
+            argument = "--hop=512"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--plot"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--pitch"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-p"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "/Users/Moondeer/Desktop/chords/Tone_Height_3/Boesendorfer/Cmaj_boesendorfer_th=3.aif"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "extractOutput.png"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
