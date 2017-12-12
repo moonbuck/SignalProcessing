@@ -8,14 +8,6 @@
 import Foundation
 import CoreText
 
-extension String {
-
-  public static func *(lhs: String, rhs: Int) -> String {
-    return String(repeating: lhs, count: rhs)
-  }
-
-}
-
 private let halfLineParagraphStyle: CTParagraphStyle = {
 
   // Calculate the line spacing.

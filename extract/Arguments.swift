@@ -9,7 +9,7 @@ import Foundation
 import Docopt
 
 let usage = """
-Usage: extract spectrum [--win=<ws>] [--hop=<hs>] [-pe] (--csv | --plot) <input> [<output>]
+Usage: extract spectrum [--win=<ws>] [--hop=<hs>] [(-p | -c)] [-e] (--csv | --plot) <input> [<output>]
        extract --help
 
 Arguments:
@@ -24,6 +24,7 @@ Options:
   --csv           Output result as csv data.
   --plot          Output result as an image of the plotted data.
   -p, --pitch     Requantize bins to correspond with MIDI pitches.
+  -c, --chroma    Requantize bins to correspond to the 12 pitch classes.
   -h, --help      Show this help message and exit.
 """
 
@@ -31,6 +32,9 @@ struct Arguments {
 
   /// Whether to requanitize bins to correspond with MIDI pitches.
   let convertToPitch: Bool
+
+  /// Whether to requanitize bins to correspond with the 12 pitche classes.
+  let convertToChroma: Bool
 
   /// Whether to use the algorithms in the Essentia framework.
   let useEssentia: Bool
@@ -60,18 +64,28 @@ struct Arguments {
     let arguments = Docopt.parse(usage, help: true)
 
     convertToPitch = arguments["--pitch"] as! Bool
+    convertToChroma = arguments["--chroma"] as! Bool
     useEssentia = arguments["--essentia"] as! Bool
     windowSize = (arguments["--win"] as! NSNumber).intValue
     hopSize = (arguments["--hop"] as! NSNumber).intValue
     input = arguments["<input>"] as! String
     output = arguments["<output>"] as? String
     command = Command.availableCommands.first(where: {arguments[$0.rawValue] as! Bool})!
-    outputFormat = arguments["--csv"] as! Bool ? .csv : .plot
+    outputFormat = arguments["--csv"] as! Bool
+                     ? .csv
+                     : arguments["--plot"] as! Bool
+                       ? .plot
+                       : .stdout
+
+    guard command.isOutputPlottable || outputFormat != .plot else {
+      print("The --plot option cannot be combined with the \(command.rawValue) command.")
+      exit(EXIT_FAILURE)
+    }
 
   }
 
   enum OutputFormat {
-    case csv, plot
+    case csv, plot, stdout
   }
 
 }

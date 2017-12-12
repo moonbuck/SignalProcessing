@@ -13,6 +13,7 @@ import struct Accelerate.DSPDoubleComplex
 import class Essentia.Pool
 import struct SignalProcessing.PitchVector
 import struct SignalProcessing.BinVector
+import struct SignalProcessing.ChromaVector
 
 /// An enumeration of valid argument values for the '<command>' command line argument.
 enum Command: String {
@@ -42,6 +43,12 @@ enum Command: String {
 
   }
 
+  var isOutputPlottable: Bool {
+    switch self {
+      case .spectrum: return true
+    }
+  }
+
   enum Output {
 
     case integer (Int)
@@ -60,14 +67,23 @@ enum Command: String {
     case stringVec ([String])
     case pitchVector (PitchVector)
     case binVector (BinVector)
+    case chromaVector (ChromaVector)
 
     case realVecVec ([[Float]])
     case real64VecVec ([[Float64]])
     case complexRealVecVec ([[DSPComplex]])
     case complexReal64VecVec ([[DSPDoubleComplex]])
     case stringVecVec ([[String]])
-    case pitchVectorVec ([PitchVector])
+    case pitchVectorVec ([PitchVector], CGFloat)
     case binVectorVec ([BinVector])
+    case chromaVectorVec ([ChromaVector], CGFloat)
+
+    var isPlottable: Bool {
+      switch self {
+        case .pitchVectorVec, .chromaVectorVec: return true
+        default: return false
+      }
+    }
 
   }
 

@@ -62,6 +62,89 @@ public enum NormSpace {
 
 }
 
+// MARK: - Normalizing Array
+
+/// Normalizes an array of vectors using the specified settings.
+///
+/// - Parameters:
+///   - array: The array of vectors to normalize.
+///   - settings: The settings to use when normalizing the vectors in `array`.
+public func normalize<Vector>(array: [Vector], settings: NormalizationSettings)
+  where Vector:ConstantSizeFloat64Vector
+{
+
+  switch settings {
+
+    case .maxValue:
+      maxValueNormalize(array: array)
+
+    case .lᵖNorm(space: let space, threshold: let threshold):
+      lᵖNormalize(array: array, normSpace: space, threshold: threshold)
+
+  }
+
+}
+
+/// Normalizes the specified buffer using the overall max value contained in its vectors.
+///
+/// - Parameters:
+///   - array: The array with values to normalize.
+///   - count: The number of vectors held by `buffer`.
+private func maxValueNormalize<Vector>(array: [Vector]) where Vector:ConstantSizeFloat64Vector {
+
+  // Allocate storage for the max value of each vector.
+  let maxValues = Float64Buffer.allocate(capacity: array.count)
+
+  let vectorValueCount = vDSP_Length(Vector.count)
+
+  // Iterate the vectors.
+  for i in 0 ..< array.count {
+
+    // Get the max value for the buffer's `i`th vector.
+    var frameMax: Float64 = 0
+    vDSP_maxvD(array[i].storage, 1, &frameMax, vectorValueCount)
+
+    // Initialize the `i`th value in `maxValues`.
+    (maxValues + i).initialize(to: frameMax)
+
+  }
+
+  // Determine the max value in `maxValues`.
+  var max: Float64 = 0
+  vDSP_maxvD(maxValues, 1, &max, vDSP_Length(array.count))
+
+  // Iterate the vectors.
+  for i in 0 ..< array.count {
+
+    // Divide each value in the `i`th vector by `max`.
+    vDSP_vsdivD(array[i].storage, 1, &max, array[i].storage, 1, vectorValueCount)
+
+  }
+
+}
+
+/// Normalizes each vector using its lᵖ norm.
+///
+/// - Parameters:
+///   - array: An array with vectors to normalize.
+///   - normSpace: Specifies whether the l¹ norm or the l² norm will be used.
+///   - threshold: The minimum acceptable value for the vector's lᵖ norm. Vectors with an
+///                lᵖ norm falling below this value will be filled with the normalized unit
+///                vector. The default value for this parameter is `0.001`.
+private func lᵖNormalize<Vector>(array: [Vector], normSpace: NormSpace, threshold: Float64)
+  where Vector: ConstantSizeFloat64Vector
+{
+
+  let vectorValueCount = Vector.count
+  for index in 0 ..< array.count {
+    lᵖNormalize(vector: array[index].storage,
+                count: vectorValueCount,
+                normSpace: normSpace,
+                threshold: threshold)
+  }
+
+}
+
 // MARK: - Normalizing Float64VectorBufferWrapper
 
 /// Normalizes a buffer of vectors using the specified settings.

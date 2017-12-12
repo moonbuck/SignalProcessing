@@ -48,11 +48,6 @@ public struct PitchFeatures: ParameterizedFeatureCollection {
   /// - Parameter position: The index of the pitch feature to retrieve.
   public subscript(position: Int) -> PitchVector { return features[position] }
 
-  /// Accessor for the pitch feature at a specific index.
-  ///
-  /// - Parameter pitch: The pitch whose feature is to be returned.
-  public subscript(pitch: Pitch) -> PitchVector { return self[pitch.rawValue] }
-
   /// Initializing with a buffer.
   public init(_ buffer: PitchBuffer, _ parameters: Parameters) {
     features = buffer.array

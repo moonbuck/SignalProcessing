@@ -74,7 +74,7 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--essentia"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--win=2048"
@@ -89,7 +89,15 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "--csv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "--pitch"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--chroma"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -97,8 +105,20 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "extractOutput.png"
+            argument = "/Users/Moondeer/Desktop/extractOutput-SignalProcessing.png"
             isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "/Users/Moondeer/Desktop/extractOutput-Essentia.png"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "/Users/Moondeer/Desktop/extractOutput-SignalProcessing.csv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "/Users/Moondeer/Desktop/extractOutput-Essentia.csv"
+            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>

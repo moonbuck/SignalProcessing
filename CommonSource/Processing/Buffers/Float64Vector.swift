@@ -308,6 +308,20 @@ public struct PitchVector: Collection, ConstantSizeFloat64Vector, Equatable {
     set { (storage + pitch.rawValue).initialize(to: newValue) }
   }
 
+  /// Accessor for a subsequence that takes a countable range of pitches.
+  ///
+  /// - Parameter bounds: The pitches to include in the slice.
+  public subscript(bounds: CountableRange<Pitch>) -> Slice<PitchVector> {
+    return self[bounds.lowerBound.rawValue..<bounds.upperBound.rawValue]
+  }
+
+  /// Accessor for a subsequence that takes a countable closed range of pitches.
+  ///
+  /// - Parameter bounds: The pitches to include in the slice.
+  public subscript(bounds: CountableClosedRange<Pitch>) -> Slice<PitchVector> {
+    return self[bounds.lowerBound.rawValue...bounds.upperBound.rawValue]
+  }
+
   public var pitchesByValue: [Pitch] {
     return indicesByValue.map({Pitch(rawValue: $0)})
   }
@@ -330,7 +344,7 @@ public func binMap(windowLength: Int, sampleRate: SampleRate) -> [Pitch] {
   let sampleRate = Float(sampleRate.rawValue)
 
   // Calculate the number of bins as half the window length.
-  let count = windowLength / 2
+  let count = windowLength / 2 + 1
 
   let binIndices = FloatBuffer.allocate(capacity: count)
 

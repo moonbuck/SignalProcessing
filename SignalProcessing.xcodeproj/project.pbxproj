@@ -155,6 +155,22 @@
 		C2F81C8D1FDCA3FF00D344FE /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C8C1FDCA3FF00D344FE /* Error.swift */; };
 		C2F81C8F1FDCA6C100D344FE /* Spectrum.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C8E1FDCA6C100D344FE /* Spectrum.swift */; };
 		C2F81C931FDCB57200D344FE /* ResultIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C921FDCB57200D344FE /* ResultIO.swift */; };
+		C2F81C991FDDC96400D344FE /* DSPComplex.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C941FDDC96300D344FE /* DSPComplex.swift */; };
+		C2F81C9A1FDDC96400D344FE /* DSPComplex.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C941FDDC96300D344FE /* DSPComplex.swift */; };
+		C2F81C9B1FDDC96400D344FE /* CollectionCreationOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C951FDDC96400D344FE /* CollectionCreationOperators.swift */; };
+		C2F81C9C1FDDC96400D344FE /* CollectionCreationOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C951FDDC96400D344FE /* CollectionCreationOperators.swift */; };
+		C2F81C9D1FDDC96400D344FE /* DictionaryMerging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C961FDDC96400D344FE /* DictionaryMerging.swift */; };
+		C2F81C9E1FDDC96400D344FE /* DictionaryMerging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C961FDDC96400D344FE /* DictionaryMerging.swift */; };
+		C2F81C9F1FDDC96400D344FE /* KeyPathConvenienceExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C971FDDC96400D344FE /* KeyPathConvenienceExtensions.swift */; };
+		C2F81CA01FDDC96400D344FE /* KeyPathConvenienceExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C971FDDC96400D344FE /* KeyPathConvenienceExtensions.swift */; };
+		C2F81CA11FDDC96400D344FE /* Zip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C981FDDC96400D344FE /* Zip.swift */; };
+		C2F81CA21FDDC96400D344FE /* Zip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C981FDDC96400D344FE /* Zip.swift */; };
+		C2F81CA41FDDCC9700D344FE /* Essentia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F81CA51FDDCC9700D344FE /* Essentia.framework */; };
+		C2F81CA61FDDCC9700D344FE /* SignalProcessing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F81B5C1FDB03CA00D344FE /* SignalProcessing.framework */; };
+		C2FED3FB1FDF5554002385B9 /* ColorMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2FED3FA1FDF5554002385B9 /* ColorMap.swift */; };
+		C2FED3FC1FDF5554002385B9 /* ColorMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2FED3FA1FDF5554002385B9 /* ColorMap.swift */; };
+		C2FED3FE1FDF55DF002385B9 /* GraphingHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2FED3FD1FDF55DF002385B9 /* GraphingHelpers.swift */; };
+		C2FED3FF1FDF55DF002385B9 /* GraphingHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2FED3FD1FDF55DF002385B9 /* GraphingHelpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -277,6 +293,14 @@
 		C2F81C8C1FDCA3FF00D344FE /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		C2F81C8E1FDCA6C100D344FE /* Spectrum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spectrum.swift; sourceTree = "<group>"; };
 		C2F81C921FDCB57200D344FE /* ResultIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultIO.swift; sourceTree = "<group>"; };
+		C2F81C941FDDC96300D344FE /* DSPComplex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DSPComplex.swift; sourceTree = "<group>"; };
+		C2F81C951FDDC96400D344FE /* CollectionCreationOperators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionCreationOperators.swift; sourceTree = "<group>"; };
+		C2F81C961FDDC96400D344FE /* DictionaryMerging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryMerging.swift; sourceTree = "<group>"; };
+		C2F81C971FDDC96400D344FE /* KeyPathConvenienceExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyPathConvenienceExtensions.swift; sourceTree = "<group>"; };
+		C2F81C981FDDC96400D344FE /* Zip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Zip.swift; sourceTree = "<group>"; };
+		C2F81CA51FDDCC9700D344FE /* Essentia.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Essentia.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2FED3FA1FDF5554002385B9 /* ColorMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMap.swift; sourceTree = "<group>"; };
+		C2FED3FD1FDF55DF002385B9 /* GraphingHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphingHelpers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -314,6 +338,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2F81CA61FDDCC9700D344FE /* SignalProcessing.framework in Frameworks */,
+				C2F81CA41FDDCC9700D344FE /* Essentia.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,6 +354,7 @@
 				C2F81C211FDB074200D344FE /* CommonResources */,
 				C2F81C821FDC286400D344FE /* extract */,
 				C2F81B3E1FDB038800D344FE /* Products */,
+				C2F81CA31FDDCC9700D344FE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -387,7 +414,7 @@
 				C2F81B821FDB06D700D344FE /* Report.swift */,
 				C2F81B831FDB06D700D344FE /* AttributedStringContent.swift */,
 				C2F81B841FDB06D700D344FE /* FeatureReport.swift */,
-				C2F81B851FDB06D700D344FE /* GraphingFunctions.swift */,
+				C2FED3F91FDF553D002385B9 /* Graphs */,
 				C2F81B861FDB06D700D344FE /* TemplateReport.swift */,
 				C2F81B871FDB06D700D344FE /* ReportRenderer.swift */,
 				C2F81B881FDB06D700D344FE /* PitchReport.swift */,
@@ -457,6 +484,11 @@
 		C2F81BB61FDB06D800D344FE /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				C2F81C951FDDC96400D344FE /* CollectionCreationOperators.swift */,
+				C2F81C961FDDC96400D344FE /* DictionaryMerging.swift */,
+				C2F81C941FDDC96300D344FE /* DSPComplex.swift */,
+				C2F81C971FDDC96400D344FE /* KeyPathConvenienceExtensions.swift */,
+				C2F81C981FDDC96400D344FE /* Zip.swift */,
 				C2F81BB71FDB06D800D344FE /* Strings.swift */,
 				C2F81BB81FDB06D800D344FE /* RegularExpression.swift */,
 			);
@@ -582,6 +614,24 @@
 				C2F81C881FDC392A00D344FE /* Command.swift */,
 			);
 			path = extract;
+			sourceTree = "<group>";
+		};
+		C2F81CA31FDDCC9700D344FE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C2F81CA51FDDCC9700D344FE /* Essentia.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C2FED3F91FDF553D002385B9 /* Graphs */ = {
+			isa = PBXGroup;
+			children = (
+				C2F81B851FDB06D700D344FE /* GraphingFunctions.swift */,
+				C2FED3FA1FDF5554002385B9 /* ColorMap.swift */,
+				C2FED3FD1FDF55DF002385B9 /* GraphingHelpers.swift */,
+			);
+			path = Graphs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -830,18 +880,22 @@
 				C2F81BE91FDB06D800D344FE /* AudioBuffers.swift in Sources */,
 				C2F81C031FDB06D800D344FE /* Windower.swift in Sources */,
 				C2F81BB91FDB06D800D344FE /* FontStyle.swift in Sources */,
+				C2FED3FB1FDF5554002385B9 /* ColorMap.swift in Sources */,
+				C2F81C9D1FDDC96400D344FE /* DictionaryMerging.swift in Sources */,
 				C2F81BF51FDB06D800D344FE /* IIRFilter.swift in Sources */,
 				C2F81C111FDB06D800D344FE /* MatchedChromaFeatures.swift in Sources */,
 				C2F81BFB1FDB06D800D344FE /* Window.swift in Sources */,
 				C2F81C501FDB174000D344FE /* PlatformAliases.swift in Sources */,
 				C2F81BF91FDB06D800D344FE /* Normalization.swift in Sources */,
 				C2F81BC51FDB06D800D344FE /* GraphingFunctions.swift in Sources */,
+				C2F81C9B1FDDC96400D344FE /* CollectionCreationOperators.swift in Sources */,
 				C2F81C071FDB06D800D344FE /* ChordPattern.swift in Sources */,
 				C2F81C131FDB06D800D344FE /* Scoring.swift in Sources */,
 				C2F81BD51FDB06D800D344FE /* SignalFilter.swift in Sources */,
 				C2F81BEF1FDB06D800D344FE /* PitchFilterBank.swift in Sources */,
 				C2F81BE11FDB06D800D344FE /* Buffers.swift in Sources */,
 				C2F81BE31FDB06D800D344FE /* Quantization.swift in Sources */,
+				C2F81C9F1FDDC96400D344FE /* KeyPathConvenienceExtensions.swift in Sources */,
 				C2F81C0D1FDB06D800D344FE /* ChordProgression.swift in Sources */,
 				C2F81BCD1FDB06D800D344FE /* Pitch.swift in Sources */,
 				C2F81C051FDB06D800D344FE /* FeatureFilter.swift in Sources */,
@@ -849,11 +903,13 @@
 				C2F81C151FDB06D800D344FE /* MatchResults.swift in Sources */,
 				C2F81BE71FDB06D800D344FE /* Smoothing.swift in Sources */,
 				C2F81BDB1FDB06D800D344FE /* KaiserWindow.swift in Sources */,
+				C2FED3FE1FDF55DF002385B9 /* GraphingHelpers.swift in Sources */,
 				C2F81BE51FDB06D800D344FE /* FFT.swift in Sources */,
 				C2F81C0B1FDB06D800D344FE /* ChordLibrary.swift in Sources */,
 				C2F81C191FDB06D800D344FE /* ChromaFeatures.swift in Sources */,
 				C2F81BED1FDB06D800D344FE /* SampleRate.swift in Sources */,
 				C2F81C0F1FDB06D800D344FE /* VectorCharacteristics.swift in Sources */,
+				C2F81C991FDDC96400D344FE /* DSPComplex.swift in Sources */,
 				C2F81C1F1FDB06D800D344FE /* RegularExpression.swift in Sources */,
 				C2F81BDF1FDB06D800D344FE /* STFT.swift in Sources */,
 				C2F81C011FDB06D800D344FE /* Filter.swift in Sources */,
@@ -862,6 +918,7 @@
 				C2F81BF71FDB06D800D344FE /* Compression.swift in Sources */,
 				C2F81C1B1FDB06D800D344FE /* Chroma.swift in Sources */,
 				C2F81BDD1FDB06D800D344FE /* Float64Vector.swift in Sources */,
+				C2F81CA11FDDC96400D344FE /* Zip.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -897,18 +954,22 @@
 				C2F81BEA1FDB06D800D344FE /* AudioBuffers.swift in Sources */,
 				C2F81C041FDB06D800D344FE /* Windower.swift in Sources */,
 				C2F81BBA1FDB06D800D344FE /* FontStyle.swift in Sources */,
+				C2FED3FC1FDF5554002385B9 /* ColorMap.swift in Sources */,
+				C2F81C9E1FDDC96400D344FE /* DictionaryMerging.swift in Sources */,
 				C2F81BF61FDB06D800D344FE /* IIRFilter.swift in Sources */,
 				C2F81C121FDB06D800D344FE /* MatchedChromaFeatures.swift in Sources */,
 				C2F81BFC1FDB06D800D344FE /* Window.swift in Sources */,
 				C2F81C511FDB174000D344FE /* PlatformAliases.swift in Sources */,
 				C2F81BFA1FDB06D800D344FE /* Normalization.swift in Sources */,
 				C2F81BC61FDB06D800D344FE /* GraphingFunctions.swift in Sources */,
+				C2F81C9C1FDDC96400D344FE /* CollectionCreationOperators.swift in Sources */,
 				C2F81C081FDB06D800D344FE /* ChordPattern.swift in Sources */,
 				C2F81C141FDB06D800D344FE /* Scoring.swift in Sources */,
 				C2F81BD61FDB06D800D344FE /* SignalFilter.swift in Sources */,
 				C2F81BF01FDB06D800D344FE /* PitchFilterBank.swift in Sources */,
 				C2F81BE21FDB06D800D344FE /* Buffers.swift in Sources */,
 				C2F81BE41FDB06D800D344FE /* Quantization.swift in Sources */,
+				C2F81CA01FDDC96400D344FE /* KeyPathConvenienceExtensions.swift in Sources */,
 				C2F81C0E1FDB06D800D344FE /* ChordProgression.swift in Sources */,
 				C2F81BCE1FDB06D800D344FE /* Pitch.swift in Sources */,
 				C2F81C061FDB06D800D344FE /* FeatureFilter.swift in Sources */,
@@ -916,11 +977,13 @@
 				C2F81C161FDB06D800D344FE /* MatchResults.swift in Sources */,
 				C2F81BE81FDB06D800D344FE /* Smoothing.swift in Sources */,
 				C2F81BDC1FDB06D800D344FE /* KaiserWindow.swift in Sources */,
+				C2FED3FF1FDF55DF002385B9 /* GraphingHelpers.swift in Sources */,
 				C2F81BE61FDB06D800D344FE /* FFT.swift in Sources */,
 				C2F81C0C1FDB06D800D344FE /* ChordLibrary.swift in Sources */,
 				C2F81C1A1FDB06D800D344FE /* ChromaFeatures.swift in Sources */,
 				C2F81BEE1FDB06D800D344FE /* SampleRate.swift in Sources */,
 				C2F81C101FDB06D800D344FE /* VectorCharacteristics.swift in Sources */,
+				C2F81C9A1FDDC96400D344FE /* DSPComplex.swift in Sources */,
 				C2F81C201FDB06D800D344FE /* RegularExpression.swift in Sources */,
 				C2F81BE01FDB06D800D344FE /* STFT.swift in Sources */,
 				C2F81C021FDB06D800D344FE /* Filter.swift in Sources */,
@@ -929,6 +992,7 @@
 				C2F81BF81FDB06D800D344FE /* Compression.swift in Sources */,
 				C2F81C1C1FDB06D800D344FE /* Chroma.swift in Sources */,
 				C2F81BDE1FDB06D800D344FE /* Float64Vector.swift in Sources */,
+				C2F81CA21FDDC96400D344FE /* Zip.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

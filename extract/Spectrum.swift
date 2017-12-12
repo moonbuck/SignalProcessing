@@ -70,7 +70,12 @@ func executeSpectrumCommand(using buffer: AVAudioPCMBuffer) -> Command.Output {
         return pitchVector
       }
 
-      result = .pitchVectorVec(pitchOutput)
+      let sampleRate = CGFloat(buffer.format.sampleRate)
+      let featureRate = sampleRate/CGFloat(arguments.windowSize - arguments.hopSize)
+
+      normalize(array: pitchOutput, settings: .maxValue)
+
+      result = .pitchVectorVec(pitchOutput, featureRate)
 
     } else {
 
@@ -84,27 +89,46 @@ func executeSpectrumCommand(using buffer: AVAudioPCMBuffer) -> Command.Output {
     // Apply the equal loudness filter.
     EqualLoudnessFilter.process(signal: buffer)
 
-    do {
-      let stft = try STFT(windowSize: arguments.windowSize,
-                          hopSize: arguments.hopSize,
-                          buffer: buffer)
+    if arguments.convertToPitch || arguments.convertToChroma {
 
-      if arguments.convertToPitch {
+      let parameters = PitchFeatures.Parameters(
+        method: .stft(windowSize: 8820, hopSize: 4410, sampleRate: .Fs44100),
+        filters: [.normalization(settings: .maxValue)]
+      )
 
-        let pitchIndex = binMap(windowLength: arguments.windowSize, sampleRate: .Fs44100)
-        let pitchOutput = stft.map {
-          PitchVector(bins: $0, sampleRate: .Fs44100, pitchIndex: pitchIndex)
-        }
+      let pitchFeatures = PitchFeatures(from: buffer, parameters: parameters)
 
-        result = .pitchVectorVec(pitchOutput)
+      if arguments.convertToChroma {
+
+        let variant: ChromaFeatures.Variant =
+          .CP(compression: CompressionSettings(term: 1, factor: 100),
+              normalization: .lᵖNorm(space: .l², threshold: 0.001))
+
+        let chromaFeatures = ChromaFeatures(pitchFeatures: pitchFeatures, variant: variant)
+
+        result = .chromaVectorVec(chromaFeatures.features, CGFloat(chromaFeatures.featureRate))
 
       } else {
-        result = .binVectorVec(Array(stft))
+
+        result = .pitchVectorVec(pitchFeatures.features, CGFloat(pitchFeatures.featureRate))
+        
       }
 
-    } catch {
-      print("Error encountered calculating STFT: \(error.localizedDescription)")
-      exit(EXIT_FAILURE)
+    } else {
+
+        do {
+
+          let stft = try STFT(windowSize: arguments.windowSize,
+                              hopSize: arguments.hopSize,
+                              buffer: buffer)
+
+          result = .binVectorVec(Array(stft))
+
+        } catch {
+          print("Error encountered calculating STFT: \(error.localizedDescription)")
+          exit(EXIT_FAILURE)
+      }
+
     }
 
   }
