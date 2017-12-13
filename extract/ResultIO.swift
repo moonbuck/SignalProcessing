@@ -126,7 +126,7 @@ func csvFormattedText(from output: Command.Output) -> String {
     case .complexReal64VecVec(let value): return multiColumn(value)
     case .stringVecVec(let value):        return multiColumn(value)
     case .pitchVectorVec(let value, _):   return multiColumn(value)
-    case .binVectorVec(let value):        return multiColumn(value)
+    case .binVectorVec(let value, _):     return multiColumn(value)
     case .chromaVectorVec(let value, _):  return multiColumn(value)
     case .pool, .image:
       fatalError("Output is not a suitable type for representing as comma-separated values.")
@@ -142,41 +142,23 @@ func plotImage(from output: Command.Output) -> NSImage {
 
   switch output {
 
+    case .binVectorVec(let vectors, let featureRate):
+      return binPlot(features: vectors,
+                     featureRate: featureRate,
+                     mapKind: .grayscale,
+                     title: "extract ouptut")
+
     case .pitchVectorVec(let vectors, let featureRate):
-      var vectors: [PitchVector] = []
-      vectors.reserveCapacity(21)
-
-      for _ in 0 ..< 21 {
-
-        var vector = PitchVector()
-        vector[0] = 1
-        vector["c3"] = 1
-        vector["e3"] = 1
-        vector["g3"] = 1
-        vector[63] = 1
-        vector[vector.endIndex - 1] = 1
-        vectors.append(vector)
-
-      }
-
-      return pitchPlot(features: vectors, featureRate: featureRate, mapKind: .grayscale, title: "extract output")
+      return pitchPlot(features: vectors,
+                       featureRate: featureRate,
+                       mapKind: .grayscale,
+                       title: "extract output")
 
     case .chromaVectorVec(let vectors, let featureRate):
-      var vectors: [ChromaVector] = []
-      vectors.reserveCapacity(21)
-
-      for _ in 0 ..< 21 {
-
-        var vector = ChromaVector()
-        vector[.c] = 1
-        vector[.e] = 1
-        vector[.g] = 1
-        vector[.b] = 1
-        vectors.append(vector)
-
-      }
-
-      return chromaPlot(features: vectors, featureRate: featureRate, mapKind: .grayscale, title: "extract output")
+      return chromaPlot(features: vectors,
+                        featureRate: featureRate,
+                        mapKind: .grayscale,
+                        title: "extract output")
 
     default:
       fatalError("\(output) is not a case for which plotting is supported.")

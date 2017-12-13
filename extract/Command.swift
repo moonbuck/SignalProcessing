@@ -75,12 +75,12 @@ enum Command: String {
     case complexReal64VecVec ([[DSPDoubleComplex]])
     case stringVecVec ([[String]])
     case pitchVectorVec ([PitchVector], CGFloat)
-    case binVectorVec ([BinVector])
+    case binVectorVec ([BinVector], CGFloat)
     case chromaVectorVec ([ChromaVector], CGFloat)
 
     var isPlottable: Bool {
       switch self {
-        case .pitchVectorVec, .chromaVectorVec: return true
+        case .pitchVectorVec, .chromaVectorVec, .binVectorVec: return true
         default: return false
       }
     }

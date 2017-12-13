@@ -464,6 +464,15 @@ public struct BinVector: Collection, Float64Vector, Equatable {
     self.count = count
   }
 
+  /// Initializing by copying the contents of an array.
+  ///
+  /// - Parameter array: The array with values to copy.
+  public init(array: [Float64]) {
+    self.init(count: array.count)
+    let countu = vDSP_Length(array.count)
+    vDSP_mmovD(array, storage, countu, 1, countu, countu)
+  }
+
   /// Returns the frequency for a bin given a sample rate and window size.
   ///
   /// - Parameters:

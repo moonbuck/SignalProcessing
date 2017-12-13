@@ -92,5 +92,50 @@ extension String {
 
   }
 
+  /// Intialzing with a description of a floating point number given a specified precision.
+  ///
+  /// - Parameters:
+  ///   - value: The floating point value to describe.
+  ///   - maxPrecision: The maximum number of decimals to include.
+  ///   - minPrecision: The minimum number of decimals to include. Trailing zeros are removed
+  ///                   until this threshold is reached. If this value is less than `1` and
+  ///                   the fractional part is all zeros, the decimal will also be removed.
+  public init<F>(describing value: F, maxPrecision: Int, minPrecision: Int)
+    where F:FloatingPoint, F:CVarArg
+  {
+
+    guard minPrecision <= maxPrecision else {
+      fatalError("\(#function) `minPrecision` must be ≤ `maxPrecision`.")
+    }
+
+    let pattern: String
+
+    switch value {
+      case is Float:
+        pattern = "%.*f"
+      case is Double,
+           is CGFloat:
+        pattern = "%.*lf"
+      default:
+        fatalError("\(#function) Unsupported floating point type: \(F.self)")
+    }
+
+    let string = String(format: pattern, value, maxPrecision)
+
+    guard let decimal = string.index(of: ".") else { self = string; return }
+
+    var end = string.endIndex
+    while end > string.startIndex
+      && (string[string.index(before: end)] == "0" || string[string.index(before: end)] == ".")
+      && string.distance(from: decimal, to: end) > (minPrecision + 1)
+    {
+      end = string.index(before: end)
+    }
+
+    if string.index(before: end) == decimal { end = decimal }
+
+    self = String(string[..<end])
+  }
+
 }
 

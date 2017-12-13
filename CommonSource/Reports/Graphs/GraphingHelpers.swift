@@ -27,7 +27,7 @@ internal func draw(dataBoxes: [[Int]],
 {
 
   // Fill the plot with the color map's preffered background color.
-  colorMap.preferredBackgroundColor.setFill()
+  context.setFillColor(colorMap.preferredBackgroundColor.cgColor)
   context.fill(plotRect)
 
   let rowCount = dataBoxes.map(\.count).max() ?? 0
@@ -74,7 +74,7 @@ internal func draw(dataBoxes: [[Int]],
 
   // Set black as the stroke color and outline the plot.
   context.setStrokeColor(Color.black.cgColor)
-  context.stroke(plotRect, width: 1)
+  context.stroke(plotRect, width: 2)
 
 }
 
@@ -86,50 +86,79 @@ internal func draw(dataBoxes: [[Int]],
 ///   - featureCount: The total number of features (columns).
 ///   - featureRate: The feature rate in Hz.
 ///   - font: The font to use when drawing the labels.
+///   - minSpace: The minimum amount of horizontal space between labels.
 internal func drawXLabels(in context: CGContext,
                           plotRect: CGRect,
                           featureCount: Int,
                           featureRate: CGFloat,
-                          font: Font)
+                          font: Font,
+                          minSpace: CGFloat = 20)
 {
 
   // Determine the total number of seconds represented in the plot.
   let totalSeconds = CGFloat(featureCount) / featureRate
 
+  // Get the time in seconds for the start of each frame.
+  let frameStartTimes = (0..<featureCount).map({CGFloat($0) / featureRate})
+
+  // Calculate the width of each frame.
+  let frameWidth = plotRect.width / CGFloat(featureCount)
+
+  // Generate a label for each frame.
+  let xLabels: [String] = frameStartTimes.map({
+    String(describing: $0, maxPrecision: 3, minPrecision: 1)
+  })
+
+  // Create the attributes with which to draw the labels.
+  let attributes: [NSAttributedStringKey:Any] = [.font: font]
+
+  // Calculate the label sizes.
+  let labelSizes = xLabels.map({($0 as NSString).size(withAttributes: attributes)})
+
+  // Get the largest width value.
+  guard let maxLabelWidth = labelSizes.map(\.width).max() else { return }
+
   // Determine the number of plot points that correspond to one second.
   let pointsPerSecond = plotRect.width / totalSeconds
 
-  let xLabelSize = 40 × 40
+  // Calculate the number of labels that will fit without overlap.
+  let labelCount = min(Int(plotRect.width / (maxLabelWidth + minSpace)), featureCount)
 
-  let steps = Int(plotRect.width / xLabelSize.width)
+  // Calculate the stride needed to draw `labelCount` labels.
+  let strideLength = Int(ceil(CGFloat(featureCount) / CGFloat(labelCount)))
 
-  let increment = totalSeconds / CGFloat(steps)
-
-  let style = NSMutableParagraphStyle()
-  style.alignment = .center
-
-  let attributes: [NSAttributedStringKey:Any] = [.font: font, .paragraphStyle: style]
+  // Set the stroke and fill colors.
+  context.setFillColor(Color.black.cgColor)
+  context.setStrokeColor(Color.black.cgColor)
 
   // Iterate by striding through the time through `totalSeconds`.
-  for step in 0 ... steps {
+  for index in stride(from: 0, to: featureCount, by: strideLength) {
 
-    let time = increment * CGFloat(step)
+    // Get the frame's start time.
+    let startTime = frameStartTimes[index]
 
-    // Create the label using the number of seconds for this iteration.
-    let label = String(format: "%.1lf", time) as NSString
+    // Get the size of the label.
+    let labelSize = labelSizes[index]
 
-    // Calculate the label's height.
-    let labelHeight = label.size(withAttributes: attributes).height
+    // Calculate the frame's offset from the plot origin.
+    let xOffset = startTime * pointsPerSecond
 
     // Calculate the origin for the label.
-    let labelOrigin = CGPoint(x: plotRect.minX + pointsPerSecond * time - 20,
-                              y: plotRect.maxY + 20 - labelHeight/2)
-
-    // Create the rectangle within which to draw the label.
-    let labelRect = CGRect(origin: labelOrigin, size: xLabelSize)
+    let labelOrigin = CGPoint(x: plotRect.minX + xOffset - labelSize.width / 2,
+                              y: plotRect.maxY + 10)
 
     // Draw the label.
-    label.draw(in: labelRect, withAttributes: attributes)
+    (xLabels[index] as NSString).draw(at: labelOrigin, withAttributes: attributes)
+
+    // Calculate the offset to the start of the frame.
+    let frameOffset = frameWidth * CGFloat(index)
+
+    // Calculate the two points for the marker.
+    let markerStart = CGPoint(x: plotRect.minX + frameOffset, y: plotRect.maxY + 8)
+    let markerEnd = CGPoint(x: plotRect.minX + frameOffset, y: plotRect.maxY)
+
+    // Draw the marker.
+    context.strokeLineSegments(between: [markerStart, markerEnd])
 
   }
 
@@ -141,43 +170,107 @@ internal func drawXLabels(in context: CGContext,
 ///   - yLabels: The labels to draw in ascending order.
 ///   - context: The context within which to draw the labels.
 ///   - plotRect: The bounding rectangle for the values of the graph.
-///   - labelWidth: The width to make the labels.
+///   - alignment: How the labels should be aligned.
+///   - minSpace: The minimum amount of vertical space between labels. The default is `4`.
 /// - Returns: The attributes used to draw the labels.
 internal func draw(yLabels: [String],
-                  in context: CGContext,
-                  plotRect: CGRect,
-                  labelWidth: CGFloat) -> [NSAttributedStringKey:Any]
+                   in context: CGContext,
+                   plotRect: CGRect,
+                   alignment: NSTextAlignment,
+                   minSpace: CGFloat = 4) -> [NSAttributedStringKey:Any]
 {
 
+  // Get the total number of rows.
   let rowCount = yLabels.count
+
+  // Calculate the height of each row.
   let rowHeight = plotRect.height / CGFloat(rowCount)
 
-  // TODO: Handle row heights too small to use as font point sizes.
+  // Calculate a reasonable point size for the font.
+  let pointSize = max(min(rowHeight, 18), 12)
 
-  let font = (CTFont.light as Font).withSize(min(rowHeight, 18))
+  // Create the font.
+  let font = (CTFont.light as Font).withSize(pointSize)
 
+  // Create a paragraph style with a line height equal to the font's point size.
   let style = NSMutableParagraphStyle()
   style.lineSpacing = 0
-  style.maximumLineHeight = rowHeight
+  style.minimumLineHeight = pointSize
+  style.maximumLineHeight = pointSize
 
+  // Create the attributes dictionary for sizing and drawing the label.
   let attributes: [NSAttributedStringKey:Any] = [.font: font, .paragraphStyle: style]
 
+  // Map the labels to their sizes.
+  let labelSizes = yLabels.map({($0 as NSString).size(withAttributes: attributes)})
+
+  // Get the largest width value.
+  guard let maxLabelWidth = labelSizes.map(\.width).max() else { return attributes }
+
+  // Set the stroke and fill colors.
   context.setFillColor(Color.black.cgColor)
+  context.setStrokeColor(Color.black.cgColor)
 
-  for (rowIndex, label) in (yLabels as [NSString]).enumerated() {
+  // Establish the amount of white space between the axis and the labels.
+  let axisPadding: CGFloat = 10
 
-    let labelSize = label.size(withAttributes: attributes)
+  // Calculate a stride length that allows for drawing as many labels as possible while
+  // maintaining the legibility of the labels.
+  let strideLength = Int(ceil((pointSize + minSpace) / rowHeight))
 
-    let padding = (rowHeight - labelSize.height) / 2
+  // Iterate the row indices by the calculated stride.
+  for rowIndex in stride(from: 0, to: rowCount, by: strideLength) {
 
-    let yOffset = CGFloat(rowCount - rowIndex - 1) * rowHeight + padding
-    let origin = CGPoint(x: plotRect.minX - labelWidth, y: plotRect.minY + yOffset)
+    // Calculate the vertical center for the row.
+    let centerY = plotRect.minY  + CGFloat(rowCount - rowIndex - 1) * rowHeight + rowHeight / 2
 
-    label.draw(at: origin, withAttributes: attributes)
+    // Retrieve the label size.
+    let labelSize = labelSizes[rowIndex]
 
+    // Calculate the vertical offset for the label by negating half the label's height and adding
+    // a twiddle factor of 2.
+    let yOffset = -labelSize.height / 2 + 2
+
+    // Establish a variable for holding the label's horizontal offset.
+    let xOffset: CGFloat
+
+    // Switch on the specified label alignment.
+    switch alignment {
+
+      case .left:
+
+        // Left-align the labels by subtracting the padding and the width of the longest label.
+        xOffset = -axisPadding - maxLabelWidth
+
+      case .right:
+
+        // Right align by subtracting the padding and the width of the label
+        xOffset = -axisPadding - labelSize.width
+
+      default:
+
+        // Center align by subtracting the padding and the width of the longest label and
+        // adding back half the label's actual width.
+        xOffset = -axisPadding - maxLabelWidth + labelSize.width / 2
+
+    }
+
+    // Calculate the origin for the label.
+    let origin = CGPoint(x: plotRect.minX + xOffset, y: centerY + yOffset)
+
+    // Draw the label.
+    (yLabels[rowIndex] as NSString).draw(at: origin, withAttributes: attributes)
+
+    // Calculate the two points for the marker.
+    let markerStart = CGPoint(x: plotRect.minX - 8, y: centerY)
+    let markerEnd = CGPoint(x: plotRect.minX, y: centerY)
+
+    // Draw the marker.
+    context.strokeLineSegments(between: [markerStart, markerEnd])
   }
 
   return attributes
+
 }
 
 /// Draws a grid across the plot to aid with debugging graphing functions.

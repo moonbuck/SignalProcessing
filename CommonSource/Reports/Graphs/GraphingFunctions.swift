@@ -10,15 +10,27 @@ import CoreText
 
 private let DRAW_GRIDS = false
 
+/// An operator to make `CGSize` creation prettier.
 infix operator ×
 
+/// Support for creating a `CGSize` via the `×` operator.
+///
+/// - Parameters:
+///   - lhs: The size's width.
+///   - rhs: The size's height.
+/// - Returns: The `CGSize` created using `lhs` and `rhs`.
 public func ×(lhs: CGFloat, rhs: CGFloat) -> CGSize {
   return CGSize(width: lhs, height: rhs)
 }
 
-
-// MARK: - Plotting
-
+/// Generates an image of a chromagram of the specified features.
+///
+/// - Parameters:
+///   - features: The features for which to generate a chromagram.
+///   - mapSize: The color map's size. The default is 64 steps.
+///   - mapKind: The kind of color map. The default is heat.
+///   - title: An optional title for the chromagram.
+/// - Returns: An image containing a chromagram of `features`.
 public func chromaPlot(features: ChromaFeatures,
                        mapSize: ColorMap.Size = .s64,
                        mapKind: ColorMap.Kind = .grayscale,
@@ -31,6 +43,15 @@ public func chromaPlot(features: ChromaFeatures,
                     title: title)
 }
 
+/// Generates an image of a chromagram of the specified features.
+///
+/// - Parameters:
+///   - features: The features for which to generate a chromagram.
+///   - featureRate: The feature rate in Hz.
+///   - mapSize: The color map's size. The default is 64 steps.
+///   - mapKind: The kind of color map. The default is heat.
+///   - title: An optional title for the chromagram.
+/// - Returns: An image containing a chromagram of `features`.
 public func chromaPlot<Source>(features: Source,
                                featureRate: CGFloat,
                                mapSize: ColorMap.Size = .s64,
@@ -72,7 +93,7 @@ public func chromaPlot<Source>(features: Source,
     let labelAttributes = draw(yLabels: Chroma.all.map(\.description),
                                in: context,
                                plotRect: plotRect,
-                               labelWidth: 24)
+                               alignment: .left)
 
     // Draw the x labels.
     drawXLabels(in: context,
@@ -100,6 +121,14 @@ public func chromaPlot<Source>(features: Source,
 
 }
 
+/// Generates an image of a spectrogram of the specified features.
+///
+/// - Parameters:
+///   - features: The features for which to generate a spectrogram.
+///   - range: The range of pitches to include in the spectrogram. The default is all pitches.
+///   - mapKind: The color map's size. The default is 64 steps.
+///   - title: An optional title for the spectrogram.
+/// - Returns: An image containing a spectrogram of `features`.
 public func pitchPlot(features: PitchFeatures,
                       range: CountableClosedRange<Pitch> = 0...127,
                       mapKind: ColorMap.Kind = .heat,
@@ -112,6 +141,15 @@ public func pitchPlot(features: PitchFeatures,
                    title: title)
 }
 
+/// Generates an image of a spectrogram of the specified features.
+///
+/// - Parameters:
+///   - features: The features for which to generate a spectrogram.
+///   - featureRate: The feature rate in Hz.
+///   - range: The range of pitches to include in the spectrogram. The default is all pitches.
+///   - mapKind: The color map's size. The default is 64 steps.
+///   - title: An optional title for the spectrogram.
+/// - Returns: An image containing a spectrogram of `features`.
 public func pitchPlot<Source>(features: Source,
                               featureRate: CGFloat,
                               range: CountableClosedRange<Pitch> = 0...127,
@@ -157,7 +195,8 @@ public func pitchPlot<Source>(features: Source,
     let labelAttributes = draw(yLabels: range.map(\.description),
                                in: context,
                                plotRect: plotRect,
-                               labelWidth: 40)
+                               alignment: .left,
+                               minSpace: 2)
 
     // Draw the x labels.
     drawXLabels(in: context,
@@ -179,13 +218,115 @@ public func pitchPlot<Source>(features: Source,
     draw(title: title, in: context, imageRect: rect)
 
     if DRAW_GRIDS {
-      drawGrid(with: context, plotRect: plotRect, totalRows: range.count, totalColumns: features.count)
+      drawGrid(with: context,
+               plotRect: plotRect,
+               totalRows: range.count,
+               totalColumns: features.count)
     }
 
   }
 
 }
 
+/// Generates an image of a spectrogram of the specified features.
+///
+/// - Parameters:
+///   - features: The features for which to generate a spectrogram.
+///   - featureRate: The feature rate in Hz.
+///   - range: The range of bins to include in the spectrogram or `nil` to include all bins.
+///            The default is `nil`.
+///   - mapKind: The color map's size. The default is 64 steps.
+///   - title: An optional title for the spectrogram.
+/// - Returns: An image containing a spectrogram of `features`.
+public func binPlot<Source>(features: Source,
+                            featureRate: CGFloat,
+                            range: CountableClosedRange<Int>? = nil,
+                            mapKind: ColorMap.Kind = .heat,
+                            title: String? = nil) -> Image
+  where Source:Collection,
+        Source.Element == BinVector,
+        Source.IndexDistance == Int,
+        Source.Index == Int
+{
+
+  // Get the number of bins, ensuring that all vectors have the same number of bins.
+  guard let binCount = features.map(\.count).max(),
+        features.filter({$0.count != binCount}).isEmpty
+  else
+  {
+    fatalError("Features are either empty or have varying counts.")
+  }
+
+  // Establish the size of the image.
+  let imageSize = 1000×800
+
+  return createImage(size: imageSize) {
+    context in
+
+    // Create the bounding box with the height dictated by the number of rows.
+    let rect = CGRect(origin: .zero, size: imageSize)
+
+    // Create a color map to use for fill colors.
+    let colorMap = ColorMap(size: .s64, kind: mapKind)
+
+    // Establish the amount of vertical space allotted to the title.
+    let titleHeight: CGFloat = title == nil ? 50 : 100
+
+    // Get the origin offset and plot size from `rect`.
+    let plotOrigin = CGPoint(x: rect.origin.x + 100, y: rect.origin.y + titleHeight)
+    let plotSize = (rect.size.width - 246) × (rect.size.height - 80 - titleHeight)
+    let plotRect = CGRect(origin: plotOrigin, size: plotSize)
+
+    // Fill the rectangle with white.
+    context.setFillColor(Color.white.cgColor)
+    context.fill(rect)
+
+    // Establish the range of bins.
+    let range = range ?? 0...(binCount - 1)
+
+    // Map the provided values their color indexes.
+    let dataBoxes = features.map {$0[range].map({colorMap[$0]})}
+
+    // Draw the data boxes.
+    draw(dataBoxes: dataBoxes, in: context, plotRect: plotRect, using: colorMap)
+
+    // Draw the y labels.
+    let labelAttributes = draw(yLabels: range.map(\.description),
+                               in: context,
+                               plotRect: plotRect,
+                               alignment: .right)
+
+    // Draw the x labels.
+    drawXLabels(in: context,
+                plotRect: plotRect,
+                featureCount: features.count,
+                featureRate: featureRate,
+                font: labelAttributes[.font] as! Font)
+
+
+    // Draw the color map.
+    draw(colorMap: colorMap,
+         in: context,
+         plotRect: plotRect,
+         mapWidth: 37,
+         labelAttributes: labelAttributes)
+
+
+    // Draw the title.
+    draw(title: title, in: context, imageRect: rect)
+
+    if DRAW_GRIDS {
+      drawGrid(with: context,
+               plotRect: plotRect,
+               totalRows: range.count,
+               totalColumns: features.count)
+    }
+
+  }
+
+}
+
+/*
 public func FscoreBarGraph(scores: [Float],
                            in rect: CGRect,
                            title: String? = nil,
@@ -339,4 +480,4 @@ public func FscoreBarGraph(scores: [Float],
   }
 
 }
-
+*/

@@ -57,29 +57,50 @@ func executeSpectrumCommand(using buffer: AVAudioPCMBuffer) -> Command.Output {
 
     let output = vectorOutput.vector
 
-    if arguments.convertToPitch {
+    let sampleRate = CGFloat(buffer.format.sampleRate)
+    let featureRate = sampleRate/CGFloat(arguments.windowSize - arguments.hopSize)
+
+    let binVectors = output.map({BinVector(array: $0.map(Float64.init))})
+
+    if arguments.convertToPitch || arguments.convertToChroma {
 
       let pitchIndex = binMap(windowLength: arguments.windowSize, sampleRate: .Fs44100)
-      let pitchOutput: [PitchVector] = output.map {
-        frame in
-        var pitchVector = PitchVector()
-        for (bin, magnitude) in frame.enumerated() {
-          let pitch = pitchIndex[bin]
-          pitchVector[pitch] += Float64(magnitude)
+
+      let pitchVectors = binVectors.map({PitchVector(bins: $0,
+                                                     sampleRate: .Fs44100,
+                                                     pitchIndex: pitchIndex)})
+
+
+      if arguments.convertToChroma {
+
+        var chromaVectors: [ChromaVector] = []
+        chromaVectors.reserveCapacity(pitchVectors.count)
+
+        for pitchFrame in pitchVectors {
+
+          var chromaFrame = ChromaVector()
+
+          for index in pitchFrame.indices { chromaFrame[index % 12] += pitchFrame[index] }
+
+          chromaVectors.append(chromaFrame)
+
         }
-        return pitchVector
+
+        normalize(array: chromaVectors, settings: .lᵖNorm(space: .l², threshold: 0.001))
+
+        result = .chromaVectorVec(chromaVectors, featureRate)
+
+      } else {
+
+        normalize(array: pitchVectors, settings: .maxValue)
+
+        result = .pitchVectorVec(pitchVectors, featureRate)
+
       }
-
-      let sampleRate = CGFloat(buffer.format.sampleRate)
-      let featureRate = sampleRate/CGFloat(arguments.windowSize - arguments.hopSize)
-
-      normalize(array: pitchOutput, settings: .maxValue)
-
-      result = .pitchVectorVec(pitchOutput, featureRate)
 
     } else {
 
-      result = .realVecVec(output)
+      result = .binVectorVec(binVectors, featureRate)
 
     }
 
@@ -92,7 +113,9 @@ func executeSpectrumCommand(using buffer: AVAudioPCMBuffer) -> Command.Output {
     if arguments.convertToPitch || arguments.convertToChroma {
 
       let parameters = PitchFeatures.Parameters(
-        method: .stft(windowSize: 8820, hopSize: 4410, sampleRate: .Fs44100),
+        method: .stft(windowSize: arguments.windowSize,
+                      hopSize: arguments.hopSize, 
+                      sampleRate: .Fs44100),
         filters: [.normalization(settings: .maxValue)]
       )
 
@@ -122,7 +145,10 @@ func executeSpectrumCommand(using buffer: AVAudioPCMBuffer) -> Command.Output {
                               hopSize: arguments.hopSize,
                               buffer: buffer)
 
-          result = .binVectorVec(Array(stft))
+          let sampleRate = CGFloat(buffer.format.sampleRate)
+          let featureRate = sampleRate/CGFloat(arguments.windowSize - arguments.hopSize)
+
+          result = .binVectorVec(Array(stft), featureRate)
 
         } catch {
           print("Error encountered calculating STFT: \(error.localizedDescription)")

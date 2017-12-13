@@ -19,8 +19,8 @@ Arguments:
 
 Options:
   -e, --essentia  Use the Essentia framework.
-  --win=<ws:int>  The size of the window to use. [default: 1024]
-  --hop=<hs:int>  The hop size to use. [default: 512]
+  --win=<ws:int>  The size of the window to use. [default: 8820]
+  --hop=<hs:int>  The hop size to use. [default: 4410]
   --csv           Output result as csv data.
   --plot          Output result as an image of the plotted data.
   -p, --pitch     Requantize bins to correspond with MIDI pitches.

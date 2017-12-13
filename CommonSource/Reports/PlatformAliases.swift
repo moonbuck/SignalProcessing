@@ -30,7 +30,7 @@ import Foundation
   extension NSFont {
 
     public func withSize(_ fontSize: CGFloat) -> NSFont {
-      return NSFont(name: fontName, size: fontSize - 2)! // Size reduced to avoid clipping.
+      return NSFont(name: fontName, size: fontSize)!
     }
 
   }
