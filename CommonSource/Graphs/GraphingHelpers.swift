@@ -20,10 +20,12 @@ import Foundation
 ///   - context: The context within which to draw.
 ///   - plotRect: The rectangle encapsulating the data boxes.
 ///   - colorMap: The color map used to retrieve box colors.
+///   - outline: Whether to stroke `plotRect` after drawing the data boxes.
 internal func draw(dataBoxes: [[Int]],
                   in context: CGContext,
                   plotRect: CGRect,
-                  using colorMap: ColorMap)
+                  using colorMap: ColorMap,
+                  outline: Bool = true)
 {
 
   // Fill the plot with the color map's preffered background color.
@@ -71,6 +73,9 @@ internal func draw(dataBoxes: [[Int]],
     }
 
   }
+
+  // Check whether to outline the data boxes.
+  guard outline else { return }
 
   // Set black as the stroke color and outline the plot.
   context.setStrokeColor(Color.black.cgColor)

@@ -101,19 +101,15 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--plot --title=&apos;Extracted Features&apos;"
+            argument = "--plot --title=&apos;Extracted Features&apos; /Users/Moondeer/Projects/ChordFinder/Data/audio/chords/extract\ output/extract_output"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--plot --data /Users/Moondeer/Projects/ChordFinder/Data/audio/chords/extract\ output/extract_output-data"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--csv --group-by=&apos;column&apos;"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/extract\ output/extract_output-SignalProcessing"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/extract\ output/extract_output-Essentia"
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>

@@ -263,7 +263,7 @@ public func binPlot<Source>(features: Source,
   return createImage(size: imageSize) {
     context in
 
-    // Create the bounding box with the height dictated by the number of rows.
+    // Create the bounding box.
     let rect = CGRect(origin: .zero, size: imageSize)
 
     // Create a color map to use for fill colors.
@@ -481,3 +481,121 @@ public func FscoreBarGraph(scores: [Float],
 
 }
 */
+
+//private func dataImageContext(width: Int, height: Int) {
+//
+//  let data = UnsafeMutableRawPointer.allocate(bytes: width * height,
+//                                              alignedTo: MemoryLayout<UInt8>.alignment)
+//
+//  let context = CGContext(data: data,
+//                          width: width,
+//                          height: height,
+//                          bitsPerComponent: 8,
+//                          bytesPerRow: width,
+//                          space: .genericGrayGamma2_2,
+//                          bitmapInfo: CGImageAlphaInfo.none.rawValue)
+//
+//}
+
+
+public func chromaDataImage(features: ChromaFeatures, mapSize: ColorMap.Size = .s64) -> Image
+{
+  return chromaDataImage(features: features.features,
+                         featureRate: CGFloat(features.featureRate),
+                         mapSize: mapSize)
+}
+
+public func chromaDataImage<Source>(features: Source,
+                                    featureRate: CGFloat,
+                                    mapSize: ColorMap.Size = .s64) -> Image
+  where Source:Collection, Source.Element == ChromaVector, Source.IndexDistance == Int
+{
+
+  let imageSize = CGFloat(features.count) × 12
+
+  return createImage(size: imageSize, isData: true) {
+    context in
+
+    // Create the bounding box.
+    let rect = CGRect(origin: .zero, size: imageSize)
+
+    // Create a color map to use for fill colors.
+    let colorMap = ColorMap(size: .s64, kind: .grayscale)
+
+    // Map the provided values their color indexes.
+    let dataBoxes = features.map {$0.map({colorMap[$0]})}
+
+    // Draw the data boxes.
+    draw(dataBoxes: dataBoxes, in: context, plotRect: rect, using: colorMap, outline: false)
+
+  }
+
+}
+
+public func pitchDataImage(features: PitchFeatures, mapSize: ColorMap.Size = .s64) -> Image {
+  return pitchDataImage(features: features.features,
+                        featureRate: CGFloat(features.featureRate),
+                        mapSize: mapSize)
+}
+
+public func pitchDataImage<Source>(features: Source,
+                                    featureRate: CGFloat,
+                                    mapSize: ColorMap.Size = .s64) -> Image
+  where Source:Collection, Source.Element == PitchVector, Source.IndexDistance == Int
+{
+
+  let imageSize = CGFloat(features.count) × 128
+
+  return createImage(size: imageSize, isData: true) {
+    context in
+
+    // Create the bounding box.
+    let rect = CGRect(origin: .zero, size: imageSize)
+
+    // Create a color map to use for fill colors.
+    let colorMap = ColorMap(size: .s64, kind: .grayscale)
+
+    // Map the provided values their color indexes.
+    let dataBoxes = features.map {$0.map({colorMap[$0]})}
+
+    // Draw the data boxes.
+    draw(dataBoxes: dataBoxes, in: context, plotRect: rect, using: colorMap, outline: false)
+
+  }
+
+}
+
+public func binDataImage<Source>(features: Source,
+                                 featureRate: CGFloat,
+                                 mapSize: ColorMap.Size = .s64) -> Image
+  where Source:Collection, Source.Element == BinVector, Source.IndexDistance == Int
+{
+
+  // Get the number of bins, ensuring that all vectors have the same number of bins.
+  guard let binCount = features.map(\.count).max(),
+    features.filter({$0.count != binCount}).isEmpty
+    else
+  {
+    fatalError("Features are either empty or have varying counts.")
+  }
+
+  let imageSize = CGFloat(features.count) × CGFloat(binCount)
+
+  return createImage(size: imageSize, isData: true) {
+    context in
+
+    // Create the bounding box.
+    let rect = CGRect(origin: .zero, size: imageSize)
+
+    // Create a color map to use for fill colors.
+    let colorMap = ColorMap(size: .s64, kind: .grayscale)
+
+    // Map the provided values their color indexes.
+    let dataBoxes = features.map {$0.map({colorMap[$0]})}
+
+    // Draw the data boxes.
+    draw(dataBoxes: dataBoxes, in: context, plotRect: rect, using: colorMap, outline: false)
+
+  }
+
+}

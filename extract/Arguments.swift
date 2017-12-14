@@ -11,7 +11,7 @@ import Docopt
 let usage = """
 Usage: extract (--spectrum | --pitch | --chroma) [options] <input> [<output>]
        extract (--spectrum | --pitch | --chroma) [options] <input> --csv [--group-by=<grp>] [<output>]
-       extract (--spectrum | --pitch | --chroma) [options] <input> --plot [--title=<t>] [<output>]
+       extract (--spectrum | --pitch | --chroma) [options] <input> --plot [(--title=<t> | --data)] [<output>]
        extract --help
 
 Command:
@@ -31,6 +31,7 @@ CSV Options:
 Plot Options:
   --plot              Output result as an image of the plotted data.
   --title=<t:string>  The title to display at the top of the plot.
+  --data              The image will consist of only the features with each value mapped to a pixel.
 
 Options:
   --essentia      Use algorithms from the Essentia framework.
@@ -64,6 +65,9 @@ struct Arguments {
 
   /// The plot title.
   let title: String
+
+  /// Whether the image should only consist of the data.
+  let naked: Bool
 
   let groupBy: GroupBy
 
@@ -100,6 +104,8 @@ struct Arguments {
     }
     
     title = arguments["--title"] as? String ?? ""
+    naked = arguments["--data"] as! Bool
+    
     guard let groupBy = GroupBy(rawValue: arguments["--group-by"] as! String) else {
       print(usage)
       exit(EXIT_FAILURE)

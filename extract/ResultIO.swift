@@ -130,17 +130,26 @@ func plotImage(from output: Output) -> NSImage {
 
   switch output {
 
+    case .binFeatures(let vectors, let featureRate) where arguments.naked:
+      return binDataImage(features: vectors, featureRate: featureRate)
+
     case .binFeatures(let vectors, let featureRate):
       return binPlot(features: vectors,
                      featureRate: featureRate,
                      mapKind: .grayscale,
                      title: arguments.title)
 
+    case .pitchFeatures(let vectors, let featureRate) where arguments.naked:
+      return pitchDataImage(features: vectors, featureRate: featureRate)
+
     case .pitchFeatures(let vectors, let featureRate):
       return pitchPlot(features: vectors,
                        featureRate: featureRate,
                        mapKind: .grayscale,
                        title: arguments.title)
+
+    case .chromaFeatures(let vectors, let featureRate) where arguments.naked:
+      return chromaDataImage(features: vectors, featureRate: featureRate)
 
     case .chromaFeatures(let vectors, let featureRate):
       return chromaPlot(features: vectors,

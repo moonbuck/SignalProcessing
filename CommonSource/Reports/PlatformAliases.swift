@@ -35,4 +35,12 @@ import Foundation
 
   }
 
+  extension NSImage {
+
+    public convenience init(cgImage: CGImage) {
+      self.init(cgImage: cgImage, size: .zero)
+    }
+
+  }
+
 #endif
