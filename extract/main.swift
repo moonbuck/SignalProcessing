@@ -32,22 +32,26 @@ let monoBuffer = arguments.useEssentia ? audioBuffer.mono : audioBuffer.mono64
 
 //  ************    Execute the specified command.
 
-let result = arguments.command.execute(input: monoBuffer)
+let result = executeSpectrumCommand(using: monoBuffer)
 
 //  ************    Send output to the specified destination.
 
 
 // Check whether a file destination path has been provided; otherwise, print to stdout and exit.
-guard let fileOut = arguments.output else {
-  print(text(from: result))
-  exit(EXIT_SUCCESS)
+switch arguments.destination {
+
+  case .stdout:
+    print(text(from: result))
+    exit(EXIT_SUCCESS)
+
+  case .file(let path):
+    // Try writing the result to the specified file.
+    do {
+      try write(result: result, to: URL(fileURLWithPath: path))
+      exit(EXIT_SUCCESS)
+    } catch {
+      print("Error encountered writing to file '\(path)': \(error.localizedDescription)")
+      exit(EXIT_FAILURE)
+    }
 }
 
-// Try writing the result to the specified file.
-do {
-  try write(result: result, to: URL(fileURLWithPath: fileOut))
-  exit(EXIT_SUCCESS)
-} catch {
-  print("Error encountered writing to file '\(fileOut)': \(error.localizedDescription)")
-  exit(EXIT_FAILURE)
-}

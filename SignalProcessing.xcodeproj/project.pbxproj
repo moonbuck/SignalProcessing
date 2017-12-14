@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C26410401FE18E830075AF45 /* Docopt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26410411FE18E830075AF45 /* Docopt.framework */; };
 		C2F81B471FDB038800D344FE /* SignalProcessing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F81B3D1FDB038800D344FE /* SignalProcessing.framework */; };
 		C2F81B651FDB03CA00D344FE /* SignalProcessing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F81B5C1FDB03CA00D344FE /* SignalProcessing.framework */; };
 		C2F81B791FDB04A600D344FE /* SignalProcessing.h in Headers */ = {isa = PBXBuildFile; fileRef = C2F81B741FDB043800D344FE /* SignalProcessing.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -150,7 +151,6 @@
 		C2F81C6A1FDB66F300D344FE /* Cmaj_boesendorfer_th=3.aif in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C691FDB66F300D344FE /* Cmaj_boesendorfer_th=3.aif */; };
 		C2F81C6B1FDB66F300D344FE /* Cmaj_boesendorfer_th=3.aif in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C691FDB66F300D344FE /* Cmaj_boesendorfer_th=3.aif */; };
 		C2F81C841FDC286400D344FE /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C831FDC286400D344FE /* main.swift */; };
-		C2F81C891FDC392A00D344FE /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C881FDC392A00D344FE /* Command.swift */; };
 		C2F81C8B1FDC9E1900D344FE /* Arguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C8A1FDC9E1900D344FE /* Arguments.swift */; };
 		C2F81C8D1FDCA3FF00D344FE /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C8C1FDCA3FF00D344FE /* Error.swift */; };
 		C2F81C8F1FDCA6C100D344FE /* Spectrum.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C8E1FDCA6C100D344FE /* Spectrum.swift */; };
@@ -203,6 +203,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C26410411FE18E830075AF45 /* Docopt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Docopt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2F81B3D1FDB038800D344FE /* SignalProcessing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SignalProcessing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2F81B461FDB038800D344FE /* SignalProcessing_iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SignalProcessing_iOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2F81B5C1FDB03CA00D344FE /* SignalProcessing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SignalProcessing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -338,6 +339,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C26410401FE18E830075AF45 /* Docopt.framework in Frameworks */,
 				C2F81CA61FDDCC9700D344FE /* SignalProcessing.framework in Frameworks */,
 				C2F81CA41FDDCC9700D344FE /* Essentia.framework in Frameworks */,
 			);
@@ -619,6 +621,7 @@
 		C2F81CA31FDDCC9700D344FE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C26410411FE18E830075AF45 /* Docopt.framework */,
 				C2F81CA51FDDCC9700D344FE /* Essentia.framework */,
 			);
 			name = Frameworks;
@@ -1019,7 +1022,6 @@
 				C2F81C931FDCB57200D344FE /* ResultIO.swift in Sources */,
 				C2F81C8B1FDC9E1900D344FE /* Arguments.swift in Sources */,
 				C2F81C841FDC286400D344FE /* main.swift in Sources */,
-				C2F81C891FDC392A00D344FE /* Command.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1336,6 +1338,7 @@
 				SDKROOT = macosx;
 				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
 				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;

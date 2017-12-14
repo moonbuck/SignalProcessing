@@ -73,27 +73,7 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "spectrum"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--essentia"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--win=17640"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--hop=8820"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--plot"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--csv"
+            argument = "--spectrum"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
@@ -105,23 +85,35 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/Users/Moondeer/Desktop/chords/Tone_Height_3/Boesendorfer/Cmaj_boesendorfer_th=3.aif"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "/Users/Moondeer/Desktop/extractOutput-SignalProcessing.png"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "/Users/Moondeer/Desktop/extractOutput-Essentia.png"
+            argument = "--essentia"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/Users/Moondeer/Desktop/extractOutput-SignalProcessing.csv"
+            argument = "--win=17640"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/Users/Moondeer/Desktop/extractOutput-Essentia.csv"
+            argument = "--hop=8820"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/Tone_Height_3/Boesendorfer/Cmaj_boesendorfer_th=3.aif"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--plot --title=&apos;Extracted Features&apos;"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--csv --group-by=&apos;column&apos;"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/extract\ output/extract_output-SignalProcessing"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/extract\ output/extract_output-Essentia"
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>

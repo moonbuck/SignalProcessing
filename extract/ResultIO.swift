@@ -15,14 +15,23 @@ import SignalProcessing
 ///   - result: The output to save to disk.
 ///   - url: The location to which `result` should be saved.
 /// - Throws: Any error thrown `Data.write(to:options:)`.
-func write(result: Command.Output, to url: URL) throws {
+func write(result: Output, to url: URL) throws {
 
   let data: Data
 
   switch arguments.outputFormat {
 
-    case .stdout:
-      fatalError("Request to write to disk when the output format has been set to stdout.")
+    case .text:
+
+      // Get the output as plain text.
+      let string = text(from: result)
+
+      // Get the string text as raw data.
+      guard let stringData = string.data(using: .utf8) else {
+        fatalError("Failed to get `string` as raw data.")
+      }
+
+      data = stringData
 
     case .csv:
 
@@ -37,11 +46,6 @@ func write(result: Command.Output, to url: URL) throws {
       data = csvData
 
     case .plot:
-
-      guard result.isPlottable else {
-        print("Output format is set to 'plot' but the result is not a plottable.")
-        exit(EXIT_FAILURE)
-      }
 
       let image = plotImage(from: result)
       guard let tiff = image.tiffRepresentation,
@@ -65,15 +69,17 @@ func write(result: Command.Output, to url: URL) throws {
 ///
 /// - Parameter output: The output to convert to comma-separated values.
 /// - Returns: A string with `output` as comma-separated values.
-func csvFormattedText(from output: Command.Output) -> String {
+func csvFormattedText(from output: Output) -> String {
 
-  func singleColumn<S>(_ sequence: S) -> String
-    where S:Sequence, S.Element:CustomStringConvertible
+  func rowMajor<C>(_ collection: C) -> String
+    where C:Collection,
+          C.Element:Collection,
+          C.Element.Element:CustomStringConvertible
   {
-    return sequence.map(\.description).joined(separator: "\n")
+    return collection.map({$0.map(\.description).joined(separator: ",")}).joined(separator: "\n")
   }
 
-  func multiColumn<C>(_ collection: C) -> String
+  func columnMajor<C>(_ collection: C) -> String
     where C:Collection,
           C.Element:Collection,
           C.Element.Element:CustomStringConvertible,
@@ -105,31 +111,13 @@ func csvFormattedText(from output: Command.Output) -> String {
 
   }
 
-  switch output {
-    case .real(let value):                return value.description
-    case .integer(let value):             return value.description
-    case .real64(let value):              return value.description
-    case .complexReal(let value):         return value.description
-    case .complexReal64(let value):       return value.description
-    case .string(let value):              return value.description
-    case .realVec(let value):             return singleColumn(value)
-    case .real64Vec(let value):           return singleColumn(value)
-    case .complexRealVec(let value):      return singleColumn(value)
-    case .complexReal64Vec(let value):    return singleColumn(value)
-    case .stringVec(let value):           return singleColumn(value)
-    case .pitchVector(let value):         return singleColumn(value)
-    case .binVector(let value):           return singleColumn(value)
-    case .chromaVector(let value):        return singleColumn(value)
-    case .realVecVec(let value):          return multiColumn(value)
-    case .real64VecVec(let value):        return multiColumn(value)
-    case .complexRealVecVec(let value):   return multiColumn(value)
-    case .complexReal64VecVec(let value): return multiColumn(value)
-    case .stringVecVec(let value):        return multiColumn(value)
-    case .pitchVectorVec(let value, _):   return multiColumn(value)
-    case .binVectorVec(let value, _):     return multiColumn(value)
-    case .chromaVectorVec(let value, _):  return multiColumn(value)
-    case .pool, .image:
-      fatalError("Output is not a suitable type for representing as comma-separated values.")
+  switch (output, arguments.groupBy) {
+    case (.pitchFeatures(let value, _), .column):   return columnMajor(value)
+    case (.binFeatures(let value, _), .column):     return columnMajor(value)
+    case (.chromaFeatures(let value, _), .column):  return columnMajor(value)
+    case (.pitchFeatures(let value, _), .row):      return rowMajor(value)
+    case (.binFeatures(let value, _), .row):        return rowMajor(value)
+    case (.chromaFeatures(let value, _), .row):     return rowMajor(value)
   }
 
 }
@@ -138,30 +126,27 @@ func csvFormattedText(from output: Command.Output) -> String {
 ///
 /// - Parameter output: The output to plot.
 /// - Returns: The image of the plot.
-func plotImage(from output: Command.Output) -> NSImage {
+func plotImage(from output: Output) -> NSImage {
 
   switch output {
 
-    case .binVectorVec(let vectors, let featureRate):
+    case .binFeatures(let vectors, let featureRate):
       return binPlot(features: vectors,
                      featureRate: featureRate,
                      mapKind: .grayscale,
-                     title: "extract ouptut")
+                     title: arguments.title)
 
-    case .pitchVectorVec(let vectors, let featureRate):
+    case .pitchFeatures(let vectors, let featureRate):
       return pitchPlot(features: vectors,
                        featureRate: featureRate,
                        mapKind: .grayscale,
-                       title: "extract output")
+                       title: arguments.title)
 
-    case .chromaVectorVec(let vectors, let featureRate):
+    case .chromaFeatures(let vectors, let featureRate):
       return chromaPlot(features: vectors,
                         featureRate: featureRate,
                         mapKind: .grayscale,
-                        title: "extract output")
-
-    default:
-      fatalError("\(output) is not a case for which plotting is supported.")
+                        title: arguments.title)
 
   }
 
@@ -171,7 +156,63 @@ func plotImage(from output: Command.Output) -> NSImage {
 ///
 /// - Parameter output: The output to convert to text.
 /// - Returns: A string representation of `output` suitable for reading.
-func text(from output: Command.Output) -> String {
-  //TODO: Implement the  function
-  fatalError("\(#function) not yet implemented.")
+func text(from output: Output) -> String {
+
+  let features: [[Float64]]
+  let featureRate: CGFloat
+
+  switch output {
+
+    case .binFeatures(let vectors, let rate):
+      features = vectors.map(Array.init)
+      featureRate = rate
+
+    case .pitchFeatures(let vectors, let rate):
+      features = vectors.map(Array.init)
+      featureRate = rate
+
+    case .chromaFeatures(let vectors, let rate):
+      features = vectors.map(Array.init)
+      featureRate = rate
+
+  }
+
+  let columnWidth = 18
+  let valueWidth = 16
+  let indexColumnWidth = 8
+  let line = "─" * (columnWidth + indexColumnWidth)
+  let spacer = " " * valueWidth
+  let indexLabel = "Index".padded(to: indexColumnWidth, alignment: .center)
+  let valueLabel = "Value".padded(to: columnWidth, alignment: .center)
+  let tableHeader: String = "\(indexLabel)\(valueLabel)\n\(line)"
+
+  func format(index: Int) -> String {
+    return index.description.padded(to: indexColumnWidth - 2, alignment: .right, padCharacter: " ")
+  }
+
+  func format(value: Float64) -> String {
+    let valueDescription = String(describing: value, maxPrecision: 11, minPrecision: 0)
+    return valueDescription.padded(to: valueWidth, alignment: .right)
+  }
+
+  var result = "Extracted \(features.count) frames with a feature rate of \(featureRate) Hz.\n\n"
+
+  for frameIndex in features.indices {
+
+    print("Frame: \(frameIndex)\n\(tableHeader)", to: &result)
+
+    let frame = features[frameIndex]
+
+    for (index, value) in frame.enumerated() {
+
+      print(format(index: index), format(value: value), separator: "  ", to: &result)
+
+    }
+
+    print("", to: &result)
+
+  }
+
+  return result
+
 }
