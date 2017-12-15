@@ -83,11 +83,15 @@ public func chromaPlot<Source>(features: Source,
     context.setFillColor(Color.white.cgColor)
     context.fill(rect)
 
+    // Fill the plot with the color map's preffered background color.
+    context.setFillColor(colorMap.preferredBackgroundColor.cgColor)
+    context.fill(plotRect)
+
     // Map the provided values their color indexes.
     let dataBoxes = features.map {$0.map({colorMap[$0]})}
 
     // Draw the data boxes.
-    draw(dataBoxes: dataBoxes, in: context, plotRect: plotRect, using: colorMap)
+    draw(dataBoxes: dataBoxes, in: context, plotRect: plotRect)
 
     // Draw the y labels.
     let labelAttributes = draw(yLabels: Chroma.all.map(\.description),
@@ -185,11 +189,15 @@ public func pitchPlot<Source>(features: Source,
     context.setFillColor(Color.white.cgColor)
     context.fill(rect)
 
+    // Fill the plot with the color map's preffered background color.
+    context.setFillColor(colorMap.preferredBackgroundColor.cgColor)
+    context.fill(plotRect)
+
     // Map the provided values their color indexes.
     let dataBoxes = features.map {$0[range].map({colorMap[$0]})}
 
     // Draw the data boxes.
-    draw(dataBoxes: dataBoxes, in: context, plotRect: plotRect, using: colorMap)
+    draw(dataBoxes: dataBoxes, in: context, plotRect: plotRect)
 
     // Draw the y labels.
     let labelAttributes = draw(yLabels: range.map(\.description),
@@ -281,6 +289,10 @@ public func binPlot<Source>(features: Source,
     context.setFillColor(Color.white.cgColor)
     context.fill(rect)
 
+    // Fill the plot with the color map's preffered background color.
+    context.setFillColor(colorMap.preferredBackgroundColor.cgColor)
+    context.fill(plotRect)
+
     // Establish the range of bins.
     let range = range ?? 0...(binCount - 1)
 
@@ -288,7 +300,7 @@ public func binPlot<Source>(features: Source,
     let dataBoxes = features.map {$0[range].map({colorMap[$0]})}
 
     // Draw the data boxes.
-    draw(dataBoxes: dataBoxes, in: context, plotRect: plotRect, using: colorMap)
+    draw(dataBoxes: dataBoxes, in: context, plotRect: plotRect)
 
     // Draw the y labels.
     let labelAttributes = draw(yLabels: range.map(\.description),
@@ -520,13 +532,13 @@ public func chromaDataImage<Source>(features: Source,
     let rect = CGRect(origin: .zero, size: imageSize)
 
     // Create a color map to use for fill colors.
-    let colorMap = ColorMap(size: .s64, kind: .grayscale)
+    let colorMap = ColorMap(kind: .data)
 
     // Map the provided values their color indexes.
     let dataBoxes = features.map {$0.map({colorMap[$0]})}
 
     // Draw the data boxes.
-    draw(dataBoxes: dataBoxes, in: context, plotRect: rect, using: colorMap, outline: false)
+    draw(dataBoxes: dataBoxes, in: context, plotRect: rect, outline: false)
 
   }
 
@@ -553,13 +565,13 @@ public func pitchDataImage<Source>(features: Source,
     let rect = CGRect(origin: .zero, size: imageSize)
 
     // Create a color map to use for fill colors.
-    let colorMap = ColorMap(size: .s64, kind: .grayscale)
+    let colorMap = ColorMap(kind: .data)
 
     // Map the provided values their color indexes.
     let dataBoxes = features.map {$0.map({colorMap[$0]})}
 
     // Draw the data boxes.
-    draw(dataBoxes: dataBoxes, in: context, plotRect: rect, using: colorMap, outline: false)
+    draw(dataBoxes: dataBoxes, in: context, plotRect: rect, outline: false)
 
   }
 
@@ -588,13 +600,13 @@ public func binDataImage<Source>(features: Source,
     let rect = CGRect(origin: .zero, size: imageSize)
 
     // Create a color map to use for fill colors.
-    let colorMap = ColorMap(size: .s64, kind: .grayscale)
+    let colorMap = ColorMap(kind: .data)
 
     // Map the provided values their color indexes.
     let dataBoxes = features.map {$0.map({colorMap[$0]})}
 
     // Draw the data boxes.
-    draw(dataBoxes: dataBoxes, in: context, plotRect: rect, using: colorMap, outline: false)
+    draw(dataBoxes: dataBoxes, in: context, plotRect: rect, outline: false)
 
   }
 

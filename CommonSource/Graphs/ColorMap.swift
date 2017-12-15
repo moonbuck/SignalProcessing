@@ -8,14 +8,18 @@
 import Foundation
 import Accelerate
 
+private func steps(from x: CGFloat, to y: CGFloat) -> Int {
+  return Int(bitPattern: y.bitPattern) - Int(bitPattern: x.bitPattern)
+}
+
 /// A structure for specifying a color map for use with graphing functions.
 public struct ColorMap: Collection {
 
   /// An enumeration of supported color map sizes.
-  public enum Size { case s64, s128 }
+  public enum Size { case infinite, s64, s128 }
 
   /// An enumeration for specifying how the color map should generate its colors.
-  public enum Kind { case heat, grayscale }
+  public enum Kind { case heat, grayscale, data }
 
   /// The total number of assignable colors in the color map
   public let size: Size
@@ -26,14 +30,14 @@ public struct ColorMap: Collection {
   /// The range of values mapped by the color map.
   public var valueRange: Range<CGFloat> {
     switch size {
-      case .s64: return 0..<1
+      case .s64, .infinite: return 0..<1
       case .s128: return -1..<1
     }
   }
 
   public var preferredBackgroundColor: Color {
     switch kind {
-      case .heat: return .black
+      case .heat, .data: return .black
       case .grayscale: return .white
     }
   }
@@ -48,15 +52,21 @@ public struct ColorMap: Collection {
 
   public func index(after i: Int) -> Int { return i &+ 1 }
 
-  public subscript(position: Int) -> Color { return colors[position] }
+  public subscript(position: Int) -> Color {
+    switch kind {
+      case .data: return Color(white: CGFloat(bitPattern: UInt(position)), alpha: 1)
+      default:    return colors[position]
+    }
+  }
 
-  public subscript(value: Float64) -> Int {
+  public subscript(value: Float64) -> Color {
 
     let value = Swift.max(Swift.min(value.isInfinite || value.isNaN ? 0 : value, 1), 0)
 
     switch size {
-      case .s64: return Int((value * 63).rounded())
-      case .s128: return Int((((value + 1) / 2) * 127).rounded())
+      case .infinite: return Color(white: CGFloat(value), alpha: 1)
+      case .s64:      return colors[Int((value * 63).rounded())]
+      case .s128:     return colors[Int((((value + 1) / 2) * 127).rounded())]
     }
 
   }
@@ -139,6 +149,8 @@ public struct ColorMap: Collection {
                                      blue: CGFloat(blueValues[$0]),
                                      alpha: 1) }
 
+      case .infinite:
+        fatalError("Only maps of kind `.data` support the `.infinite` size.")
     }
 
 
@@ -170,8 +182,25 @@ public struct ColorMap: Collection {
       vDSP_vgenD(&min, &max, ramp, 1, 128)
       colors = (0..<128).reversed().map { Color(white: CGFloat(ramp[$0]), alpha: 1) }
 
+      case .infinite:
+        fatalError("Only maps of kind `.data` support the `.infinite` size.")
+
     }
 
+  }
+
+  private init(dataMap: Void) {
+    kind = .data
+    size = .infinite
+    colors = []
+    endIndex = Int(CGFloat(1).bitPattern - CGFloat(0).bitPattern)
+  }
+
+  public init(kind: Kind = .heat) {
+    switch kind {
+      case .heat, .grayscale: self.init(size: .s64, kind: kind)
+      case .data: self.init(dataMap: ())
+    }
   }
 
   public init(size: Size, kind: Kind = .heat) {
@@ -179,6 +208,8 @@ public struct ColorMap: Collection {
     switch kind {
       case .heat: self.init(heatMapWithSize: size)
       case .grayscale: self.init(grayscaleMapWithSize: size)
+      case .data where size == .infinite: self.init(dataMap: ())
+      case .data: fatalError("Only size `.infinite` is supported by kind `.data`.")
     }
 
   }

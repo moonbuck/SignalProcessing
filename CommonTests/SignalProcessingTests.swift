@@ -13,29 +13,6 @@ import Accelerate
 
 class SignalProcessingTests: XCTestCase {
 
-  /// A test that simple dumps a description of the chord library to a text attachment.
-  func testDumpChordLibrary() {
-
-    var text = ""
-
-    for (rootChroma, chords) in ChordLibrary.chords {
-
-      print("chords for root chroma '\(rootChroma)':", to: &text)
-
-      for chord in chords {
-        print("\(rootChroma.rawValue):\(chord.chromaRepresentation)", to: &text)
-      }
-
-      print("", to: &text)
-    }
-
-    add(XCTAttachment(data: text.data(using: .utf8)!,
-                      uniformTypeIdentifier: "public.text",
-                      lifetime: .keepAlways,
-                      name: "Chord Library.txt"))
-
-  }
-
 //  func testFFT() {
 //
 //    let bundle = Bundle(for: SignalProcessingTests.self)

@@ -117,7 +117,7 @@ extension Pitch: ExpressibleByStringLiteral {
           let toneHeightLiteral = match.captures[2]?.substring
     else
     {
-      self.init(chroma: .c, toneHeight: 4)
+      self.init(chroma: .C, toneHeight: 4)
       return
     }
 

@@ -16,21 +16,15 @@ import Foundation
 /// Draws data boxes for a spectrogram.
 ///
 /// - Parameters:
-///   - dataBoxes: The data to plot organized as columns of box-color index tuples.
+///   - dataBoxes: The data to plot organized as columns of box colors.
 ///   - context: The context within which to draw.
 ///   - plotRect: The rectangle encapsulating the data boxes.
-///   - colorMap: The color map used to retrieve box colors.
 ///   - outline: Whether to stroke `plotRect` after drawing the data boxes.
-internal func draw(dataBoxes: [[Int]],
+internal func draw(dataBoxes: [[Color]],
                   in context: CGContext,
                   plotRect: CGRect,
-                  using colorMap: ColorMap,
                   outline: Bool = true)
 {
-
-  // Fill the plot with the color map's preffered background color.
-  context.setFillColor(colorMap.preferredBackgroundColor.cgColor)
-  context.fill(plotRect)
 
   let rowCount = dataBoxes.map(\.count).max() ?? 0
   guard rowCount > 0 else { return }
@@ -54,7 +48,7 @@ internal func draw(dataBoxes: [[Int]],
   for (columnIndex, column) in dataBoxes.enumerated() {
 
     // Iterate through the rows of this column.
-    for (rowIndex, colorIndex) in column.enumerated() {
+    for (rowIndex, color) in column.enumerated() {
 
       let xOffset = CGFloat(columnIndex) * columnWidth
       let yOffset = CGFloat(rowCount - rowIndex - 1) * rowHeight
@@ -63,8 +57,8 @@ internal func draw(dataBoxes: [[Int]],
                         size: boxSize)
 
       // Set the fill color according the color index.
-      context.setFillColor(colorMap[colorIndex].cgColor)
-      context.setStrokeColor(colorMap[colorIndex].cgColor)
+      context.setFillColor(color.cgColor)
+      context.setStrokeColor(color.cgColor)
 
       // Fill the rect for this row in this column.
       context.fill(rect)

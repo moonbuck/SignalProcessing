@@ -1,5 +1,5 @@
 //
-//  PitchInterval.swift
+//  ChordInterval.swift
 //  Chord Finder
 //
 //  Created by Jason Cardwell on 7/31/17.
@@ -8,50 +8,57 @@
 import Foundation
 
 /// A type for specifying the interval between a chord root and a chord member. The raw
-/// value of the `Interval` cases are identical the raw value of a `ChordPattern` composed
+/// value of the `Interval` cases are identical to the raw value of a `ChordPattern` composed
 /// only of the corresponding `Interval`.
+///
+/// The raw value uses the 24 least significant bits where each interval from 2 through 13
+/// is represented with 2 bits. Flat intervals are represented by `01`. Natural intervals
+/// are represented by `10`. Sharp intervals are represented by `11`.
 ///
 /// The number of whole steps between intervals is as follows:
 ///
 /// I-1-II-1-III-½-IV-1-V-1-VI-1-VII-½-VIII-1-IX-1-X-½-XI-1-XII-1-XIII
 ///
+/// - P1:  PerfectUnison, zero steps from the root. This interval is always implied.
 /// - M2:  Major second, a whole step from the root.
 /// - m2:  Minor second, a half step from the root.
 /// - A2:  Augmented second, one and a half steps from the root.
 /// - M3:  Major third, two whole steps from the root.
-/// - m3:  Minor third, the same as `sharp2nd`.
+/// - m3:  Minor third, the same as `A2`.
 /// - A3:  Augmented third, two and a half steps from the root.
-/// - P4:  Perfect fourth, the same as `sharp3rd`.
+/// - P4:  Perfect fourth, the same as `A3`.
 /// - d4:  Minor fourth, the same as `third`.
 /// - A4:  Augmented fourth, three whole steps from the root.
 /// - P5:  Perfect fifth, three and a half steps from the root.
-/// - d5:  Minor fifth, the same as `sharp4th`.
+/// - d5:  Minor fifth, the same as `A4`.
 /// - A5:  Augmented fifth, four whole steps from the root.
 /// - M6:  Major sixth, four and a half steps from the root.
-/// - m6:  Minor sixth, the same as `sharp5th`.
+/// - m6:  Minor sixth, the same as `A5`.
 /// - A6:  Augmented sixth, five whole steps from the root.
 /// - M7:  Major seventh, five and a half steps from the root.
-/// - m7:  Minor seventh, the same as `sharp6th`.
+/// - m7:  Minor seventh, the same as `A6`.
 /// - A7:  Augmented seventh, six whole steps from the root.
-/// - P8:  Perfect eighth, the same as `sharp7th`.
+/// - P8:  Perfect eighth, the same as `A7`.
 /// - d8:  Minor eighth, the same as `seventh`.
 /// - A8:  Augmented eighth, six and a half steps from the root.
 /// - M9:  Major ninth, seven whole steps from the root.
-/// - m9:  Minor ninth, the same as `sharp8th`.
+/// - m9:  Minor ninth, the same as `A8`.
 /// - A9:  Augmented ninth, seven and a half steps from the root.
 /// - M10: Major tenth, eight whole steps from the root.
-/// - m10: Minor tenth, the same as `sharp9th`.
+/// - m10: Minor tenth, the same as `A9`.
 /// - A10: Augmented tenth, eight and a half steps from the root.
-/// - P11: Perfect eleventh, the same as `sharp10th`.
-/// - d11: Minor eleventh, the same as `tenth`.
+/// - P11: Perfect eleventh, the same as `A10`.
+/// - d11: Minor eleventh, the same as `M10`.
 /// - A11: Augmented eleventh, nine whole steps from the root.
 /// - P12: Perfect twelfth, nine and a half steps from the root.
-/// - d12: Minor twelfth, the same as `sharp11th`.
+/// - d12: Minor twelfth, the same as `A11`.
 /// - A12: Augmented twelfth, ten whole steps from the root.
 /// - M13: Major thirteenth, ten and a half steps from the root.
-/// - m13: Minor thirteenth, the same as `sharp12th`.
+/// - m13: Minor thirteenth, the same as `A12`.
 /// - A13: Augmented thirteenth, eleven whole steps from the root.
-public enum PitchInterval: UInt32, LosslessStringConvertible {
+public enum ChordInterval: UInt32, LosslessStringConvertible {
+
+  case P1 = 0
 
   case M2  = 2,       m2  = 1,       A2  = 3
   case M3  = 8,       m3  = 4,       A3  = 12
@@ -70,12 +77,32 @@ public enum PitchInterval: UInt32, LosslessStringConvertible {
   /// single interval.
   public init?(_ chordPattern: ChordPattern) { self.init(rawValue: chordPattern.rawValue) }
 
+  /// A bit mask that can be used to isolate the bits belonging to the interval.
+  public var bitMask: UInt32 {
+    switch self {
+      case .P1:              return 0b00 << 0
+      case .M2, .m2, .A2:    return 0b11 << 0
+      case .M3, .m3, .A3:    return 0b11 << 2
+      case .P4, .d4, .A4:    return 0b11 << 4
+      case .P5, .d5, .A5:    return 0b11 << 6
+      case .M6, .m6, .A6:    return 0b11 << 8
+      case .M7, .m7, .A7:    return 0b11 << 10
+      case .P8, .d8, .A8:    return 0b11 << 12
+      case .M9, .m9, .A9:    return 0b11 << 14
+      case .M10, .m10, .A10: return 0b11 << 16
+      case .P11, .d11, .A11: return 0b11 << 18
+      case .P12, .d12, .A12: return 0b11 << 20
+      case .M13, .m13, .A13: return 0b11 << 22
+    }
+  }
+
   /// Returns the value of `symbol` for the interval.
   public var description: String { return symbol }
 
   /// The name for the interval.
   public var name: String {
     switch self {
+      case .P1:  return "Perfect unision"
       case .M2:  return "Major second"
       case .m2:  return "Minor second"
       case .A2:  return "Augmented second"
@@ -119,6 +146,7 @@ public enum PitchInterval: UInt32, LosslessStringConvertible {
   /// when appropriate.
   public var symbol: String {
     switch self {
+      case .P1:  return "1"
       case .M2:  return "2"
       case .m2:  return "♭2"
       case .A2:  return "♯2"
@@ -163,61 +191,63 @@ public enum PitchInterval: UInt32, LosslessStringConvertible {
   /// - Parameter description: The string representation as returned by `symbol` for the interval.
   public init?(_ description: String) {
     switch description {
-      case "2":   self =  .M2
-      case "♭2":  self =  .m2
-      case "♯2":  self =  .A2
-      case "3":   self =  .M3
-      case "♭3":  self =  .m3
-      case "♯3":  self =  .A3
-      case "4":   self =  .P4
-      case "♭4":  self =  .d4
-      case "♯4":  self =  .A4
-      case "5":   self =  .P5
-      case "♭5":  self =  .d5
-      case "♯5":  self =  .A5
-      case "6":   self =  .M6
-      case "♭6":  self =  .m6
-      case "♯6":  self =  .A6
-      case "7":   self =  .M7
-      case "♭7":  self =  .m7
-      case "♯7":  self =  .A7
-      case "8":   self =  .P8
-      case "♭8":  self =  .d8
-      case "♯8":  self =  .A8
-      case "9":   self =  .M9
-      case "♭9":  self =  .m9
-      case "♯9":  self =  .A9
-      case "10":  self =  .M10
-      case "♭10": self =  .m10
-      case "♯10": self =  .A10
-      case "11":  self =  .P11
-      case "♭11": self =  .d11
-      case "♯11": self =  .A11
-      case "12":  self =  .P12
-      case "♭12": self =  .d12
-      case "♯12": self =  .A12
-      case "13":  self =  .M13
-      case "♭13": self =  .m13
-      case "♯13": self =  .A13
+      case "1":   self = .P1
+      case "2":   self = .M2
+      case "♭2":  self = .m2
+      case "♯2":  self = .A2
+      case "3":   self = .M3
+      case "♭3":  self = .m3
+      case "♯3":  self = .A3
+      case "4":   self = .P4
+      case "♭4":  self = .d4
+      case "♯4":  self = .A4
+      case "5":   self = .P5
+      case "♭5":  self = .d5
+      case "♯5":  self = .A5
+      case "6":   self = .M6
+      case "♭6":  self = .m6
+      case "♯6":  self = .A6
+      case "7":   self = .M7
+      case "♭7":  self = .m7
+      case "♯7":  self = .A7
+      case "8":   self = .P8
+      case "♭8":  self = .d8
+      case "♯8":  self = .A8
+      case "9":   self = .M9
+      case "♭9":  self = .m9
+      case "♯9":  self = .A9
+      case "10":  self = .M10
+      case "♭10": self = .m10
+      case "♯10": self = .A10
+      case "11":  self = .P11
+      case "♭11": self = .d11
+      case "♯11": self = .A11
+      case "12":  self = .P12
+      case "♭12": self = .d12
+      case "♯12": self = .A12
+      case "13":  self = .M13
+      case "♭13": self = .m13
+      case "♯13": self = .A13
       default:    return nil
     }
   }
 
   /// Boolean value indicating whether the interval represents a number of whole steps.
-  public var isNatural: Bool { return rawValue % 3 == 2 }
+  public var isNatural: Bool { return rawValue == 0 || rawValue % 3 == 2 }
 
   /// Boolean value indicating whether the interval represents a number of whole steps flattened
   /// by half a step.
-  public var isFlat: Bool { return rawValue % 3 == 1 }
+  public var isFlat: Bool { return rawValue != 0 && rawValue % 3 == 1 }
 
   /// Boolean value indicating whether the interval represents a number of whole steps sharpened
   /// by half a step.
-  public var isSharp: Bool { return rawValue % 3 == 0 }
+  public var isSharp: Bool { return rawValue != 0 && rawValue % 3 == 0 }
 
   /// The total number of half steps covered by the interval.
   public var semitones: Int {
 
     switch self {
+      case .P1:        return 0
       case .m2:        return 1
       case .M2:        return 2
       case .A2, .m3:   return 3
@@ -252,6 +282,7 @@ public enum PitchInterval: UInt32, LosslessStringConvertible {
   ///                        value, this must be in the range `1...22`.
   public init?(semitones: Int) {
     switch semitones {
+      case 0:  self = .P1
       case 1:  self = .m2
       case 2:  self = .M2
       case 3:  self = .m3

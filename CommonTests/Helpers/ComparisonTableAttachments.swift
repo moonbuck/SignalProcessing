@@ -9,6 +9,7 @@ import Foundation
 import XCTest
 import Essentia
 import Accelerate
+@testable import SignalProcessing
 
 /// An enumeration for specifying the general basis of an assertion.
 public enum TestBasis: String {

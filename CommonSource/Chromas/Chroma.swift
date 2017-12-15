@@ -9,53 +9,51 @@ import Foundation
 
 /// A type for specifying one of the twelve chromas, or pitch classes, of the equal-tempered scale.
 ///
-/// - c: The C pitch class.
-/// - dFlat: the D♭ pitch class.
-/// - d: The D pitch class.
-/// - eFlat: The E♭ pitch class.
-/// - e: The E pitch class.
-/// - f: The F pitch class.
-/// - gFlat: The G♭ pitch class.
-/// - g: The G pitch class.
-/// - aFlat: The A♭ pitch class.
-/// - a: The A pitch class.
-/// - bFlat: The B♭ pitch class.
-/// - b: The B pitch class.
+/// - C: The C pitch class.
+/// - Db: the D♭ pitch class.
+/// - D: The D pitch class.
+/// - Eb: The E♭ pitch class.
+/// - E: The E pitch class.
+/// - F: The F pitch class.
+/// - Gb: The G♭ pitch class.
+/// - G: The G pitch class.
+/// - Ab: The A♭ pitch class.
+/// - A: The A pitch class.
+/// - Bb: The B♭ pitch class.
+/// - B: The B pitch class.
 public enum Chroma: Int {
 
-  case c, dFlat, d, eFlat, e, f, gFlat, g, aFlat, a, bFlat, b
+  case C, Db, D, Eb, E, F, Gb, G, Ab, A, Bb, B
 
   /// Initializing with a `Chroma`'s raw value. To allow this initializer to always
-  /// succeed, the value `|rawValue| modulo 7` is used in place of `rawValue`.
+  /// succeed, the value `|rawValue| modulo 12` is used in place of `rawValue`.
   ///
-  /// - Parameter rawValue: The integer whose absolute value modulo `7` selects the
+  /// - Parameter rawValue: The integer whose absolute value modulo `12` selects the
   ///                       `Chroma` case.
   public init(rawValue: Int) {
     switch rawValue {
-      case 0: self = .c
-      case 1: self = .dFlat
-      case 2: self = .d
-      case 3: self = .eFlat
-      case 4: self = .e
-      case 5: self = .f
-      case 6: self = .gFlat
-      case 7: self = .g
-      case 8: self = .aFlat
-      case 9: self = .a
-      case 10: self = .bFlat
-      case 11: self = .b
+      case 0: self = .C
+      case 1: self = .Db
+      case 2: self = .D
+      case 3: self = .Eb
+      case 4: self = .E
+      case 5: self = .F
+      case 6: self = .Gb
+      case 7: self = .G
+      case 8: self = .Ab
+      case 9: self = .A
+      case 10: self = .Bb
+      case 11: self = .B
       default: self = Chroma(rawValue: abs(rawValue % 12))
     }
   }
 
   /// Calculates the chroma value at `interval` with the chroma serving as root.
   ///
-  /// - Parameter interval: The interval at which the chroma value should be deduced.
-  /// - Returns: The chroma at `interval`.
-  public func chroma(at interval: PitchInterval) -> Chroma {
+  /// - Parameter interval: he interval at which the chroma value should be deduced.
+  public subscript(interval: ChordInterval) -> Chroma {
     return advanced(by: interval.semitones)
   }
-
 
   /// The set of chromas for the 3rd, 5th, 6th, and 7th partials.
   public var significantPartials: Set<Chroma> {
@@ -64,7 +62,7 @@ public enum Chroma: Int {
 
   /// An array of all the chroma values in ascending order.
   public static let all: [Chroma] = [
-    .c, .dFlat, .d, .eFlat, .e, .f, .gFlat, .g, .aFlat, .a, .bFlat, .b
+    .C, .Db, .D, .Eb, .E, .F, .Gb, .G, .Ab, .A, .Bb, .B
   ]
 
   /// Accessor the chroma of a one of the first `20` partials.
@@ -98,18 +96,18 @@ extension Chroma: CustomStringConvertible {
   /// trailing '♭' when appropriate.
   public var description: String {
     switch self {
-      case .c:     return "C"
-      case .dFlat: return "D♭"
-      case .d:     return "D"
-      case .eFlat: return "E♭"
-      case .e:     return "E"
-      case .f:     return "F"
-      case .gFlat: return "G♭"
-      case .g:     return "G"
-      case .aFlat: return "A♭"
-      case .a:     return "A"
-      case .bFlat: return "B♭"
-      case .b:     return "B"
+      case .C:  return "C"
+      case .Db: return "D♭"
+      case .D:  return "D"
+      case .Eb: return "E♭"
+      case .E:  return "E"
+      case .F:  return "F"
+      case .Gb: return "G♭"
+      case .G:  return "G"
+      case .Ab: return "A♭"
+      case .A:  return "A"
+      case .Bb: return "B♭"
+      case .B:  return "B"
     }
   }
 
@@ -131,18 +129,18 @@ extension Chroma: ExpressibleByStringLiteral {
 
     switch value {
 
-      case "D♭", "d♭": self = .dFlat
-      case "D", "d":   self = .d
-      case "E♭", "e♭": self = .eFlat
-      case "E", "e":   self = .e
-      case "F", "f":   self = .f
-      case "G♭", "g♭": self = .gFlat
-      case "G", "g":   self = .g
-      case "A♭", "a♭": self = .aFlat
-      case "A", "a":   self = .a
-      case "B♭", "b♭": self = .bFlat
-      case "B", "b":   self = .b
-      default:         self = .c
+      case "D♭", "d♭", "Db", "db": self = .Db
+      case "D", "d":               self = .D
+      case "E♭", "e♭", "Eb", "eb": self = .Eb
+      case "E", "e":               self = .E
+      case "F", "f":               self = .F
+      case "G♭", "g♭", "Gb", "gb": self = .Gb
+      case "G", "g":               self = .G
+      case "A♭", "a♭", "Ab", "ab": self = .Ab
+      case "A", "a":               self = .A
+      case "B♭", "b♭", "Bb", "bb": self = .Bb
+      case "B", "b":               self = .B
+      default:                     self = .C
 
     }
 

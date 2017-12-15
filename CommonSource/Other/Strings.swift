@@ -137,5 +137,26 @@ extension String {
     self = String(string[..<end])
   }
 
+  public init<T:FixedWidthInteger>(_ v: T,
+                                   radix: Int,
+                                   uppercase: Bool = false,
+                                   pad: Int,
+                                   group: Int = 0,
+                                   separator: String = " ")
+  {
+    self = String(v, radix: radix, uppercase: uppercase)
+    var pad = pad
+    guard pad > 0 else { return }
+    pad -= utf16.count
+    if pad > 0 { self = String(repeating: "0", count: pad) + self }
+    guard group > 0 && count > group else { return }
+    let characterGroups: [String] = segment(group, options: .padFirstGroup(Character("0"))).flatMap({String($0)})
+    self = characterGroups.joined(separator: separator)
+  }
+
+  public init<S:Sequence>(hexBytes: S) where S.Iterator.Element == UInt8 {
+    self = hexBytes.map({String($0, radix: 16, uppercase: true, pad: 2)}).joined(separator: " ")
+  }
+
 }
 
