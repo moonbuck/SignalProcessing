@@ -65,7 +65,23 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/generate_chords\ output/chordLibrary"
+            argument = "--variations=2"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--number-markers"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--dir=/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/MIDI"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--create-directory"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--base=chord_library"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

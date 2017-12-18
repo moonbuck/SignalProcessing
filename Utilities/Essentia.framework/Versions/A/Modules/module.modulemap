@@ -1,0 +1,11 @@
+framework module Essentia {
+  umbrella header "Essentia.h"
+
+  export *
+  module * { export * }
+}
+
+module Essentia.Swift {
+    header "Essentia-Swift.h"
+    requires objc
+}

@@ -1,0 +1,11 @@
+framework module SignalProcessing {
+  umbrella header "SignalProcessing.h"
+
+  export *
+  module * { export * }
+}
+
+module SignalProcessing.Swift {
+    header "SignalProcessing-Swift.h"
+    requires objc
+}

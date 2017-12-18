@@ -1,0 +1,11 @@
+framework module Docopt {
+  umbrella header "Docopt.h"
+
+  export *
+  module * { export * }
+}
+
+module Docopt.Swift {
+    header "Docopt-Swift.h"
+    requires objc
+}

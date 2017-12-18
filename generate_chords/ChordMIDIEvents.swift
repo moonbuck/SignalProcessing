@@ -51,19 +51,22 @@ func generateChordEvents(octave: Int) -> (events: [MIDIEvent],
 
   var names: [String] = [], markers: [String] = [], values: [UInt32] = []
 
-  for chord in ChordLibrary.chords.values.joined() {
+  for (index, chord) in ChordLibrary.chords.values.joined().enumerated() {
 
     values.append(chord.rawValue)
     names.append(chord.name)
 
-    let asciiName = asciiChordName(chord.name)
+    var markerName = asciiChordName(chord.name)
+    if arguments.numberMarkers {
+      markerName = "\(index + 1)_" + markerName
+    }
 
     midiEvents.append(.meta(MIDIEvent.MetaEvent(time: currentOffset,
-                                                data: .marker(name: asciiName))))
+                                                data: .marker(name: markerName))))
 
     let pitches = chord.pitches(rootToneHeight: octave)
 
-    markers.append(asciiName)
+    markers.append(markerName)
 
     for pitch in pitches {
 

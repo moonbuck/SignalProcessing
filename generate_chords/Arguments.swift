@@ -9,26 +9,36 @@ import Foundation
 import Docopt
 
 let usage = """
-Usage: generate_chords [--octaves=<LIST>] [--variations=<COUNT>] --dir=<DIR> --base=<NAME>
+Usage: generate_chords [options] --dir=<DIR> --base=<NAME>
        generate_chords --help
+
+Arguments:
+  --dir=<DIR:string>        The output directory for generated files.
+  --base=<NAME:string>      The base name for generated files.
 
 Options:
   --octaves=<LIST>          The octave for root intervals of the chords. For each octave in
                             LIST a MIDI file will be generated. [default: 0,1,2,3,4,5,6,7,8]
   --variations=<COUNT:int>  The number of times a file should be generated per octave. The
                             velocity values for note events are randomized. [default: 1]
-  --dir=<DIR:string>        The output directory for generated files.
-  --base=<NAME:string>      The base name for generated files.
+  --create-directory        Whether to create DIR if it does not exist.
+  --number-markers          Whether to prefix marker names with their one-based index.
   --help                    Show this help message and exit.
 """
 
-struct Arguments {
+struct Arguments: CustomStringConvertible {
 
   /// The octaves for which a MIDI file of chords should be generated.
   let octaves: [Int]
 
   /// The output directory for all generated files.
   let outputDirectory: URL
+
+  /// Whether to create `outputDirectory` if it does not exist.
+  let createDirectory: Bool
+
+  /// Whether to prefix marker names with their one-based index.
+  let numberMarkers: Bool
 
   /// The base name to use for generated file names.
   let baseName: String
@@ -55,22 +65,55 @@ struct Arguments {
 
     outputDirectory = URL(fileURLWithPath: arguments["--dir"] as! String)
 
+    createDirectory = arguments["--create-directory"] as! Bool
+
+    numberMarkers = arguments["--number-markers"] as! Bool
+
     baseName = arguments["--base"] as! String
 
+    // Check `outputDirectory`.
+    var isDirectory: ObjCBool = false
+    let exists = FileManager.`default`.fileExists(atPath: outputDirectory.path,
+                                                  isDirectory: &isDirectory)
+
+
+    switch (exists, isDirectory.boolValue) {
+      case (true, true):
+        break
+      case (true, false):
+        print("'\(outputDirectory.path)' is not a directory.")
+        exit(EXIT_FAILURE)
+      case (false, _) where !createDirectory:
+        print("""
+              Specified directory does not exist. Pass --create-directory to have
+              '\(outputDirectory.path)' created automatically.
+              """)
+        exit(EXIT_FAILURE)
+      default:
+        do {
+          try FileManager.`default`.createDirectory(at: outputDirectory,
+                                                    withIntermediateDirectories: true)
+        } catch {
+          print("""
+            Error encountered creating directory '\(outputDirectory.path)': \
+            \(error.localizedDescription)
+            """)
+        }
+
+    }
+
   }
-
-}
-
-extension Arguments: CustomStringConvertible {
 
   var description: String {
 
     return """
-    octaves: \(octaves.map(\.description).joined(separator: ","))
-    variations: \(variations)
-    outputDirectory: '\(outputDirectory.path)'
-    baseName: '\(baseName)'
-    """
+      octaves: \(octaves.map(\.description).joined(separator: ","))
+      variations: \(variations)
+      outputDirectory: '\(outputDirectory.path)'
+      createDirectory: \(createDirectory)
+      baseName: '\(baseName)'
+      numberMarkers: \(numberMarkers)
+      """
 
   }
 
