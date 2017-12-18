@@ -69,47 +69,51 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "--help"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--spectrum"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--pitch"
+            argument = "--compress=1e-2"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--chroma"
-            isEnabled = "NO">
+            argument = "--plot"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--essentia"
-            isEnabled = "NO">
+            argument = "--csv"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--win=17640"
-            isEnabled = "NO">
+            argument = "--quantization=pitch"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--hop=8820"
-            isEnabled = "NO">
+            argument = "--title=&apos;Extracted Features&apos;"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--output-name=extract_output"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--output-dir=/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/extract_output"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--csv-dir=csv"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--png-dir=png"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--create-directories"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/Tone_Height_3/Boesendorfer/Cmaj_boesendorfer_th=3.aif"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--plot --title=&apos;Extracted Features&apos; /Users/Moondeer/Projects/ChordFinder/Data/audio/chords/extract\ output/extract_output"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--plot --data /Users/Moondeer/Projects/ChordFinder/Data/audio/chords/extract\ output/extract_output-data"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--csv --group-by=&apos;column&apos; /Users/Moondeer/Projects/ChordFinder/Data/audio/chords/extract\ output/extract_output"
+            argument = "/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/Tone_Height*/*/*.aif  "
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
@@ -117,7 +121,7 @@
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"

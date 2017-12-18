@@ -1,0 +1,10 @@
+framework module SignalProcessing {
+  umbrella header "SignalProcessing.h"
+
+  export *
+  module * { export * }
+}
+
+module SignalProcessing.__Swift {
+    exclude header "SignalProcessing-Swift.h"
+}

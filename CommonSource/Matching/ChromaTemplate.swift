@@ -66,7 +66,7 @@ public struct ChromaTemplate {
   private static func vector(weightedFor root: Chroma) -> ChromaVector {
 
     // Create an empty chroma vector.
-    var vector = ChromaVector()
+    let vector = ChromaVector()
 
     // Iterate through the first 8 partials.
     for k in 1...8 {

@@ -136,7 +136,7 @@ public struct Chord: RawRepresentable {
 
   /// A chroma vector with zeros for chroma's not present and ones for present chromas.
   public var chromaRepresentation: ChromaVector {
-    var vector = ChromaVector()
+    let vector = ChromaVector()
     for chroma in Set(chromas) {
       vector[chroma] = 1
     }

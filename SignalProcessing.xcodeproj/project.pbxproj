@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C26410401FE18E830075AF45 /* Docopt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26410411FE18E830075AF45 /* Docopt.framework */; };
+		C2A94C021FE6C807000E1064 /* FileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A94C011FE6C807000E1064 /* FileIO.swift */; };
 		C2D3AA0D1FE34D7800819367 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3AA0C1FE34D7800819367 /* main.swift */; };
 		C2D3AA111FE34E1D00819367 /* Docopt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D3AA121FE34E1D00819367 /* Docopt.framework */; };
 		C2D3AA131FE34E1D00819367 /* SignalProcessing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F81B5C1FDB03CA00D344FE /* SignalProcessing.framework */; };
@@ -24,6 +25,8 @@
 		C2D3AA291FE43E4F00819367 /* ChordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3AA271FE43E4F00819367 /* ChordTests.swift */; };
 		C2D3AA2B1FE43F8000819367 /* PitchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3AA2A1FE43F8000819367 /* PitchTests.swift */; };
 		C2D3AA2C1FE43F8000819367 /* PitchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3AA2A1FE43F8000819367 /* PitchTests.swift */; };
+		C2E07AEC1FE5762A00DBC009 /* DecibelConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E07AEB1FE5762A00DBC009 /* DecibelConversion.swift */; };
+		C2E07AED1FE5762A00DBC009 /* DecibelConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E07AEB1FE5762A00DBC009 /* DecibelConversion.swift */; };
 		C2F81B471FDB038800D344FE /* SignalProcessing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F81B3D1FDB038800D344FE /* SignalProcessing.framework */; };
 		C2F81B651FDB03CA00D344FE /* SignalProcessing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F81B5C1FDB03CA00D344FE /* SignalProcessing.framework */; };
 		C2F81B791FDB04A600D344FE /* SignalProcessing.h in Headers */ = {isa = PBXBuildFile; fileRef = C2F81B741FDB043800D344FE /* SignalProcessing.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -70,8 +73,6 @@
 		C2F81BEC1FDB06D800D344FE /* MultirateFilterBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B9A1FDB06D700D344FE /* MultirateFilterBank.swift */; };
 		C2F81BED1FDB06D800D344FE /* SampleRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B9B1FDB06D700D344FE /* SampleRate.swift */; };
 		C2F81BEE1FDB06D800D344FE /* SampleRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B9B1FDB06D700D344FE /* SampleRate.swift */; };
-		C2F81BEF1FDB06D800D344FE /* PitchFilterBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B9C1FDB06D700D344FE /* PitchFilterBank.swift */; };
-		C2F81BF01FDB06D800D344FE /* PitchFilterBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B9C1FDB06D700D344FE /* PitchFilterBank.swift */; };
 		C2F81BF11FDB06D800D344FE /* Resampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B9D1FDB06D700D344FE /* Resampler.swift */; };
 		C2F81BF21FDB06D800D344FE /* Resampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B9D1FDB06D700D344FE /* Resampler.swift */; };
 		C2F81BF31FDB06D800D344FE /* FeatureBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B9E1FDB06D700D344FE /* FeatureBuffer.swift */; };
@@ -86,8 +87,6 @@
 		C2F81BFC1FDB06D800D344FE /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81BA21FDB06D700D344FE /* Window.swift */; };
 		C2F81BFD1FDB06D800D344FE /* Features.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81BA31FDB06D700D344FE /* Features.swift */; };
 		C2F81BFE1FDB06D800D344FE /* Features.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81BA31FDB06D700D344FE /* Features.swift */; };
-		C2F81C011FDB06D800D344FE /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81BA51FDB06D700D344FE /* Filter.swift */; };
-		C2F81C021FDB06D800D344FE /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81BA51FDB06D700D344FE /* Filter.swift */; };
 		C2F81C031FDB06D800D344FE /* Windower.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81BA61FDB06D700D344FE /* Windower.swift */; };
 		C2F81C041FDB06D800D344FE /* Windower.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81BA61FDB06D700D344FE /* Windower.swift */; };
 		C2F81C051FDB06D800D344FE /* FeatureFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81BA71FDB06D700D344FE /* FeatureFilter.swift */; };
@@ -218,17 +217,18 @@
 		};
 		C2F81C7F1FDC286400D344FE /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
+			buildActionMask = 12;
+			dstPath = "";
 			dstSubfolderSpec = 0;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		C26410411FE18E830075AF45 /* Docopt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Docopt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2A94C011FE6C807000E1064 /* FileIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileIO.swift; sourceTree = "<group>"; };
 		C2D3AA0A1FE34D7800819367 /* generate_chords */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = generate_chords; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2D3AA0C1FE34D7800819367 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		C2D3AA121FE34E1D00819367 /* Docopt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Docopt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -242,6 +242,7 @@
 		C2D3AA251FE3516300819367 /* Arguments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arguments.swift; sourceTree = "<group>"; };
 		C2D3AA271FE43E4F00819367 /* ChordTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordTests.swift; sourceTree = "<group>"; };
 		C2D3AA2A1FE43F8000819367 /* PitchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchTests.swift; sourceTree = "<group>"; };
+		C2E07AEB1FE5762A00DBC009 /* DecibelConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecibelConversion.swift; sourceTree = "<group>"; };
 		C2F81B3D1FDB038800D344FE /* SignalProcessing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SignalProcessing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2F81B461FDB038800D344FE /* SignalProcessing_iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SignalProcessing_iOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2F81B5C1FDB03CA00D344FE /* SignalProcessing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SignalProcessing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -327,7 +328,6 @@
 		C2F81C691FDB66F300D344FE /* Cmaj_boesendorfer_th=3.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cmaj_boesendorfer_th=3.aif"; sourceTree = "<group>"; };
 		C2F81C811FDC286400D344FE /* extract */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = extract; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2F81C831FDC286400D344FE /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		C2F81C881FDC392A00D344FE /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		C2F81C8A1FDC9E1900D344FE /* Arguments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arguments.swift; sourceTree = "<group>"; };
 		C2F81C8C1FDCA3FF00D344FE /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		C2F81C8E1FDCA6C100D344FE /* Spectrum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spectrum.swift; sourceTree = "<group>"; };
@@ -406,6 +406,7 @@
 				C2D3AA0C1FE34D7800819367 /* main.swift */,
 				C2D3AA231FE350E200819367 /* ChordMIDIEvents.swift */,
 				C2D3AA251FE3516300819367 /* Arguments.swift */,
+				C2A94C011FE6C807000E1064 /* FileIO.swift */,
 			);
 			path = generate_chords;
 			sourceTree = "<group>";
@@ -615,6 +616,7 @@
 				C2F81BA01FDB06D700D344FE /* Compression.swift */,
 				C2F81BA11FDB06D700D344FE /* Normalization.swift */,
 				C2F81BA71FDB06D700D344FE /* FeatureFilter.swift */,
+				C2E07AEB1FE5762A00DBC009 /* DecibelConversion.swift */,
 			);
 			path = "Feature Filters";
 			sourceTree = "<group>";
@@ -680,7 +682,6 @@
 				C2F81C8E1FDCA6C100D344FE /* Spectrum.swift */,
 				C2F81C831FDC286400D344FE /* main.swift */,
 				C2F81C8A1FDC9E1900D344FE /* Arguments.swift */,
-				C2F81C881FDC392A00D344FE /* Command.swift */,
 			);
 			path = extract;
 			sourceTree = "<group>";
@@ -965,6 +966,7 @@
 				C2D3AA1F1FE34EC500819367 /* ByteArrayConvertible.swift in Sources */,
 				C2D3AA1D1FE34EC500819367 /* Bytes.swift in Sources */,
 				C2D3AA1E1FE34EC500819367 /* MIDIEvent.swift in Sources */,
+				C2A94C021FE6C807000E1064 /* FileIO.swift in Sources */,
 				C2D3AA1C1FE34EC500819367 /* TimeSignature.swift in Sources */,
 				C2D3AA241FE350E200819367 /* ChordMIDIEvents.swift in Sources */,
 			);
@@ -1001,7 +1003,6 @@
 				C2F81C071FDB06D800D344FE /* ChordPattern.swift in Sources */,
 				C2F81C131FDB06D800D344FE /* Scoring.swift in Sources */,
 				C2F81BD51FDB06D800D344FE /* SignalFilter.swift in Sources */,
-				C2F81BEF1FDB06D800D344FE /* PitchFilterBank.swift in Sources */,
 				C2F81BE11FDB06D800D344FE /* Buffers.swift in Sources */,
 				C2F81BE31FDB06D800D344FE /* Quantization.swift in Sources */,
 				C2F81C9F1FDDC96400D344FE /* KeyPathConvenienceExtensions.swift in Sources */,
@@ -1011,6 +1012,7 @@
 				C2F81BD11FDB06D800D344FE /* Frequency.swift in Sources */,
 				C2F81C151FDB06D800D344FE /* MatchResults.swift in Sources */,
 				C2F81BE71FDB06D800D344FE /* Smoothing.swift in Sources */,
+				C2E07AEC1FE5762A00DBC009 /* DecibelConversion.swift in Sources */,
 				C2F81BDB1FDB06D800D344FE /* KaiserWindow.swift in Sources */,
 				C2FED3FE1FDF55DF002385B9 /* GraphingHelpers.swift in Sources */,
 				C2F81BE51FDB06D800D344FE /* FFT.swift in Sources */,
@@ -1021,7 +1023,6 @@
 				C2F81C991FDDC96400D344FE /* DSPComplex.swift in Sources */,
 				C2F81C1F1FDB06D800D344FE /* RegularExpression.swift in Sources */,
 				C2F81BDF1FDB06D800D344FE /* STFT.swift in Sources */,
-				C2F81C011FDB06D800D344FE /* Filter.swift in Sources */,
 				C2F81C1D1FDB06D800D344FE /* Strings.swift in Sources */,
 				C2F81C4D1FDB156500D344FE /* Drawing.swift in Sources */,
 				C2F81BF71FDB06D800D344FE /* Compression.swift in Sources */,
@@ -1078,7 +1079,6 @@
 				C2F81C081FDB06D800D344FE /* ChordPattern.swift in Sources */,
 				C2F81C141FDB06D800D344FE /* Scoring.swift in Sources */,
 				C2F81BD61FDB06D800D344FE /* SignalFilter.swift in Sources */,
-				C2F81BF01FDB06D800D344FE /* PitchFilterBank.swift in Sources */,
 				C2F81BE21FDB06D800D344FE /* Buffers.swift in Sources */,
 				C2F81BE41FDB06D800D344FE /* Quantization.swift in Sources */,
 				C2F81CA01FDDC96400D344FE /* KeyPathConvenienceExtensions.swift in Sources */,
@@ -1088,6 +1088,7 @@
 				C2F81BD21FDB06D800D344FE /* Frequency.swift in Sources */,
 				C2F81C161FDB06D800D344FE /* MatchResults.swift in Sources */,
 				C2F81BE81FDB06D800D344FE /* Smoothing.swift in Sources */,
+				C2E07AED1FE5762A00DBC009 /* DecibelConversion.swift in Sources */,
 				C2F81BDC1FDB06D800D344FE /* KaiserWindow.swift in Sources */,
 				C2FED3FF1FDF55DF002385B9 /* GraphingHelpers.swift in Sources */,
 				C2F81BE61FDB06D800D344FE /* FFT.swift in Sources */,
@@ -1098,7 +1099,6 @@
 				C2F81C9A1FDDC96400D344FE /* DSPComplex.swift in Sources */,
 				C2F81C201FDB06D800D344FE /* RegularExpression.swift in Sources */,
 				C2F81BE01FDB06D800D344FE /* STFT.swift in Sources */,
-				C2F81C021FDB06D800D344FE /* Filter.swift in Sources */,
 				C2F81C1E1FDB06D800D344FE /* Strings.swift in Sources */,
 				C2F81C4E1FDB156500D344FE /* Drawing.swift in Sources */,
 				C2F81BF81FDB06D800D344FE /* Compression.swift in Sources */,
@@ -1463,6 +1463,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
 				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
 				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
 				SWIFT_VERSION = 4.0;
@@ -1479,6 +1480,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
 				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
 				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
 				SWIFT_VERSION = 4.0;

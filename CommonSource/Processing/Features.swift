@@ -40,7 +40,7 @@ public struct Features {
     EqualLoudnessFilter().process(signal: buffer)
 
     // Extract pitch features.
-    pitchFeatures = PitchFeatures(from: buffer, parameters: recipe.pitchFeatureParameters)
+    pitchFeatures = try PitchFeatures(from: buffer, parameters: recipe.pitchFeatureParameters)
 
     // Extract chroma features.
     chromaFeatures = ChromaFeatures(pitchFeatures: pitchFeatures,

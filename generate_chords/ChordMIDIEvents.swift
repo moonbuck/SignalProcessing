@@ -9,6 +9,11 @@ import Foundation
 import typealias CoreMIDI.MIDITimeStamp
 import SignalProcessing
 
+/// Generates a random velocity value from `45` through `127`.
+///
+/// - Returns: The randomly generated velocity value.
+private func randomVelocity() -> UInt8 { return UInt8(arc4random_uniform(83) + 45) }
+
 /// Generates an ASCII friendly chord name from the given chord name.
 ///
 /// - Parameter name: The non-ASCII chord name.
@@ -65,7 +70,7 @@ func generateChordEvents(octave: Int) -> (events: [MIDIEvent],
       midiEvents.append(.channel(try! MIDIEvent.ChannelEvent(type: .noteOn,
                                                              channel: 0,
                                                              data1: UInt8(pitch.rawValue),
-                                                             data2: 100,
+                                                             data2: randomVelocity(),
                                                              time: currentOffset)))
 
     }
@@ -77,7 +82,7 @@ func generateChordEvents(octave: Int) -> (events: [MIDIEvent],
       midiEvents.append(.channel(try! MIDIEvent.ChannelEvent(type: .noteOff,
                                                              channel: 0,
                                                              data1: UInt8(pitch.rawValue),
-                                                             data2: 100,
+                                                             data2: randomVelocity(),
                                                              time: currentOffset)))
 
     }

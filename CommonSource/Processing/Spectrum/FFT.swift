@@ -98,6 +98,10 @@ public struct FFT {
     var binCount = Int32(bins.count)
     vvsqrt(bins.storage, bins.storage, &binCount)
 
+    // Deallocate memory.
+    complexBuffer.realp.deallocate(capacity: Int(K) + 1)
+    complexBuffer.imagp.deallocate(capacity: Int(K) + 1)
+
   }
 
 }

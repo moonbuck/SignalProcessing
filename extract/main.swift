@@ -11,47 +11,54 @@ import SignalProcessing
 
 let arguments = Arguments()
 
-//  ************    Load input audio file.
+var currentFileBaseName = ""
 
-// Get a buffer filled with the contents of the input audio file.
-guard let audioBuffer = try? AVAudioPCMBuffer(contentsOf: URL(fileURLWithPath: arguments.input))
-  else
-{
-  print(Error.invalidInput.rawValue)
-  exit(EXIT_FAILURE)
+print("extracting features from \(arguments.fileURLs.count) files...")
+
+// Iterate the input audio files
+for (index, inputFile) in arguments.fileURLs.enumerated() {
+
+  currentFileBaseName = inputFile.deletingPathExtension().lastPathComponent
+
+  print("processing file \(index + 1): \(inputFile.lastPathComponent)...", terminator: "")
+
+  //  ************    Load input audio file.
+
+  // Get a buffer filled with the contents of the input audio file.
+  guard let audioBuffer = try? AVAudioPCMBuffer(contentsOf: inputFile) else {
+    print(Error.invalidInput.rawValue)
+    exit(EXIT_FAILURE)
+  }
+
+  // Check the sample rate.
+  guard audioBuffer.format.sampleRate == 44100 else {
+    print("Only audio files with a sample rate of 44100 Hz are currently supported.")
+    exit(EXIT_FAILURE)
+  }
+
+  // Downmix to mono, converting to 64bit samples unless Essentia is to be used.
+  let monoBuffer = arguments.extractionOptions.useEssentia ? audioBuffer.mono : audioBuffer.mono64
+
+  //  ************    Execute the specified command.
+
+  let result = extractFeatures(using: monoBuffer)
+
+  //  ************    Generate output file(s).
+
+  do {
+
+    // Try writing the result to disk.
+    try write(result: result)
+
+  } catch {
+
+    print("Error encountered writing to disk: \(error.localizedDescription)")
+    exit(EXIT_FAILURE)
+
+  }
+
+  print("finished")
+
 }
 
-// Check the sample rate.
-guard audioBuffer.format.sampleRate == 44100 else {
-  print("Only audio files with a sample rate of 44100 Hz are currently supported.")
-  exit(EXIT_FAILURE)
-}
-
-// Downmix to mono, converting to 64bit samples unless Essentia is to be used.
-let monoBuffer = arguments.useEssentia ? audioBuffer.mono : audioBuffer.mono64
-
-//  ************    Execute the specified command.
-
-let result = executeSpectrumCommand(using: monoBuffer)
-
-//  ************    Send output to the specified destination.
-
-
-// Check whether a file destination path has been provided; otherwise, print to stdout and exit.
-switch arguments.destination {
-
-  case .stdout:
-    print(text(from: result))
-    exit(EXIT_SUCCESS)
-
-  case .file(let path):
-    // Try writing the result to the specified file.
-    do {
-      try write(result: result, to: URL(fileURLWithPath: path))
-      exit(EXIT_SUCCESS)
-    } catch {
-      print("Error encountered writing to file '\(path)': \(error.localizedDescription)")
-      exit(EXIT_FAILURE)
-    }
-}
-
+print("finished processing \(arguments.fileURLs.count) files.")

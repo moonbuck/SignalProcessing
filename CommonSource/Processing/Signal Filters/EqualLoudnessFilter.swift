@@ -30,24 +30,28 @@ public final class EqualLoudnessFilter: SignalFilter {
   private let yulewalkFilter = IIRFilter(a: EqualLoudnessFilter.yulewalkCoefficients.a,
                                          b: EqualLoudnessFilter.yulewalkCoefficients.b)
 
-  public func process(signal x: SignalVector, y: inout SignalVector) {
+  public func process(signal x: SignalVector, y: SignalVector) {
+    process(signal: x.storage, y: y)
+  }
 
-    var buffer = SignalVector(count: x.count)
+  public func process(signal x: Float64Buffer, y: SignalVector) {
 
-    yulewalkFilter.process(signal: x, y: &buffer)
-    butterworthFilter.process(signal: buffer, y: &y)
+    let buffer = SignalVector(count: y.count)
+
+    yulewalkFilter.process(signal: x, y: buffer)
+    butterworthFilter.process(signal: buffer, y: y)
 
   }
 
   public init() {}
 
-  public static func process(signal buffer: AVAudioPCMBuffer) {
-    EqualLoudnessFilter().process(signal: buffer)
-  }
-
-  public static func process(signal x: SignalVector, y: inout SignalVector) {
-    EqualLoudnessFilter().process(signal: x, y: &y)
-  }
+//  public static func process(signal buffer: AVAudioPCMBuffer) {
+//    EqualLoudnessFilter().process(signal: buffer)
+//  }
+//
+//  public static func process(signal x: SignalVector, y: inout SignalVector) {
+//    EqualLoudnessFilter().process(signal: x, y: &y)
+//  }
 
 }
 

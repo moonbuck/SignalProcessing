@@ -85,12 +85,12 @@ public struct STFT: Collection {
     let frames = UnsafeMutablePointer<BinVector>.allocate(capacity: frameCount)
 
     // Calculate the `windowSize` represented as a power of 2.
-    let log2N = vDSP_Length(log2(Float(windowSize)))
+//    let log2N = vDSP_Length(log2(Float(windowSize)))
 
     // Create the FFT support structure.
-    guard let fftSetup = vDSP_create_fftsetupD(log2N, FFTRadix(FFT_RADIX2)) else {
-      throw Error.fftSetupFailed
-    }
+//    guard let fftSetup = vDSP_create_fftsetupD(log2N, FFTRadix(FFT_RADIX2)) else {
+//      throw Error.fftSetupFailed
+//    }
 
     // Create a closure for calculating the number of samples remaining.
     let remainingSamples: (Int) -> Int = { N - hopSize * $0 }
@@ -99,14 +99,8 @@ public struct STFT: Collection {
     DispatchQueue.concurrentPerform(iterations: frameCount) {
       frameIndex in
 
-      // Calculate the offset for this iteration's windo.
-      let windowOffset = hopSize * frameIndex
-
-      // Allocate memory for applying the window to `signal`.
+      // Allocate memory for applying the window to `signal`. `SignalVector` below will free.
       let windowedData = Float64Buffer.allocate(capacity: windowSize)
-
-      // Deallocate the memory when no longer needed.
-      defer { windowedData.deallocate(capacity: windowSize) }
 
       // Initialize all the samples to 0
       windowedData.initialize(to: 0, count: windowSize)
@@ -124,11 +118,14 @@ public struct STFT: Collection {
 
       }
 
+      // Wrap the windowed data in a vector.
+      let signal = SignalVector(storage: windowedData, count: windowSize, assumeOwnership: true)
+
       // Perform the FFT calculation.
-      let calculation = FFT(signal: SignalVector(storage: windowedData, count: windowSize),
+      let calculation = FFT(signal: signal,
                             sampleRate: sampleRate,
-                            setup: fftSetup,
-                            log2N: log2N)
+                            windowSize: windowSize,
+                            hopSize: hopSize)
 
       // Copy the calculation to `frames[m]`.
       (frames + frameIndex).initialize(to: calculation.bins)
@@ -139,7 +136,7 @@ public struct STFT: Collection {
     self.frames = Array(UnsafeBufferPointer(start: frames, count: frameCount))
 
     // Destroy the setup structure.
-    vDSP_destroy_fftsetup(fftSetup)
+//    vDSP_destroy_fftsetup(fftSetup)
 
     // Deallocate the window.
     window.deallocate(capacity: windowSize)

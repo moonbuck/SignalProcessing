@@ -115,6 +115,10 @@ public struct ColorMap: Collection {
                                     blue: CGFloat(blueValues[$0]),
                                     alpha: 1) }
 
+      redValues.deallocate(capacity: 64)
+      greenValues.deallocate(capacity: 64)
+      blueValues.deallocate(capacity: 64)
+
     case .s128:
 
       endIndex = 128
@@ -149,10 +153,20 @@ public struct ColorMap: Collection {
                                      blue: CGFloat(blueValues[$0]),
                                      alpha: 1) }
 
+      ramp64OneHalfToZero.deallocate(capacity: 64)
+      ramp64OneToZero.deallocate(capacity: 64)
+      ramp16BtoOne.deallocate(capacity: 16)
+      redValues.deallocate(capacity: 128)
+      greenValues.deallocate(capacity: 128)
+      blueValues.deallocate(capacity: 128)
+
       case .infinite:
         fatalError("Only maps of kind `.data` support the `.infinite` size.")
     }
 
+    ramp24AtoOne.deallocate(capacity: 24)
+    ramp24ZerotoOne.deallocate(capacity: 24)
+    ramp16ZeroToOne.deallocate(capacity: 16)
 
   }
 
@@ -174,6 +188,8 @@ public struct ColorMap: Collection {
       vDSP_vgenD(&min, &max, ramp, 1, 64)
       colors = (0..<64).reversed().map { Color(white: CGFloat(ramp[$0]), alpha: 1) }
 
+      ramp.deallocate(capacity: 64)
+
     case .s128:
 
       endIndex = 128
@@ -182,6 +198,8 @@ public struct ColorMap: Collection {
       vDSP_vgenD(&min, &max, ramp, 1, 128)
       colors = (0..<128).reversed().map { Color(white: CGFloat(ramp[$0]), alpha: 1) }
 
+      ramp.deallocate(capacity: 128)
+      
       case .infinite:
         fatalError("Only maps of kind `.data` support the `.infinite` size.")
 

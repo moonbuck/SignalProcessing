@@ -72,7 +72,7 @@ public struct PitchFeatures: ParameterizedFeatureCollection {
     EqualLoudnessFilter().process(signal: buffer)
 
     // Initialize using the buffer along with the specified parameters.
-    self.init(from: buffer, parameters: parameters)
+    try self.init(from: buffer, parameters: parameters)
 
   }
 
@@ -81,10 +81,10 @@ public struct PitchFeatures: ParameterizedFeatureCollection {
   /// - Parameters:
   ///   - buffer: The buffer for which the energy values are to be calculated.
   ///   - parameters: The parameter values to use during pitch extraction.
-  public init(from buffer: AVAudioPCMBuffer, parameters: Parameters) {
+  public init(from buffer: AVAudioPCMBuffer, parameters: Parameters) throws {
 
     // Extract the pitch features.
-    var pitchBuffer = PitchBuffer(from: buffer, method: parameters.method)
+    var pitchBuffer = try PitchBuffer(from: buffer, method: parameters.method)
 
     // Apply the filters.
     for filter in parameters.filters { filter.filter(buffer: &pitchBuffer) }

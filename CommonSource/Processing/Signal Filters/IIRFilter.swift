@@ -47,7 +47,9 @@ public final class IIRFilter: SignalFilter {
 
     }
 
-    guard a[0] != 0 else  { fatalError("The first value of the denominator vector must not be 0.") }
+    guard a[0] != 0 else  {
+      fatalError("The first value of the denominator vector must not be 0.")
+    }
 
     // Normalize all the coeffiencts with `a[0]`.
     var a0 = a[0]
@@ -70,12 +72,21 @@ public final class IIRFilter: SignalFilter {
   /// - Parameters:
   ///   - x: The signal to filter.
   ///   - y: The vector to which the filtered signal will be written.
-  public func process(signal x: SignalVector, y: inout SignalVector) {
+  public func process(signal x: SignalVector, y: SignalVector) {
+    process(signal: x.storage, y: y)
+  }
+
+  /// Filters the input signal `x` storing the filtered signal in `y`.
+  ///
+  /// - Parameters:
+  ///   - x: The signal to filter.
+  ///   - y: The vector to which the filtered signal will be written.
+  public func process(signal x: Float64Buffer, y: SignalVector) {
 
     guard !isIdentityFilter else {
 
-      let countu = vDSP_Length(x.count)
-      vDSP_mmovD(x.storage, y.storage, countu, countu, 1, countu)
+      let countu = vDSP_Length(y.count)
+      vDSP_mmovD(x, y.storage, countu, countu, 1, countu)
 
       return
 

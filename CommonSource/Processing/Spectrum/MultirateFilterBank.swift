@@ -41,10 +41,10 @@ public class MultirateFilterBank {
   ///                 sizes for the other two sample rates will be derived from this value.
   ///   - hopSize: The hop size to use while processing the 22050 Hz signal. Hop sizes for
   ///              the other two sample rates will be derived from this value.
-  /// - Returns: A buffer of pitch features extracted from `buffer`.
-  public func pitchBuffer(from buffer: MultirateAudioPCMBuffer,
-                          windowSize: Int,
-                          hopSize: Int) -> PitchBuffer
+  /// - Returns: A buffer of pitch vectors, the frame count, and the feature rate.
+  public func extractPitchFeatures(from buffer: MultirateAudioPCMBuffer,
+                                   windowSize: Int,
+                                   hopSize: Int) -> (UnsafeMutablePointer<PitchVector>, Int, Float)
   {
 
     // Calculate the total number of frames in the result.
@@ -96,7 +96,7 @@ public class MultirateFilterBank {
 
       // Allocate memory for two addition buffers of data. The second buffer is neccesary
       // for the forward-backward filter implementation and zero-phase filter result.
-      var y = SignalVector(count: l)
+      let y = SignalVector(count: l)
 
       // Calculate the factor by which the sum of squares will need to be multiplied.
       let factor = 22050/Float64(sampleRate.rawValue)
@@ -107,7 +107,7 @@ public class MultirateFilterBank {
         // Use the pitch's raw value for indexing purposes.
         let p = pitch.rawValue
 
-        filters[p]?.process(signal: x, y: &y)
+        filters[p]?.process(signal: x, y: y)
 
         let delay = filterDelays[p]
 
@@ -144,7 +144,7 @@ public class MultirateFilterBank {
     // Calculate the feature rate using the top level sample rate.
     let featureRate = 22050/Float(windowSize - hopSize)
 
-    return PitchBuffer(buffer: stmspFrames, frameCount: frameCount, featureRate: featureRate)
+    return (stmspFrames, frameCount, featureRate)
 
   }
 

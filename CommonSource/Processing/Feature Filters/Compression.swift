@@ -60,11 +60,5 @@ public func compress(vector: ConstantSizeFloat64Vector, settings: CompressionSet
 public func compress<Buffer>(buffer: Buffer, settings: CompressionSettings)
   where Buffer: Float64VectorBufferWrapper
 {
-
-  for index in 0 ..< buffer.count {
-
-    compress(vector: buffer.buffer[index], settings: settings)
-
-  }
-
+  for index in 0 ..< buffer.count { compress(vector: buffer.buffer[index], settings: settings) }
 }

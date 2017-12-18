@@ -1,0 +1,33 @@
+{
+  'version': 0,
+  'case-sensitive': 'false',
+  'roots': [
+    {
+      'type': 'directory',
+      'name': "/Users/Moondeer/Projects/SignalProcessing/build/Release/SignalProcessing.framework/Headers",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "SignalProcessing-Swift.h",
+          'external-contents': "/Users/Moondeer/Projects/SignalProcessing/build/Release/SignalProcessing.framework/Versions/A/Headers/SignalProcessing-Swift.h"
+        },
+        {
+          'type': 'file',
+          'name': "SignalProcessing.h",
+          'external-contents': "/Users/Moondeer/Projects/SignalProcessing/CommonSource/SignalProcessing.h"
+        }
+      ]
+    },
+    {
+      'type': 'directory',
+      'name': "/Users/Moondeer/Projects/SignalProcessing/build/Release/SignalProcessing.framework/Modules",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "module.modulemap",
+          'external-contents': "/Users/Moondeer/Projects/SignalProcessing/build/SignalProcessing.build/Release/SignalProcessing_Mac.build/module.modulemap"
+        }
+      ]
+    }
+  ]
+}

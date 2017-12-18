@@ -9,67 +9,67 @@ import Foundation
 import Docopt
 
 let usage = """
-Usage: extract (--spectrum | --pitch | --chroma) [options] <input> [<output>]
-       extract (--spectrum | --pitch | --chroma) [options] <input> --csv [--group-by=<grp>] [<output>]
-       extract (--spectrum | --pitch | --chroma) [options] <input> --plot [(--title=<t> | --data)] [<output>]
+Usage: extract [options] FILE ...
        extract --help
 
-Command:
-  --spectrum  Extracts the frequency spectrum without further quantization.
-  --pitch     Extracts the frequency spectrum and requantizes to correspond with MIDI pitches.
-  --chroma    Extracts the frequency spectrum and requantizes to correspond with the 12 chromas.
-
 Arguments:
-  <input>   The file path for the input audio file.
-  <output>  The file path to which output should be written. If not provided, output will be
-            written to stdout.
-
-CSV Options:
-  --csv                    Output result as csv data.
-  --group-by=<grp:string>  Group csv data by row or column. [default: row]
-
-Plot Options:
-  --plot              Output result as an image of the plotted data.
-  --title=<t:string>  The title to display at the top of the plot.
-  --data              The image will consist of only the features with each value mapped to a pixel.
+  FILE The audio file(s) from which to extract features.
 
 Options:
-  --essentia      Use algorithms from the Essentia framework.
-  --win=<ws:int>  The size of the window to use. [default: 8820]
-  --hop=<hs:int>  The hop size to use. [default: 4410]
-  -h, --help      Show this help message and exit.
+  --output-dir=<DIR:string>          The file path for the directory to which generated files
+                                     will be written. [default: ./]
+  --csv-dir=<CSV_DIR:string>         The file path for the directory to which the generated CSV
+                                     file will be written. When used in combination with DIR,
+                                     CSV_DIR will be treated as a subdirectory path within DIR.
+  --png-dir=<PNG_DIR:string>         The file path for the directory to which the generated PNG
+                                     file will be written. When used in combination with DIR,
+                                     PNG_DIR will be treated as a subdirectory path within DIR.
+  --create-directories               Create specified directories if they do not exist.
+  --output-name=<NAME:string>        The base file name for generated files. If not specified,
+                                     The base name of the input file will be used.
+  --essentia                         Use algorithms from the Essentia framework.
+  --quantization=<KIND:string>       How the bins should be quantized. KIND can be 'bin',
+                                     'pitch', or 'chroma'. [default: pitch]
+  --window-size=<WINDOW_SIZE:int>    The size of the window to use. [default: 8820]
+  --hop-size=<HOP_SIZE:int>          The hop size to use. [default: 4410]
+  --dB                               Convert energies to decibels.
+  --compress=<FACTOR:float>          Perform log compression on the feature values using FACTOR.
+                                     [default: 0]
+  --csv                              Output result as csv data.
+  --group-by=<GROUP:string>          Group csv data by row or column. [default: row]
+  --plot                             Output result as an image of the plotted data.
+  --data                             Image output will consist of only the features with each
+                                     value mapped to a single pixel.
+  --title=<TITLE:string>             The title to display at the top of the plot.
+  --help                             Show this help message and exit.
 """
+
 
 struct Arguments {
 
-  /// Whether to use the algorithms in the Essentia framework.
-  let useEssentia: Bool
+  /// The URLs of all the input audio files.
+  let fileURLs: [URL]
 
-  /// The window size to use during extraction.
-  let windowSize: Int
+  /// The root directory for output files.
+  let outputDirectory: URL
 
-  /// The hop size to use during extraction.
-  let hopSize: Int
+  /// The directory to which the CSV file should be written.
+  let csvDirectory: URL
 
-  /// The file path for the input audio file.
-  let input: String
+  /// The directory to which the PNG file should be written.
+  let pngDirectory: URL
 
-  /// The destination for the extracted features.
-  let destination: Destination
+  /// Whether non-existent directories should be created.
+  let createDirectories: Bool
 
-  /// The desired output format.
-  let outputFormat: OutputFormat
+  /// Options relating to feature extraction.
+  let extractionOptions: ExtractionOptions
 
-  /// The bin quantization.
-  let quantization: Quantization
+  /// Options relating to the generated PNG file.
+  let pngOptions: PNGOptions
 
-  /// The plot title.
-  let title: String
-
-  /// Whether the image should only consist of the data.
-  let naked: Bool
-
-  let groupBy: GroupBy
+  /// Options relating to the generated CSV file.
+  let csvOptions: CSVOptions
 
   /// Initialize by parsing the command line arguments.
   init() {
@@ -77,72 +77,187 @@ struct Arguments {
     // Parse the command line arguments.
     let arguments = Docopt.parse(usage, help: true)
 
-    useEssentia = arguments["--essentia"] as! Bool
-    windowSize = (arguments["--win"] as! NSNumber).intValue
-    hopSize = (arguments["--hop"] as! NSNumber).intValue
-    input = arguments["<input>"] as! String
-
-    outputFormat = arguments["--csv"] as! Bool
-                     ? .csv
-                     : arguments["--plot"] as! Bool
-                       ? .plot
-                       : .text
-
-    if let fileOut = arguments["<output>"] as? String {
-      switch outputFormat {
-        case .csv where !fileOut.hasSuffix(".csv"):
-          destination = .file(fileOut + ".csv")
-        case .plot where !fileOut.hasSuffix(".png"):
-          destination = .file(fileOut + ".png")
-        case .text where !fileOut.hasSuffix(".txt"):
-          destination = .file(fileOut + ".txt")
-        default:
-          destination = .file(fileOut)
-      }
-    } else {
-      destination = .stdout
-    }
-    
-    title = arguments["--title"] as? String ?? ""
-    naked = arguments["--data"] as! Bool
-    
-    guard let groupBy = GroupBy(rawValue: arguments["--group-by"] as! String) else {
+    // Make sure the quantization value is valid.
+    guard let quantization =
+                ExtractionOptions.Quantization(rawValue: arguments["--quantization"] as! String)
+    else
+    {
       print(usage)
       exit(EXIT_FAILURE)
     }
-    self.groupBy = groupBy
 
-    quantization = arguments["--pitch"] as! Bool
-                     ? .pitch
-                     : arguments["--chroma"] as! Bool
-                       ? .chroma
-                       : .bin
+    // Initialize the extraction options.
+    extractionOptions = ExtractionOptions(
+      useEssentia: arguments["--essentia"] as! Bool,
+      windowSize: (arguments["--window-size"] as! NSNumber).intValue,
+      hopSize: (arguments["--hop-size"] as! NSNumber).intValue,
+      compressionFactor: (arguments["--compress"] as? NSNumber)?.doubleValue ?? 0,
+      convertToDecibels: arguments["--dB"] as! Bool,
+      quantization: quantization
+    )
 
+    // Make sure the group-by value is valid.
+    guard let groupBy =
+                CSVOptions.GroupBy(rawValue: arguments["--group-by"] as! String)
+      else
+    {
+      print(usage)
+      exit(EXIT_FAILURE)
+    }
+
+    // Initialize the CSV options.
+    csvOptions = CSVOptions(generateCSV: arguments["--csv"] as! Bool, groupBy: groupBy)
+
+    // Initialize the PNG options.
+    pngOptions = PNGOptions(generateImage: arguments["--plot"] as! Bool,
+                            generateDataPlot: arguments["--data"] as! Bool,
+                            title: arguments["--title"] as? String)
+
+    let globList = arguments["FILE"] as! [String]
+
+    var fileList: [String] = []
+
+    for glob in globList {
+
+      let process = Process()
+      process.launchPath = "/bin/zsh"
+      process.arguments = ["-c", "print -l -- \(glob)"]
+
+      let pipe = Pipe()
+      process.standardOutput = pipe
+      process.launch()
+
+      let expandedGlob = String(data: pipe.fileHandleForReading.readDataToEndOfFile(),
+                                encoding: .utf8)!
+
+      fileList.append(contentsOf: expandedGlob.split(separator: "\n").map(String.init))
+
+    }
+
+
+    // Initialize the list of file URLs.
+    fileURLs = fileList.map(URL.init(fileURLWithPath:))
+
+    // Get the root directory for generated files.
+    let directory = arguments["--output-dir"] as? String
+
+    // Initialize the output directory.
+    let outputDirectory = URL(fileURLWithPath: directory
+                                ?? FileManager.`default`.currentDirectoryPath)
+    self.outputDirectory = outputDirectory
+
+    // Switch on the directory provided for the generated CSV file.
+    switch arguments["--csv-dir"] {
+      case let subirectory as String where directory != nil:
+        csvDirectory = outputDirectory.appendingPathComponent(subirectory)
+      case let directory as String:
+        csvDirectory = URL(fileURLWithPath: directory)
+      default:
+        csvDirectory = outputDirectory
+    }
+
+    // Switch on the directory provided for the generated PNG file.
+    switch arguments["--png-dir"] {
+      case let subdirectory as String where directory != nil:
+        pngDirectory = outputDirectory.appendingPathComponent(subdirectory)
+      case let directory as String:
+        pngDirectory = URL(fileURLWithPath: directory)
+      default:
+        pngDirectory = outputDirectory
+    }
+
+    // Initialize the flag for creating directories.
+    createDirectories = arguments["--create-directories"] as! Bool
 
   }
 
-  enum GroupBy: String { case row, column }
+  /// Type encapsulating options relating to feature extraction.
+  struct ExtractionOptions: CustomStringConvertible {
 
+    /// Whether to use the algorithms in the Essentia framework.
+    let useEssentia: Bool
 
-  enum Destination: CustomStringConvertible {
-    case stdout
-    case file (String)
+    /// The window size to use during extraction.
+    let windowSize: Int
+
+    /// The hop size to use during extraction.
+    let hopSize: Int
+
+    /// Compress using compression factor.
+    let compressionFactor: Double
+
+    /// Whether to convert energy values to decibel equivalents.
+    let convertToDecibels: Bool
+
+    /// The bin quantization.
+    let quantization: Quantization
+
+    /// An enumeration of the possible quantizations of the extracted bins.
+    ///
+    /// - bin: Leaves the bins unquantized.
+    /// - pitch: Quantizes the bins into pitches.
+    /// - chroma: Quantizes the bins into chromas.
+    enum Quantization: String { case bin, pitch, chroma }
 
     var description: String {
-      switch self {
-        case .stdout: return "stdout"
-        case .file(let path): return path
-      }
+      return """
+        useEssentia: \(useEssentia)
+        windowSize: \(windowSize)
+        hopSize: \(hopSize)
+        convertToDecibels: \(convertToDecibels)
+        compressionFactor: \(compressionFactor)
+        quantization: \(quantization.rawValue)
+        """
     }
+
   }
 
-  enum OutputFormat: String {
-    case text, csv, plot
+  /// Type encapsulating options relating to the generated CSV file.
+  struct PNGOptions: CustomStringConvertible {
+
+    /// Whether an image should be generated.
+    let generateImage: Bool
+
+    /// Whether the generated image should only consist of the data.
+    let generateDataPlot: Bool
+
+    /// The plot title.
+    let title: String?
+
+    var description: String {
+      return """
+        generateImage: \(generateImage)
+        generateDataPlot: \(generateDataPlot)
+        title: \(title != nil ? "'\(title!)'" : "nil")
+        """
+    }
+
   }
 
-  enum Quantization: String {
-    case bin, pitch, chroma
+  /// Type encasulating options relating to the generated CSV file.
+  struct CSVOptions: CustomStringConvertible {
+
+    /// Whether a CSV file should be generated.
+    let generateCSV: Bool
+
+    /// The way frames should be grouped.
+    let groupBy: GroupBy
+
+    /// An enumeration for specifying the way frames are grouped in the CSV file.
+    /// - row: Each line contains an entire frame.
+    /// - column: Each line contains a column value from each frame.
+    enum GroupBy: String { case row, column }
+
+    var description: String {
+      return """
+        generateCSV: \(generateCSV)
+        groupBy: \(groupBy.rawValue)
+        """
+    }
+
   }
+
+
 
 }
 
@@ -151,16 +266,15 @@ extension Arguments: CustomStringConvertible {
   var description: String {
 
     return """
-    useEssentia: \(useEssentia)
-    windowSize: \(windowSize)
-    hopSize: \(hopSize)
-    input: \(input)
-    destination: \(destination)
-    outputFormat: \(outputFormat)
-    quantization: \(quantization)
-    title: "\(title)"
-    groupBy: \(groupBy)
-    """
+      fileURLs: '\(fileURLs)'
+      outputDirectory: '\(outputDirectory.path)'
+      csvDirectory: '\(csvDirectory.path)'
+      pngDirectory: '\(pngDirectory.path)'
+      createDirectories: \(createDirectories)
+      \(extractionOptions)
+      \(csvOptions)
+      \(pngOptions)
+      """
 
   }
 

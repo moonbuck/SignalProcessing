@@ -105,7 +105,7 @@ public func smooth<Vector>(buffer: FeatureBuffer<Vector>,
   // Iterate the new frame count.
   for frame in 0 ..< newRowCount {
 
-    let vector = Vector(storage: columnsʹ + (frame * vcount))
+    let vector = Vector(storage: columnsʹ + (frame * vcount), assumeOwnership: true)
 
     normalize(vector: vector, settings: .lᵖNorm(space: .l², threshold: 0.001))
 
@@ -198,7 +198,9 @@ public func smooth<Source>(source: Source, settings: SmoothingSettings) -> [Sour
   // Iterate the new frame count.
   for frame in 0 ..< newRowCount {
 
-    let vector = Source.Element(storage: columnsʹ + (frame * vcount), count: vcount)
+    let vector = Source.Element(storage: columnsʹ + (frame * vcount),
+                                count: vcount,
+                                assumeOwnership: true)
 
     normalize(vector: vector.storage,
               count: vcount,

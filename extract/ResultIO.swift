@@ -9,59 +9,104 @@ import Foundation
 import AppKit
 import SignalProcessing
 
+/// Checks whether a directory exists. If it does not exist and `arguments.createDirectories`,
+/// the directory and any intermediate directories will be created.
+///
+/// - Parameter url: The URL for the directory to check.
+/// - Throws: Any error thrown by `FileManager` while creating the directory.
+private func checkDirectory(url: URL) throws {
+
+  var isDirectory: ObjCBool = false
+  let exists = FileManager.`default`.fileExists(atPath: url.path, isDirectory: &isDirectory)
+
+  switch (exists, isDirectory.boolValue) {
+    case (true, true):
+      break
+    case (true, false):
+      print("Invalid directory for the generated CSV file: '\(url.path)'")
+      exit(EXIT_FAILURE)
+    case (false, _) where !arguments.createDirectories:
+      print("""
+            Directory for generated CSV file does not exist. Pass --create-directories to create
+            non-existent directories for generated files.
+            """)
+      exit(EXIT_FAILURE)
+    default:
+      try FileManager.`default`.createDirectory(at: url, withIntermediateDirectories: true)
+  }
+
+}
+
+private var checkedCSVDirectory = false
+private var checkedPNGDirectory = false
+
 /// Writes the specified output to the specified URL.
 ///
 /// - Parameters:
 ///   - result: The output to save to disk.
 ///   - url: The location to which `result` should be saved.
 /// - Throws: Any error thrown `Data.write(to:options:)`.
-func write(result: Output, to url: URL) throws {
+func write(result: Output) throws {
 
-  let data: Data
+  // Check whether a CSV file should be generated.
+  if arguments.csvOptions.generateCSV {
 
-  switch arguments.outputFormat {
+    // Get the output as csv formatted text.
+    let csv = csvFormattedText(from: result)
 
-    case .text:
+    // Get the csv text as raw data.
+    guard let data = csv.data(using: .utf8) else {
+      fatalError("Failed to get `csv` as raw data.")
+    }
 
-      // Get the output as plain text.
-      let string = text(from: result)
+    if !checkedCSVDirectory {
 
-      // Get the string text as raw data.
-      guard let stringData = string.data(using: .utf8) else {
-        fatalError("Failed to get `string` as raw data.")
-      }
+      // Check the directory specified for the generated CSV file.
+      try checkDirectory(url: arguments.csvDirectory)
 
-      data = stringData
+      checkedCSVDirectory = true
 
-    case .csv:
+    }
 
-      // Get the output as csv formatted text.
-      let csv = csvFormattedText(from: result)
+    
 
-      // Get the csv text as raw data.
-      guard let csvData = csv.data(using: .utf8) else {
-        fatalError("Failed to get `csv` as raw data.")
-      }
+    // Create the URL for the CSV file.
+    let url = arguments.csvDirectory.appendingPathComponent(currentFileBaseName + ".csv")
 
-      data = csvData
-
-    case .plot:
-
-      let image = plotImage(from: result)
-      guard let tiff = image.tiffRepresentation,
-            let bitmap = NSBitmapImageRep(data: tiff),
-            let imageData = bitmap.representation(using: .png, properties: [:])
-      else
-      {
-        print("Failed to get the underlying data for the plot image.")
-        exit(EXIT_FAILURE)
-      }
-
-      data = imageData
+    // Write the file to disk.
+    try data.write(to: url, options: [.atomic])
 
   }
 
-  try data.write(to: url, options: [.atomic])
+  // Check whether an image file should be generated.
+  if arguments.pngOptions.generateImage {
+
+    let image = plotImage(from: result)
+    guard let tiff = image.tiffRepresentation,
+          let bitmap = NSBitmapImageRep(data: tiff),
+          let data = bitmap.representation(using: .png, properties: [:])
+      else
+    {
+      print("Failed to get the underlying data for the plot image.")
+      exit(EXIT_FAILURE)
+    }
+
+    if !checkedPNGDirectory {
+
+      // Check the directory specified for the generated PNG file.
+      try checkDirectory(url: arguments.pngDirectory)
+
+      checkedPNGDirectory = true
+
+    }
+
+    // Create the URL for the CSV file.
+    let url = arguments.pngDirectory.appendingPathComponent(currentFileBaseName + ".png")
+
+    // Write the file to disk.
+    try data.write(to: url, options: [.atomic])
+
+  }
 
 }
 
@@ -111,7 +156,7 @@ func csvFormattedText(from output: Output) -> String {
 
   }
 
-  switch (output, arguments.groupBy) {
+  switch (output, arguments.csvOptions.groupBy) {
     case (.pitchFeatures(let value, _), .column):   return columnMajor(value)
     case (.binFeatures(let value, _), .column):     return columnMajor(value)
     case (.chromaFeatures(let value, _), .column):  return columnMajor(value)
@@ -130,32 +175,32 @@ func plotImage(from output: Output) -> NSImage {
 
   switch output {
 
-    case .binFeatures(let vectors, let featureRate) where arguments.naked:
+    case .binFeatures(let vectors, let featureRate) where arguments.pngOptions.generateDataPlot:
       return binDataImage(features: vectors, featureRate: featureRate)
 
     case .binFeatures(let vectors, let featureRate):
       return binPlot(features: vectors,
                      featureRate: featureRate,
                      mapKind: .grayscale,
-                     title: arguments.title)
+                     title: arguments.pngOptions.title)
 
-    case .pitchFeatures(let vectors, let featureRate) where arguments.naked:
+    case .pitchFeatures(let vectors, let featureRate) where arguments.pngOptions.generateDataPlot:
       return pitchDataImage(features: vectors, featureRate: featureRate)
 
     case .pitchFeatures(let vectors, let featureRate):
       return pitchPlot(features: vectors,
                        featureRate: featureRate,
                        mapKind: .grayscale,
-                       title: arguments.title)
+                       title: arguments.pngOptions.title)
 
-    case .chromaFeatures(let vectors, let featureRate) where arguments.naked:
+    case .chromaFeatures(let vectors, let featureRate) where arguments.pngOptions.generateDataPlot:
       return chromaDataImage(features: vectors, featureRate: featureRate)
 
     case .chromaFeatures(let vectors, let featureRate):
       return chromaPlot(features: vectors,
                         featureRate: featureRate,
                         mapKind: .grayscale,
-                        title: arguments.title)
+                        title: arguments.pngOptions.title)
 
   }
 

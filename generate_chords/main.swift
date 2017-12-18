@@ -18,69 +18,36 @@ var didWriteInfoFiles = false
 // Iterate the specified octaves.
 for octave in arguments.octaves {
 
-  // Generate the MIDI events.
-  let (events, markers, names, values) = generateChordEvents(octave: octave)
+  // Iterate the variations
+  for variation in 0 ..< arguments.variations {
 
-  // Create the MIDI file.
-  let midiFile = MIDIFile(tracks: [events])
+    // Generate the MIDI events.
+    let (events, markers, names, values) = generateChordEvents(octave: octave)
 
-  let fileNamePrefix = arguments.midiFileDestination.lastPathComponent
+    // Try writing the MIDI file to disk.
+    do {
+      try write(events: events, octave: octave, variation: variation)
+    } catch {
+      print("Error writing MIDI file to disk: \(error.localizedDescription)")
+      exit(EXIT_FAILURE)
+    }
 
-  let directory = arguments.midiFileDestination.deletingLastPathComponent()
+    // Check whether names and values remain to be written to disk.
+    guard !didWriteInfoFiles else { continue }
 
-  let midiURL = directory.appendingPathComponent("\(fileNamePrefix)_tone-height=\(octave).mid")
+    // Try writing the info files to disk and updating the flag.
+    do {
+      try write(list: markers, suffix: "markers")
+      try write(list: names, suffix: "names")
+      try write(list: values, suffix: "values")
+      didWriteInfoFiles = true
+    } catch {
+      print("Error writing info files to disk: \(error.localizedDescription)")
+      exit(EXIT_FAILURE)
+    }
 
-  // Try writing the MIDI file to the specified location.
-  do {
-    try midiFile.data.write(to: midiURL)
-  } catch {
-    print("Error writing MIDI file to '\(midiURL)': \(error.localizedDescription)")
-    exit(EXIT_FAILURE)
+    
   }
-
-  // Check whether names and values remain to be written to disk.
-  guard !didWriteInfoFiles else { continue }
-
-  let markerURL = directory.appendingPathComponent("\(fileNamePrefix)_markers.txt")
-  guard let markerData = markers.joined(separator: "\n").data(using: .utf8) else {
-    print("Failed to convert list of markers to raw bytes.")
-    exit(EXIT_FAILURE)
-  }
-
-  do {
-    try markerData.write(to: markerURL)
-  } catch {
-    print("Error writing marker file to '\(markerURL)': \(error.localizedDescription)")
-    exit(EXIT_FAILURE)
-  }
-
-  let nameURL = directory.appendingPathComponent("\(fileNamePrefix)_names.txt")
-  guard let nameData = names.joined(separator: "\n").data(using: .utf8) else {
-    print("Failed to convert list of chord names to raw bytes.")
-    exit(EXIT_FAILURE)
-  }
-
-  do {
-    try nameData.write(to: nameURL)
-  } catch {
-    print("Error writing name file to '\(nameURL)': \(error.localizedDescription)")
-    exit(EXIT_FAILURE)
-  }
-
-  let valueURL = directory.appendingPathComponent("\(fileNamePrefix)_values.txt")
-  guard let valueData = values.map(\.description).joined(separator: "\n").data(using: .utf8) else {
-    print("Failed to convert list of chord values to raw bytes.")
-    exit(EXIT_FAILURE)
-  }
-
-  do {
-    try valueData.write(to: valueURL)
-  } catch {
-    print("Error writing value file to '\(valueURL)': \(error.localizedDescription)")
-    exit(EXIT_FAILURE)
-  }
-
-  didWriteInfoFiles = true
 
 }
 

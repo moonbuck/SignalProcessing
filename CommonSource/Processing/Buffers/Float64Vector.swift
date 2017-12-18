@@ -9,7 +9,7 @@ import Foundation
 import Accelerate
 import AVFoundation
 
-public protocol Float64Vector: CustomReflectable, CustomStringConvertible {
+public protocol Float64Vector: class, CustomReflectable, CustomStringConvertible {
 
   /// Storage for the `Float64` values.
   var storage: Float64Buffer { get }
@@ -17,11 +17,14 @@ public protocol Float64Vector: CustomReflectable, CustomStringConvertible {
   /// The number of `Float64` values in `storage`.
   var count: Int { get }
 
+  /// Whether the vector is responsible for the memory allocated for `storage`.
+  var ownsMemory: Bool { get }
+
   /// Initializing with the vector size.
   init(count: Int)
 
   /// Initialize with existing storage.
-  init(storage: Float64Buffer, count: Int)
+  init(storage: Float64Buffer, count: Int, assumeOwnership: Bool)
 
 }
 
@@ -35,7 +38,7 @@ public protocol ConstantSizeFloat64Vector: Float64Vector {
   init()
 
   /// Initialize with existing storage.
-  init(storage: Float64Buffer)
+  init(storage: Float64Buffer, assumeOwnership: Bool)
 
 }
 
@@ -71,11 +74,11 @@ extension Float64Vector {
   /// - Parameters:
   ///   - buffer: The values to copy.
   ///   - count: The total number of values.
-  public init(copying buffer: Float64Buffer, count: Int) {
-    self.init(count: count)
-    let countu = vDSP_Length(count)
-    vDSP_mmovD(buffer, storage, countu, 1, countu, countu)
-  }
+//  public init(storage buffer: Float64Buffer, count: Int, assumeOwnership: Bool) {
+//    self.init(count: count)
+//    let countu = vDSP_Length(count)
+//    vDSP_mmovD(buffer, storage, countu, 1, countu, countu)
+//  }
 
   /// Accessors for the `Self.count` `Float64` values.
   ///
@@ -237,26 +240,66 @@ extension ConstantSizeFloat64Vector {
     self.init()
   }
 
-  public init(storage: Float64Buffer, count: Int) {
-    self.init(storage: storage)
+  public init(storage: Float64Buffer, count: Int, assumeOwnership: Bool) {
+    self.init(storage: storage, assumeOwnership: assumeOwnership)
   }
 
 }
 
 /// A structure for representing a vector of 128 `Float64` values with indices that correspond
 /// to the 128 pitch values.
-public struct PitchVector: Collection, ConstantSizeFloat64Vector, Equatable {
+public final class PitchVector: Collection, ConstantSizeFloat64Vector, Equatable {
 
   public typealias Element = Float64
 
   public static let count = 128
 
+  private typealias BinCount = Int
+  private typealias WindowLength = Int
+
+  /// A private cache of bin-to-pitch indexes.
+  private static var binMaps: [SampleRate: [BinCount: [WindowLength: [Pitch]]]] = [:]
+
+  /// Retrieves the pitch index for the specified parameters from the cache, creating it
+  /// if it does not exist.
+  ///
+  /// - Parameters:
+  ///   - binCount: The total number of bins.
+  ///   - windowLength: The length of the window used to calculate the bins.
+  ///   - sampleRate: The sample rate associated with the bins.
+  /// - Returns: The cached or created pitch index.
+  private static func pitchIndex(binCount: Int,
+                                 windowLength: Int,
+                                 sampleRate: SampleRate) -> [Pitch]
+  {
+
+    if let map = binMaps[sampleRate]?[binCount]?[windowLength] { return map }
+
+    let map = binMap(windowLength: windowLength, sampleRate: sampleRate)
+
+    if binMaps[sampleRate] == nil { binMaps[sampleRate] = [:] }
+
+    if binMaps[sampleRate]![binCount] == nil { binMaps[sampleRate]![binCount] = [:] }
+
+    binMaps[sampleRate]![binCount]![windowLength] = map
+
+    return map
+
+  }
+
   /// Storage for the `Float64` values.
   public let storage: Float64Buffer
+
+  public let ownsMemory: Bool
+
+  deinit {
+    if ownsMemory { storage.deallocate(capacity: count) }
+  }
 
   /// Initialize an all-zero vector.
   public init() {
 
+    ownsMemory = true
     storage = Float64Buffer.allocate(capacity: 128)
     vDSP_vclrD(storage, 1, 128)
 
@@ -264,24 +307,28 @@ public struct PitchVector: Collection, ConstantSizeFloat64Vector, Equatable {
 
   /// Initializing with a buffer of values for filling the vector.
   ///
-  /// - Parameter values: The buffer of values to use. This must have at least 128 elements.
-  /// - Note: The initialized vector assumes ownership of `storage`. Values are not copied.
-  public init(storage: Float64Buffer) {
+  /// - Parameters:
+  ///   - storage: The buffer of values to use. This must have at least 128 elements.
+  ///   - assumeOwnership: Whether the vector should be responsible for the allocated memory.
+  public init(storage: Float64Buffer, assumeOwnership: Bool) {
     self.storage = storage
+    ownsMemory = assumeOwnership
   }
 
   /// Initializing from an FFT calculation.
   ///
   /// - Parameters:
   ///   - fft: The FFT bins to redistribute into pitch energies.
+  ///   - windowLength: The length of the window used to calculate `bins`.
   ///   - sampleRate: The sample rate of the signal.
-  ///   - pitchIndex: A cached pitch index or `nil`.
-  public init(bins: BinVector, sampleRate: SampleRate, pitchIndex: [Pitch]? = nil) {
+  public convenience init(bins: BinVector, windowLength: Int, sampleRate: SampleRate) {
 
     self.init()
 
-    // Create an index for bin-to-pitch conversion.
-    let pitchIndex = pitchIndex ?? binMap(windowLength: bins.count * 2, sampleRate: sampleRate)
+    // Fetch the index for bin-to-pitch conversion.
+    let pitchIndex = PitchVector.pitchIndex(binCount: bins.count,
+                                            windowLength: windowLength,
+                                            sampleRate: sampleRate)
 
     // Iterate the enumerated `pitchIndex` to generate bin-pitch pairs.
     for (bin, pitch) in pitchIndex.enumerated() {
@@ -338,7 +385,7 @@ public struct PitchVector: Collection, ConstantSizeFloat64Vector, Equatable {
 ///   - windowLength: The length of the window used in FFT calculations.
 ///   - sampleRate: The sample rate of the signal being processed.
 /// - Returns: An array holding raw pitch values for each bin.
-public func binMap(windowLength: Int, sampleRate: SampleRate) -> [Pitch] {
+private func binMap(windowLength: Int, sampleRate: SampleRate) -> [Pitch] {
 
   // Get the sample rate as a float value.
   let sampleRate = Float(sampleRate.rawValue)
@@ -385,16 +432,24 @@ public func binMap(windowLength: Int, sampleRate: SampleRate) -> [Pitch] {
 
   }
 
+  // Deallocate memory.
+  binIndices.deallocate(capacity: count)
+  pitches8.deallocate(capacity: count)
+
   // Fix the first value if the second is less than 0.
   if pitches[1] < 0 { pitches[0] = Pitch(rawValue: Int.min) }
 
-  return Array(UnsafeBufferPointer(start: pitches, count: count))
+  let array = Array(UnsafeBufferPointer(start: pitches, count: count))
+
+  pitches.deallocate(capacity: count)
+
+  return array
 
 }
 
 /// A structure for representing a vector of 12 `Float64` values with indices that correspond
 /// to the 12 chroma values.
-public struct ChromaVector: Collection, ConstantSizeFloat64Vector, Equatable {
+public final class ChromaVector: Collection, ConstantSizeFloat64Vector, Equatable {
 
   public typealias Element = Float64
 
@@ -403,9 +458,16 @@ public struct ChromaVector: Collection, ConstantSizeFloat64Vector, Equatable {
   /// Storage for the `Float64` values.
   public let storage: Float64Buffer
 
+  public let ownsMemory: Bool
+
+  deinit {
+    if ownsMemory { storage.deallocate(capacity: count) }
+  }
+
   /// Initialize an all-zero vector.
   public init() {
 
+    ownsMemory = true
     storage = Float64Buffer.allocate(capacity: 12)
     vDSP_vclrD(storage, 1, 12)
 
@@ -414,8 +476,9 @@ public struct ChromaVector: Collection, ConstantSizeFloat64Vector, Equatable {
   /// Initializing with a buffer of values for filling the vector.
   ///
   /// - Parameter storage: The buffer of values to use. This must have at least 12 elements.
-  public init(storage: Float64Buffer) {
+  public init(storage: Float64Buffer, assumeOwnership: Bool) {
     self.storage = storage
+    ownsMemory = assumeOwnership
   }
 
   /// Accessors for the 12 `Float` values.
@@ -437,7 +500,7 @@ public struct ChromaVector: Collection, ConstantSizeFloat64Vector, Equatable {
 }
 
 /// A structure for representing the bins for an FFT calculation.
-public struct BinVector: Collection, Float64Vector, Equatable {
+public final class BinVector: Collection, Float64Vector, Equatable {
 
   public typealias Element = Float64
 
@@ -446,9 +509,16 @@ public struct BinVector: Collection, Float64Vector, Equatable {
   /// Storage for the `Float64` values.
   public let storage: Float64Buffer
 
+  public let ownsMemory: Bool
+
+  deinit {
+    if ownsMemory { storage.deallocate(capacity: count) }
+  }
+
   /// Initialize an all-zero vector.
   public init(count: Int) {
 
+    ownsMemory = true
     self.count = count
     storage = Float64Buffer.allocate(capacity: count)
     vDSP_vclrD(storage, 1, vDSP_Length(count))
@@ -457,17 +527,20 @@ public struct BinVector: Collection, Float64Vector, Equatable {
 
   /// Initializing with a buffer of values for filling the vector.
   ///
-  /// - Parameter values: The buffer of values to use. This must have at least 128 elements.
-  /// - Note: The initialized vector assumes ownership of `storage`. Values are not copied.
-  public init(storage: Float64Buffer, count: Int) {
+  /// - Parameters:
+  ///   - storage: The buffer of values to use.
+  ///   - count: The number of values in `storage`.
+  ///   - assumeOwnership: Whether the vector should be responsible for the allocated memory.
+  public init(storage: Float64Buffer, count: Int, assumeOwnership: Bool) {
     self.storage = storage
     self.count = count
+    ownsMemory = assumeOwnership
   }
 
   /// Initializing by copying the contents of an array.
   ///
   /// - Parameter array: The array with values to copy.
-  public init(array: [Float64]) {
+  public convenience init(array: [Float64]) {
     self.init(count: array.count)
     let countu = vDSP_Length(array.count)
     vDSP_mmovD(array, storage, countu, 1, countu, countu)
@@ -506,7 +579,7 @@ public struct BinVector: Collection, Float64Vector, Equatable {
 }
 
 /// A structure for holding the values of a signal.
-public struct SignalVector: Collection, Float64Vector, Equatable {
+public final class SignalVector: Collection, Float64Vector, Equatable {
 
   public typealias Element = Float64
 
@@ -515,22 +588,33 @@ public struct SignalVector: Collection, Float64Vector, Equatable {
   /// Storage for the `Float64` values.
   public let storage: Float64Buffer
 
+  /// Flag indicating whether the signal vector is responsible for freeing allocated memory.
+  public let ownsMemory: Bool
+
+  deinit {
+    if ownsMemory { storage.deallocate(capacity: count) }
+  }
+
   /// Initialize an all-zero vector.
   public init(count: Int) {
 
     self.count = count
     storage = Float64Buffer.allocate(capacity: count)
+    ownsMemory = true
     vDSP_vclrD(storage, 1, vDSP_Length(count))
 
   }
 
   /// Initializing with a buffer of values for filling the vector.
   ///
-  /// - Parameter values: The buffer of values to use.
-  /// - Note: The initialized vector assumes ownership of `storage`. Values are not copied.
-  public init(storage: Float64Buffer, count: Int) {
+  /// - Parameters:
+  ///   - storage: The buffer of values to use.
+  ///   - count: The number of values in `storage`.
+  ///   - assumeOwnership: Whether to assume ownership of the memory allocated for `storage`.
+  public init(storage: Float64Buffer, count: Int, assumeOwnership: Bool) {
     self.storage = storage
     self.count = count
+    ownsMemory = assumeOwnership
   }
 
   /// Initializing with an array to wrap.
@@ -539,12 +623,13 @@ public struct SignalVector: Collection, Float64Vector, Equatable {
   public init(array: inout [Float64]) {
     storage = Float64Buffer(&array)
     count = array.count
+    ownsMemory = false
   }
 
   /// Initializing with the contents of an audio buffer.
   ///
   /// - Parameter buffer: The buffer with the content to use.
-  public init(buffer: AVAudioPCMBuffer, copy: Bool = false) {
+  public convenience init(buffer: AVAudioPCMBuffer, copy: Bool = false) {
 
     guard let channelData = buffer.float64ChannelData?.pointee else {
       fatalError("Buffer contains invalid channel data.")
@@ -557,7 +642,7 @@ public struct SignalVector: Collection, Float64Vector, Equatable {
       let countu = vDSP_Length(count)
       vDSP_mmovD(channelData, storage, countu, 1, countu, countu)
     } else {
-      self.init(storage: channelData, count: count)
+      self.init(storage: channelData, count: count, assumeOwnership: false)
     }
 
   }

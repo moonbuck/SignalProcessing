@@ -12,7 +12,8 @@ import Accelerate
 
 public protocol SignalFilter {
 
-  func process(signal x: SignalVector, y: inout SignalVector)
+  func process(signal x: SignalVector, y: SignalVector)
+  func process(signal x: Float64Buffer, y: SignalVector)
 
 }
 
@@ -27,14 +28,19 @@ extension SignalFilter {
 
     for channel in 0 ..< Int(buffer.format.channelCount) {
 
+//      let unfilteredSignal = SignalVector(count: n)
+//      vDSP_mmovD(float64ChannelData[channel], unfilteredSignal.storage, nu, nu, 1, nu)
+
       // Wrap the data in a vector.
-      let unfilteredSignal = SignalVector(storage: float64ChannelData[channel], count: n)
+//      let unfilteredSignal = SignalVector(storage: float64ChannelData[channel],
+//                                          count: n,
+//                                          assumeOwnership: false)
 
       // Create an empty vector for the filtered signal.
-      var filteredSignal = SignalVector(count: n)
+      let filteredSignal = SignalVector(count: n)
 
       // Filter this channel's signal.
-      process(signal: unfilteredSignal, y: &filteredSignal)
+      process(signal: float64ChannelData[channel], y: filteredSignal)
 
       // Overwrite the buffer's raw data with the filtered signal for this channel.
       vDSP_mmovD(filteredSignal.storage, float64ChannelData[channel], nu, 1, nu, nu)

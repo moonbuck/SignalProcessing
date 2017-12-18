@@ -10,7 +10,7 @@ import AVFoundation
 import Accelerate
 
 /// A protocol for types that wrap a buffer of `Float64Vector` values.
-public protocol Float64VectorBufferWrapper: Collection {
+public protocol Float64VectorBufferWrapper: class, Collection {
 
   /// The type of `Float64Vector` of which the buffer is a collection.
   associatedtype Vector: ConstantSizeFloat64Vector
@@ -58,12 +58,16 @@ public protocol ParameterizedFeatureCollection: FeatureCollection {
 
 /// A wrapper for a buffer of `PitchVector` values, the total number of vectors and their
 /// associated feature rate.
-public struct FeatureBuffer<Vector>: FeatureCollection,
-                                     Float64VectorBufferWrapper where Vector: ConstantSizeFloat64Vector
+public final class FeatureBuffer<Vector>: FeatureCollection, Float64VectorBufferWrapper
+  where Vector: ConstantSizeFloat64Vector
 {
 
   /// A buffer of feature values.
   public let buffer: UnsafeMutablePointer<Vector>
+
+  deinit {
+    buffer.deallocate(capacity: count)
+  }
 
   /// The number of feature vectors in `buffer`.
   public let count: Int
@@ -137,22 +141,46 @@ extension FeatureBuffer where Vector == PitchVector {
   ///   - method: The method of extraction to use.
   ///   - windowSize: The window size used during feature extraction.
   ///   - hopSize: The hop size used during feature extraction.
-  public init(from buffer: AVAudioPCMBuffer, method: PitchFeatures.ExtractionMethod) {
+  public convenience init(from buffer: AVAudioPCMBuffer,
+                          method: PitchFeatures.ExtractionMethod) throws
+  {
 
     switch method {
 
       case let .filterbank(windowSize, hopSize):
         // Extraction via `MultirateFilterBank`.
 
-        self = extractUsingFilterbank(from: buffer, windowSize: windowSize, hopSize: hopSize)
+        guard let multirateBuffer = try? MultirateAudioPCMBuffer(buffer: buffer) else {
+          fatalError("Unable to create multirate buffer from the buffer provided.")
+        }
+
+        let (frames, frameCount, featureRate) =
+          MultirateFilterBank.shared.extractPitchFeatures(from: multirateBuffer,
+                                                          windowSize: windowSize,
+                                                          hopSize: hopSize)
+        
+        self.init(buffer: frames, frameCount: frameCount, featureRate: featureRate)
 
       case let .stft(windowSize, hopSize, sampleRate):
         // Extraction via Fast Fourier Transform.
 
-        self = extractUsingSTFT(buffer: buffer,
-                                sampleRate: sampleRate,
-                                windowSize: windowSize,
-                                hopSize: hopSize)
+        // Calculate the STFT.
+        let stftResult = try STFT(windowSize: windowSize, hopSize: hopSize, buffer: buffer.mono64)
+
+        // Allocate memory for the frames.
+        let frames = UnsafeMutablePointer<PitchVector>.allocate(capacity: stftResult.count)
+
+        // Retrieve the pitch vector of each frame.
+        for (index, bins) in stftResult.enumerated() {
+          (frames + index).initialize(to: PitchVector(bins: bins,
+                                                      windowLength: windowSize,
+                                                      sampleRate: sampleRate))
+        }
+
+        // Calculate the feature rate.
+        let featureRate = Float(sampleRate.rawValue)/Float(windowSize - hopSize)
+
+        self.init(buffer: frames, frameCount: stftResult.count, featureRate: featureRate)
 
     }
 
@@ -161,7 +189,7 @@ extension FeatureBuffer where Vector == PitchVector {
   /// Full-width conversion from an instance of `PitchFeatures`.
   ///
   /// - Parameter features: The `PitchFeatures` instance to convert. 
-  public init(_ features: PitchFeatures) {
+  public convenience init(_ features: PitchFeatures) {
 
     // Initialize with `features` count and feature rate.
     self.init(count: features.count, featureRate: features.featureRate)
@@ -181,7 +209,7 @@ extension FeatureBuffer where Vector == ChromaVector {
   /// Initializing a chroma buffer by accumulating pitch vector values.
   ///
   /// - Parameter source: A collection of pitch vectors to reduce to chroma vectors.
-  public init<Source>(source: Source)
+  public convenience init<Source>(source: Source)
     where Source: FeatureCollection,
           Source.Iterator.Element == PitchVector,
           Source.IndexDistance == Int,
@@ -208,7 +236,7 @@ extension FeatureBuffer where Vector == ChromaVector {
   /// Full-width conversion from an instance of `ChromaFeatures`.
   ///
   /// - Parameter features: The `ChromaFeatures` instance to convert.
-  public init(_ features: ChromaFeatures) {
+  public convenience init(_ features: ChromaFeatures) {
 
     // Initialize with `features` count and feature rate.
     self.init(count: features.count, featureRate: features.featureRate)
@@ -222,67 +250,3 @@ extension FeatureBuffer where Vector == ChromaVector {
   }
 
 }
-
-/// Extracts STMTP values for each pitch from a buffer of audio using a filterbank.
-///
-/// - Parameters:
-///   - buffer: The buffer of audio to process.
-///   - windowSize: The size of the window used in FFT calculations.
-///   - hopSize: The hop size used in FFT calculations.
-/// - Returns: A buffer of pitch vectors extracted from `buffer`.
-private func extractUsingFilterbank(from buffer: AVAudioPCMBuffer,
-                                    windowSize: Int,
-                                    hopSize: Int) -> PitchBuffer
-{
-
-  guard let multirateBuffer = try? MultirateAudioPCMBuffer(buffer: buffer) else {
-    fatalError("Unable to create multirate buffer from the buffer provided.")
-  }
-
-  let filterbank = MultirateFilterBank.shared
-  
-  return filterbank.pitchBuffer(from: multirateBuffer, windowSize: windowSize, hopSize: hopSize)
-
-}
-
-/// Extracts STMTP values for each pitch from a buffer of audio via FFT.
-///
-/// - Parameters:
-///   - buffer: The buffer of audio to process.
-///   - sampleRate: The sample rate to retrieve from `buffer`.
-///   - windowSize: The size of the window used in FFT calculations.
-///   - hopSize: The hop size used in FFT calculations.
-/// - Returns: A buffer of pitch vectors extracted from `buffer`.
-private func extractUsingSTFT(buffer: AVAudioPCMBuffer,
-                              sampleRate: SampleRate,
-                              windowSize: Int,
-                              hopSize: Int) -> PitchBuffer
-{
-
-  do {
-
-    // Calculate the STFT.
-    let stftResult = try STFT(windowSize: windowSize, hopSize: hopSize, buffer: buffer.mono64)
-
-    // Retrieve the pitch vector of each frame.
-    let pitchIndex = binMap(windowLength: windowSize, sampleRate: sampleRate)
-    var frames = stftResult.map {
-      PitchVector(bins: $0, sampleRate: sampleRate, pitchIndex: pitchIndex)
-    }
-
-    // Calculate the feature rate.
-    let featureRate = Float(sampleRate.rawValue)/Float(windowSize - hopSize)
-
-    // Return a buffer with `frames` and `featureRate`.
-    return PitchBuffer(buffer: &frames, frameCount: stftResult.count, featureRate: featureRate)
-
-  } catch {
-
-    print("\(#function) error creating STFT: \(error)")
-    fatalError("Failed to create STFT: \(error)")
-
-  }
-
-
-}
-

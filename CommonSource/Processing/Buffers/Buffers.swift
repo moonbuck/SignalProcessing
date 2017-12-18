@@ -148,6 +148,8 @@ extension UnsafeMutablePointer where Pointee == Float64 {
       }
     }
 
+    // Not sure if it is right to deallocate memory here.
+    deallocate(capacity: totalCount)
     self = selfʹ
   }
 
