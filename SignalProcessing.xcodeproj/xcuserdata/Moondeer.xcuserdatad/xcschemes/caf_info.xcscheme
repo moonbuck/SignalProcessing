@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C2D3AA091FE34D7800819367"
-               BuildableName = "generate_chords"
-               BlueprintName = "generate_chords"
+               BlueprintIdentifier = "C28B6B561FE96B9C008D874E"
+               BuildableName = "caf_info"
+               BlueprintName = "caf_info"
                ReferencedContainer = "container:SignalProcessing.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,9 +33,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C2D3AA091FE34D7800819367"
-            BuildableName = "generate_chords"
-            BlueprintName = "generate_chords"
+            BlueprintIdentifier = "C28B6B561FE96B9C008D874E"
+            BuildableName = "caf_info"
+            BlueprintName = "caf_info"
             ReferencedContainer = "container:SignalProcessing.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -57,43 +57,15 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C2D3AA091FE34D7800819367"
-            BuildableName = "generate_chords"
-            BlueprintName = "generate_chords"
+            BlueprintIdentifier = "C28B6B561FE96B9C008D874E"
+            BuildableName = "caf_info"
+            BlueprintName = "caf_info"
             ReferencedContainer = "container:SignalProcessing.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "--variations=10"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--event-list"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--number-markers"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--dir=/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/MIDI"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--create-directory"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--join-octaves"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--join-variations"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--base=chord_library"
+            argument = "/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/CAF/chord_library_octave=3-Boesendorfer\ Grand\ Piano.caf"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
@@ -110,9 +82,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C2D3AA091FE34D7800819367"
-            BuildableName = "generate_chords"
-            BlueprintName = "generate_chords"
+            BlueprintIdentifier = "C28B6B561FE96B9C008D874E"
+            BuildableName = "caf_info"
+            BlueprintName = "caf_info"
             ReferencedContainer = "container:SignalProcessing.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

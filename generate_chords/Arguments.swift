@@ -6,6 +6,7 @@
 //  Copyright © 2017 Moondeer Studios. All rights reserved.
 //
 import Foundation
+import SignalProcessing
 import Docopt
 
 let usage = """
@@ -19,10 +20,15 @@ Arguments:
 Options:
   --octaves=<LIST>          The octave for root intervals of the chords. For each octave in
                             LIST a MIDI file will be generated. [default: 0,1,2,3,4,5,6,7,8]
+  --join-octaves            Specifies that events generated for the octaves should be added
+                            to the same track in the same MIDI file.
   --variations=<COUNT:int>  The number of times a file should be generated per octave. The
                             velocity values for note events are randomized. [default: 1]
+  --join-variations         Specifies that velocity variations for a chord should appear
+                            consecutively on the same track in the same MIDI file.
   --create-directory        Whether to create DIR if it does not exist.
   --number-markers          Whether to prefix marker names with their one-based index.
+  --event-list              Also generate a list of all MIDI events for each file.
   --help                    Show this help message and exit.
 """
 
@@ -40,11 +46,20 @@ struct Arguments: CustomStringConvertible {
   /// Whether to prefix marker names with their one-based index.
   let numberMarkers: Bool
 
+  /// Whether events generated for the list of octaves should all go in the same file.
+  let joinOctaves: Bool
+
+  /// Whether events generated for `variation` should be inserted consecutively into the same file.
+  let joinVariations: Bool
+
   /// The base name to use for generated file names.
   let baseName: String
 
   /// The number of MIDI files to generate per octave.
   let variations: Int
+
+  /// Whether to create a list of all MIDI events for each file.
+  let eventList: Bool
 
   /// Initialize by parsing the command line arguments.
   init() {
@@ -68,6 +83,12 @@ struct Arguments: CustomStringConvertible {
     createDirectory = arguments["--create-directory"] as! Bool
 
     numberMarkers = arguments["--number-markers"] as! Bool
+
+    joinOctaves = arguments["--join-octaves"] as! Bool
+
+    joinVariations = arguments["--join-variations"] as! Bool
+
+    eventList = arguments["--event-list"] as! Bool
 
     baseName = arguments["--base"] as! String
 
@@ -108,11 +129,14 @@ struct Arguments: CustomStringConvertible {
 
     return """
       octaves: \(octaves.map(\.description).joined(separator: ","))
+      joinOctaves: \(joinOctaves)
+      joinVariations: \(joinVariations)
       variations: \(variations)
       outputDirectory: '\(outputDirectory.path)'
       createDirectory: \(createDirectory)
       baseName: '\(baseName)'
       numberMarkers: \(numberMarkers)
+      eventList: \(eventList)
       """
 
   }

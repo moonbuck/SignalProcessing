@@ -9,6 +9,9 @@ import Foundation
 import typealias CoreMIDI.MIDITimeStamp
 import SignalProcessing
 
+/// All chords in the chord library. Establishes the order in which chords will appear.
+let allChords: [Chord] = Array(ChordLibrary.chords.values.joined())
+
 /// Generates a random velocity value from `45` through `127`.
 ///
 /// - Returns: The randomly generated velocity value.
@@ -18,7 +21,7 @@ private func randomVelocity() -> UInt8 { return UInt8(arc4random_uniform(83) + 4
 ///
 /// - Parameter name: The non-ASCII chord name.
 /// - Returns: A version of `name` with all ASCII characters.
-func asciiChordName(_ name: String) -> String {
+private func asciiChordName(_ name: String) -> String {
   var result = ""
   for character in name {
     switch character {
@@ -33,65 +36,85 @@ func asciiChordName(_ name: String) -> String {
 
 }
 
+/// The number of ticks per chord.
+private let eventDuration: MIDITimeStamp = 1920
+
+private typealias ChannelEvent = MIDIEvent.ChannelEvent
+private typealias MetaEvent = MIDIEvent.MetaEvent
+
+/// Generates a two-byte channel event for the specified pitch.
+///
+/// - Parameters:
+///   - pitch: The pitch to stop.
+///   - offset: The timestamp for the event.
+///   - type: The event type. Should be an event that uses both data bytes.
+/// - Returns: The generated MIDI event.
+private func noteEvent(pitch: Pitch,
+                       offset: MIDITimeStamp,
+                       type: ChannelEvent.Status.Kind) -> MIDIEvent
+{
+  return .channel(try! ChannelEvent(type: type,
+                                    channel: 0,
+                                    data1: UInt8(pitch.rawValue),
+                                    data2: randomVelocity(),
+                                    time: offset))
+}
+
+typealias Info = (index: Int, offset: MIDITimeStamp, marker: String, name: String, value: UInt32)
+
 /// Generates MIDI events that amounts to each chord in the chord library being played
 /// consecutively with each chord playing for two seconds.
 ///
-/// - Parameter octave: The tone height for the root pitch of each chord.
-/// - Returns: The generated MIDI events, the names used in marker events, the chord names,
-///            and chord raw values.
-func generateChordEvents(octave: Int) -> (events: [MIDIEvent],
-                                          markers: [String],
-                                          names: [String],
-                                          values: [UInt32] )
+/// - Parameters:
+///   - offset: The current offset.
+///   - octave: The tone height for the root pitch of each chord.
+///   - count: The number of times each chord should be played.
+/// - Returns: The ending offset, the generated MIDI events and the corresponding infos.
+func generateChordEvents(offset: MIDITimeStamp,
+                         chordIndex: Int,
+                         octave: Int,
+                         count: Int) -> (MIDITimeStamp, Int, [MIDIEvent], [Info])
 {
 
   var midiEvents: [MIDIEvent] = []
-  var currentOffset: MIDITimeStamp = 0
-  let duration: MIDITimeStamp = 1920
+  var offset = offset
 
-  var names: [String] = [], markers: [String] = [], values: [UInt32] = []
+  var infos: [(index: Int, offset: MIDITimeStamp, marker: String, name: String, value: UInt32)] = []
 
-  for (index, chord) in ChordLibrary.chords.values.joined().enumerated() {
+  var chordIndex = chordIndex
 
-    values.append(chord.rawValue)
-    names.append(chord.name)
+  for chord in allChords {
 
-    var markerName = asciiChordName(chord.name)
-    if arguments.numberMarkers {
-      markerName = "\(index + 1)_" + markerName
-    }
-
-    midiEvents.append(.meta(MIDIEvent.MetaEvent(time: currentOffset,
-                                                data: .marker(name: markerName))))
-
+    let name = chord.name
+    let value = chord.rawValue
+    let markerPrefix = asciiChordName(name)
     let pitches = chord.pitches(rootToneHeight: octave)
 
-    markers.append(markerName)
+    for variation in 0 ..< count {
 
-    for pitch in pitches {
+      let index = chordIndex * count + variation + 1
+      let marker = "\(index)_\(markerPrefix)_octave=\(octave)_variation=\(variation + 1)"
+      infos.append((index: index, offset: offset, marker: marker, name: name, value: value))
 
-      midiEvents.append(.channel(try! MIDIEvent.ChannelEvent(type: .noteOn,
-                                                             channel: 0,
-                                                             data1: UInt8(pitch.rawValue),
-                                                             data2: randomVelocity(),
-                                                             time: currentOffset)))
+      midiEvents.append(.meta(MetaEvent(time: offset, data: .marker(name: marker))))
 
-    }
 
-    currentOffset += duration
+      for pitch in pitches {
+        midiEvents.append(noteEvent(pitch: pitch, offset: offset, type: .noteOn))
+      }
 
-    for pitch in pitches {
+      offset += eventDuration
 
-      midiEvents.append(.channel(try! MIDIEvent.ChannelEvent(type: .noteOff,
-                                                             channel: 0,
-                                                             data1: UInt8(pitch.rawValue),
-                                                             data2: randomVelocity(),
-                                                             time: currentOffset)))
+      for pitch in pitches {
+        midiEvents.append(noteEvent(pitch: pitch, offset: offset, type: .noteOff))
+      }
 
     }
+
+    chordIndex += 1
 
   }
 
-  return (events: midiEvents, markers: markers, names: names, values: values)
+  return (offset, chordIndex, midiEvents, infos)
 
 }

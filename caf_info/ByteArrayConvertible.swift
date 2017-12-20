@@ -7,7 +7,7 @@
 //
 import Foundation
 
-public protocol ByteArrayConvertible: Equatable, DataConvertible {
+public protocol ByteArrayConvertible: Equatable, Coding, DataConvertible {
   var bytes: [Byte] { get }
   init(_ bytes: [Byte])
   init<S:Sequence>(_ bytes: S) where S.Iterator.Element == Byte
