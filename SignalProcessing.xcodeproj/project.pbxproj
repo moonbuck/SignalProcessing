@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C210D3071FEAC74300DBC557 /* UnrecognizedChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = C210D3061FEAC74300DBC557 /* UnrecognizedChunk.swift */; };
 		C26410401FE18E830075AF45 /* Docopt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26410411FE18E830075AF45 /* Docopt.framework */; };
 		C28B6B481FE87A61008D874E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6B471FE87A61008D874E /* main.swift */; };
 		C28B6B4C1FE87B27008D874E /* Docopt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28B6B4D1FE87B27008D874E /* Docopt.framework */; };
@@ -20,9 +21,19 @@
 		C28B6B641FE96F19008D874E /* Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6B631FE96F19008D874E /* Parsing.swift */; };
 		C28B6B671FE971B0008D874E /* ByteArrayConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6B651FE971B0008D874E /* ByteArrayConvertible.swift */; };
 		C28B6B681FE971B0008D874E /* Bytes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6B661FE971B0008D874E /* Bytes.swift */; };
-		C28B6B7A1FE9BBE9008D874E /* CAFFileExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6B791FE9BBE9008D874E /* CAFFileExtensions.swift */; };
 		C28B6B7C1FE9E59D008D874E /* CAFFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6B7B1FE9E59D008D874E /* CAFFile.swift */; };
 		C28B6B7E1FE9E5FF008D874E /* FourCharacterCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6B7D1FE9E5FF008D874E /* FourCharacterCode.swift */; };
+		C2A334F51FEAB92A00B6839F /* StringsChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A334F41FEAB92A00B6839F /* StringsChunk.swift */; };
+		C2A334F71FEAB94600B6839F /* OverviewChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A334F61FEAB94600B6839F /* OverviewChunk.swift */; };
+		C2A334F91FEAB95900B6839F /* FreeChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A334F81FEAB95900B6839F /* FreeChunk.swift */; };
+		C2A334FB1FEAB96E00B6839F /* AudioDescriptionChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A334FA1FEAB96E00B6839F /* AudioDescriptionChunk.swift */; };
+		C2A334FD1FEABA4000B6839F /* MarkerChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A334FC1FEABA4000B6839F /* MarkerChunk.swift */; };
+		C2A334FF1FEABA9100B6839F /* DataChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A334FE1FEABA9100B6839F /* DataChunk.swift */; };
+		C2A335011FEABAC300B6839F /* ChannelLayoutChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A335001FEABAC300B6839F /* ChannelLayoutChunk.swift */; };
+		C2A335031FEABB2100B6839F /* ChunkHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A335021FEABB2100B6839F /* ChunkHeader.swift */; };
+		C2A335051FEABB2D00B6839F /* FileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A335041FEABB2D00B6839F /* FileHeader.swift */; };
+		C2A335081FEABF4900B6839F /* CollectionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A335071FEABF4900B6839F /* CollectionExtensions.swift */; };
+		C2A3350A1FEAC5CE00B6839F /* Chunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A335091FEAC5CE00B6839F /* Chunk.swift */; };
 		C2A94C021FE6C807000E1064 /* FileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A94C011FE6C807000E1064 /* FileIO.swift */; };
 		C2D3AA0D1FE34D7800819367 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3AA0C1FE34D7800819367 /* main.swift */; };
 		C2D3AA111FE34E1D00819367 /* Docopt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D3AA121FE34E1D00819367 /* Docopt.framework */; };
@@ -260,6 +271,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C210D3061FEAC74300DBC557 /* UnrecognizedChunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnrecognizedChunk.swift; sourceTree = "<group>"; };
 		C26410411FE18E830075AF45 /* Docopt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Docopt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C28B6B451FE87A61008D874E /* split_audio */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = split_audio; sourceTree = BUILT_PRODUCTS_DIR; };
 		C28B6B471FE87A61008D874E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -281,6 +293,17 @@
 		C28B6B791FE9BBE9008D874E /* CAFFileExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAFFileExtensions.swift; sourceTree = "<group>"; };
 		C28B6B7B1FE9E59D008D874E /* CAFFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAFFile.swift; sourceTree = "<group>"; };
 		C28B6B7D1FE9E5FF008D874E /* FourCharacterCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FourCharacterCode.swift; sourceTree = "<group>"; };
+		C2A334F41FEAB92A00B6839F /* StringsChunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringsChunk.swift; sourceTree = "<group>"; };
+		C2A334F61FEAB94600B6839F /* OverviewChunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewChunk.swift; sourceTree = "<group>"; };
+		C2A334F81FEAB95900B6839F /* FreeChunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeChunk.swift; sourceTree = "<group>"; };
+		C2A334FA1FEAB96E00B6839F /* AudioDescriptionChunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioDescriptionChunk.swift; sourceTree = "<group>"; };
+		C2A334FC1FEABA4000B6839F /* MarkerChunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerChunk.swift; sourceTree = "<group>"; };
+		C2A334FE1FEABA9100B6839F /* DataChunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataChunk.swift; sourceTree = "<group>"; };
+		C2A335001FEABAC300B6839F /* ChannelLayoutChunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelLayoutChunk.swift; sourceTree = "<group>"; };
+		C2A335021FEABB2100B6839F /* ChunkHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunkHeader.swift; sourceTree = "<group>"; };
+		C2A335041FEABB2D00B6839F /* FileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileHeader.swift; sourceTree = "<group>"; };
+		C2A335071FEABF4900B6839F /* CollectionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionExtensions.swift; sourceTree = "<group>"; };
+		C2A335091FEAC5CE00B6839F /* Chunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chunk.swift; sourceTree = "<group>"; };
 		C2A94C011FE6C807000E1064 /* FileIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileIO.swift; sourceTree = "<group>"; };
 		C2D3AA0A1FE34D7800819367 /* generate_chords */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = generate_chords; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2D3AA0C1FE34D7800819367 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -487,6 +510,8 @@
 				C28B6B791FE9BBE9008D874E /* CAFFileExtensions.swift */,
 				C28B6B7B1FE9E59D008D874E /* CAFFile.swift */,
 				C28B6B7D1FE9E5FF008D874E /* FourCharacterCode.swift */,
+				C2A335061FEABDD200B6839F /* Chunks */,
+				C2A335071FEABF4900B6839F /* CollectionExtensions.swift */,
 			);
 			path = caf_info;
 			sourceTree = "<group>";
@@ -499,6 +524,24 @@
 				C28B6B711FE9B61C008D874E /* TimeSignature.swift */,
 			);
 			path = MIDI;
+			sourceTree = "<group>";
+		};
+		C2A335061FEABDD200B6839F /* Chunks */ = {
+			isa = PBXGroup;
+			children = (
+				C2A334F41FEAB92A00B6839F /* StringsChunk.swift */,
+				C2A334F61FEAB94600B6839F /* OverviewChunk.swift */,
+				C2A334F81FEAB95900B6839F /* FreeChunk.swift */,
+				C2A334FA1FEAB96E00B6839F /* AudioDescriptionChunk.swift */,
+				C2A334FC1FEABA4000B6839F /* MarkerChunk.swift */,
+				C2A334FE1FEABA9100B6839F /* DataChunk.swift */,
+				C2A335001FEABAC300B6839F /* ChannelLayoutChunk.swift */,
+				C2A335021FEABB2100B6839F /* ChunkHeader.swift */,
+				C2A335041FEABB2D00B6839F /* FileHeader.swift */,
+				C2A335091FEAC5CE00B6839F /* Chunk.swift */,
+				C210D3061FEAC74300DBC557 /* UnrecognizedChunk.swift */,
+			);
+			path = Chunks;
 			sourceTree = "<group>";
 		};
 		C2D3AA0B1FE34D7800819367 /* generate_chords */ = {
@@ -1129,14 +1172,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2A334F51FEAB92A00B6839F /* StringsChunk.swift in Sources */,
 				C28B6B621FE96BFD008D874E /* Arguments.swift in Sources */,
+				C2A335031FEABB2100B6839F /* ChunkHeader.swift in Sources */,
 				C28B6B671FE971B0008D874E /* ByteArrayConvertible.swift in Sources */,
-				C28B6B7A1FE9BBE9008D874E /* CAFFileExtensions.swift in Sources */,
+				C2A335051FEABB2D00B6839F /* FileHeader.swift in Sources */,
+				C2A334FD1FEABA4000B6839F /* MarkerChunk.swift in Sources */,
+				C2A334F91FEAB95900B6839F /* FreeChunk.swift in Sources */,
 				C28B6B7C1FE9E59D008D874E /* CAFFile.swift in Sources */,
+				C2A334FF1FEABA9100B6839F /* DataChunk.swift in Sources */,
+				C2A335011FEABAC300B6839F /* ChannelLayoutChunk.swift in Sources */,
+				C2A334F71FEAB94600B6839F /* OverviewChunk.swift in Sources */,
 				C28B6B681FE971B0008D874E /* Bytes.swift in Sources */,
 				C28B6B641FE96F19008D874E /* Parsing.swift in Sources */,
+				C2A334FB1FEAB96E00B6839F /* AudioDescriptionChunk.swift in Sources */,
+				C210D3071FEAC74300DBC557 /* UnrecognizedChunk.swift in Sources */,
+				C2A335081FEABF4900B6839F /* CollectionExtensions.swift in Sources */,
 				C28B6B7E1FE9E5FF008D874E /* FourCharacterCode.swift in Sources */,
 				C28B6B5A1FE96B9C008D874E /* main.swift in Sources */,
+				C2A3350A1FEAC5CE00B6839F /* Chunk.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
