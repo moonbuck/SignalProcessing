@@ -1,6 +1,6 @@
 //
 //  ChannelLayoutChunk.swift
-//  caf_info
+//  SignalProcessing
 //
 //  Created by Jason Cardwell on 12/20/17.
 //  Copyright © 2017 Moondeer Studios. All rights reserved.
@@ -8,7 +8,7 @@
 import Foundation
 import AudioToolbox
 
-private func channelLayoutTagDescription(_ tag: AudioChannelLayoutTag) -> String {
+private func _channelLayoutTagDescription(_ tag: AudioChannelLayoutTag) -> String {
   switch tag {
       case kAudioChannelLayoutTag_UseChannelDescriptions: return "UseChannelDescriptions"
       case kAudioChannelLayoutTag_UseChannelBitmap: return "UseChannelBitmap"
@@ -143,7 +143,7 @@ private func channelLayoutTagDescription(_ tag: AudioChannelLayoutTag) -> String
 
 }
 
-private func bitmapDescription(_ bitmap: AudioChannelBitmap) -> String {
+private func _bitmapDescription(_ bitmap: AudioChannelBitmap) -> String {
 
   var parts: [String] = []
 
@@ -176,11 +176,11 @@ extension CAFFile {
 
     public let layoutTag: AudioChannelLayoutTag
     public let bitmap: AudioChannelBitmap
-    public let descriptions: [AudioChannelDescription]
+    public let descriptions: [ChannelDescription]
 
     public init(layoutTag: AudioChannelLayoutTag,
                 bitmap: AudioChannelBitmap,
-                descriptions: [AudioChannelDescription])
+                descriptions: [ChannelDescription])
     {
       self.layoutTag = layoutTag
       self.bitmap = bitmap
@@ -210,7 +210,7 @@ extension CAFFile {
 
       } else {
 
-        var descriptions: [AudioChannelDescription] = []
+        var descriptions: [ChannelDescription] = []
         descriptions.reserveCapacity(numberChannelDescriptions)
 
         let size = MemoryLayout<AudioChannelDescription>.size
@@ -219,12 +219,11 @@ extension CAFFile {
         while descriptions.count < numberChannelDescriptions {
 
           let description = data[data.subrange(start: start, length: size)].withUnsafeBytes({
-            (pointer: UnsafePointer<AudioChannelDescription>) -> AudioChannelDescription in
-            AudioChannelDescription(
-              mChannelLabel: pointer.pointee.mChannelLabel.bigEndian,
-              mChannelFlags: AudioChannelFlags(rawValue:
-                pointer.pointee.mChannelFlags.rawValue.bigEndian),
-              mCoordinates: (
+            (pointer: UnsafePointer<AudioChannelDescription>) -> ChannelDescription in
+            ChannelDescription(
+              label: pointer.pointee.mChannelLabel.bigEndian,
+              flags: AudioChannelFlags(rawValue: pointer.pointee.mChannelFlags.rawValue.bigEndian),
+              coordinates: (
                 Float32(bitPattern: pointer.pointee.mCoordinates.0.bitPattern.bigEndian),
                 Float32(bitPattern: pointer.pointee.mCoordinates.1.bitPattern.bigEndian),
                 Float32(bitPattern: pointer.pointee.mCoordinates.2.bitPattern.bigEndian)
@@ -244,13 +243,145 @@ extension CAFFile {
 
     }
 
+    public var bitmapDescription: String { return _bitmapDescription(bitmap) }
+    public var layoutTagDescription: String { return _channelLayoutTagDescription(layoutTag) }
+
     public var description: String {
       return """
-        ChannelLayoutChunk { layoutTag: \(channelLayoutTagDescription(layoutTag)); \
-        bitmap: \(bitmapDescription(bitmap)); descriptions: (\(descriptions.count) elements) }
+        ChannelLayoutChunk { layoutTag: \(layoutTagDescription); \
+        bitmap: \(bitmapDescription); descriptions: (\(descriptions.count) elements) }
         """
     }
 
   }
 
+}
+
+extension CAFFile.ChannelLayoutChunkData {
+
+  public struct ChannelDescription: CustomStringConvertible {
+
+    public let label: AudioChannelLabel
+    public let flags: AudioChannelFlags
+    public let coordinates: (Float, Float, Float)
+
+    public init(label: AudioChannelLabel,
+                flags: AudioChannelFlags,
+                coordinates: (Float, Float, Float))
+    {
+      self.label = label
+      self.flags = flags
+      self.coordinates = coordinates
+    }
+
+    public var labelDescription: String { return _channelLabelDescription(label) }
+    public var flagsDescription: String { return _channelFlagsDescription(flags) }
+
+    public var description: String {
+      return """
+        ChannelDescription { label: \(labelDescription); \
+        flags: \(_channelFlagsDescription); coordinates: (\
+        \(coordinates.0), \(coordinates.1), \(coordinates.2)) }
+        """
+    }
+
+  }
+
+
+}
+
+private func _channelFlagsDescription(_ flags: AudioChannelFlags) -> String {
+  var parts: [String] = []
+  if flags.contains(.meters) { parts.append("Meters") }
+  if flags.contains(.rectangularCoordinates) { parts.append("Rectangular") }
+  if flags.contains(.sphericalCoordinates) { parts.append("Spherical") }
+
+  return "(" + parts.joined(separator: "|") + ")"
+}
+
+private func _channelLabelDescription(_ label: AudioChannelLabel) -> String {
+  switch label {
+    case kAudioChannelLabel_Unused:               return "Unused"
+    case kAudioChannelLabel_UseCoordinates:       return "UseCoordinates"
+    case kAudioChannelLabel_Left:                 return "Left"
+    case kAudioChannelLabel_Right:                return "Right"
+    case kAudioChannelLabel_Center:               return "Center"
+    case kAudioChannelLabel_LFEScreen:            return "LFEScreen"
+    case kAudioChannelLabel_LeftSurround:         return "LeftSurround"
+    case kAudioChannelLabel_RightSurround:        return "RightSurround"
+    case kAudioChannelLabel_LeftCenter:           return "LeftCenter"
+    case kAudioChannelLabel_RightCenter:          return "RightCenter"
+    case kAudioChannelLabel_CenterSurround:       return "CenterSurround"
+    case kAudioChannelLabel_LeftSurroundDirect:   return "LeftSurroundDirect"
+    case kAudioChannelLabel_RightSurroundDirect:  return "RightSurroundDirect"
+    case kAudioChannelLabel_TopCenterSurround:    return "TopCenterSurround"
+    case kAudioChannelLabel_VerticalHeightLeft:   return "VerticalHeightLeft"
+    case kAudioChannelLabel_VerticalHeightCenter: return "VerticalHeightCenter"
+    case kAudioChannelLabel_VerticalHeightRight:  return "VerticalHeightRight"
+    case kAudioChannelLabel_TopBackLeft:          return "TopBackLeft"
+    case kAudioChannelLabel_TopBackCenter:        return "TopBackCenter"
+    case kAudioChannelLabel_TopBackRight:         return "TopBackRight"
+    case kAudioChannelLabel_RearSurroundLeft:     return "RearSurroundLeft"
+    case kAudioChannelLabel_RearSurroundRight:    return "RearSurroundRight"
+    case kAudioChannelLabel_LeftWide:             return "LeftWide"
+    case kAudioChannelLabel_RightWide:            return "RightWide"
+    case kAudioChannelLabel_LFE2:                 return "LFE2"
+    case kAudioChannelLabel_LeftTotal:            return "LeftTotal"
+    case kAudioChannelLabel_RightTotal:           return "RightTotal"
+    case kAudioChannelLabel_HearingImpaired:      return "HearingImpaired"
+    case kAudioChannelLabel_Narration:            return "Narration"
+    case kAudioChannelLabel_Mono:                 return "Mono"
+    case kAudioChannelLabel_DialogCentricMix:     return "DialogCentricMix"
+    case kAudioChannelLabel_CenterSurroundDirect: return "CenterSurroundDirect"
+    case kAudioChannelLabel_Haptic:               return "Haptic"
+    case kAudioChannelLabel_Ambisonic_W:          return "Ambisonic_W"
+    case kAudioChannelLabel_Ambisonic_X:          return "Ambisonic_X"
+    case kAudioChannelLabel_Ambisonic_Y:          return "Ambisonic_Y"
+    case kAudioChannelLabel_Ambisonic_Z:          return "Ambisonic_Z"
+    case kAudioChannelLabel_MS_Mid:               return "MS_Mid"
+    case kAudioChannelLabel_MS_Side:              return "MS_Side"
+    case kAudioChannelLabel_XY_X:                 return "XY_X"
+    case kAudioChannelLabel_XY_Y:                 return "XY_Y"
+    case kAudioChannelLabel_HeadphonesLeft:       return "HeadphonesLeft"
+    case kAudioChannelLabel_HeadphonesRight:      return "HeadphonesRight"
+    case kAudioChannelLabel_ClickTrack:           return "ClickTrack"
+    case kAudioChannelLabel_ForeignLanguage:      return "ForeignLanguage"
+    case kAudioChannelLabel_Discrete:             return "Discrete"
+    case kAudioChannelLabel_Discrete_0:           return "Discrete_0"
+    case kAudioChannelLabel_Discrete_1:           return "Discrete_1"
+    case kAudioChannelLabel_Discrete_2:           return "Discrete_2"
+    case kAudioChannelLabel_Discrete_3:           return "Discrete_3"
+    case kAudioChannelLabel_Discrete_4:           return "Discrete_4"
+    case kAudioChannelLabel_Discrete_5:           return "Discrete_5"
+    case kAudioChannelLabel_Discrete_6:           return "Discrete_6"
+    case kAudioChannelLabel_Discrete_7:           return "Discrete_7"
+    case kAudioChannelLabel_Discrete_8:           return "Discrete_8"
+    case kAudioChannelLabel_Discrete_9:           return "Discrete_9"
+    case kAudioChannelLabel_Discrete_10:          return "Discrete_10"
+    case kAudioChannelLabel_Discrete_11:          return "Discrete_11"
+    case kAudioChannelLabel_Discrete_12:          return "Discrete_12"
+    case kAudioChannelLabel_Discrete_13:          return "Discrete_13"
+    case kAudioChannelLabel_Discrete_14:          return "Discrete_14"
+    case kAudioChannelLabel_Discrete_15:          return "Discrete_15"
+    case kAudioChannelLabel_Discrete_65535:       return "Discrete_65535"
+    case kAudioChannelLabel_HOA_ACN:              return "HOA_ACN"
+    case kAudioChannelLabel_HOA_ACN_0:            return "HOA_ACN_0"
+    case kAudioChannelLabel_HOA_ACN_1:            return "HOA_ACN_1"
+    case kAudioChannelLabel_HOA_ACN_2:            return "HOA_ACN_2"
+    case kAudioChannelLabel_HOA_ACN_3:            return "HOA_ACN_3"
+    case kAudioChannelLabel_HOA_ACN_4:            return "HOA_ACN_4"
+    case kAudioChannelLabel_HOA_ACN_5:            return "HOA_ACN_5"
+    case kAudioChannelLabel_HOA_ACN_6:            return "HOA_ACN_6"
+    case kAudioChannelLabel_HOA_ACN_7:            return "HOA_ACN_7"
+    case kAudioChannelLabel_HOA_ACN_8:            return "HOA_ACN_8"
+    case kAudioChannelLabel_HOA_ACN_9:            return "HOA_ACN_9"
+    case kAudioChannelLabel_HOA_ACN_10:           return "HOA_ACN_10"
+    case kAudioChannelLabel_HOA_ACN_11:           return "HOA_ACN_11"
+    case kAudioChannelLabel_HOA_ACN_12:           return "HOA_ACN_12"
+    case kAudioChannelLabel_HOA_ACN_13:           return "HOA_ACN_13"
+    case kAudioChannelLabel_HOA_ACN_14:           return "HOA_ACN_14"
+    case kAudioChannelLabel_HOA_ACN_15:           return "HOA_ACN_15"
+    case kAudioChannelLabel_HOA_ACN_65024:        return "HOA_ACN_65024"
+    default:                                      return "Unknown"
+  }
 }

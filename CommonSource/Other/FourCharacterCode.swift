@@ -1,6 +1,6 @@
 //
 //  FourCharacterCode.swift
-//  caf_info
+//  SignalProcessing
 //
 //  Created by Jason Cardwell on 12/19/17.
 //  Copyright © 2017 Moondeer Studios. All rights reserved.

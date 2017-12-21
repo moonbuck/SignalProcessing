@@ -1,6 +1,6 @@
 //
 //  FileHeader.swift
-//  caf_info
+//  SignalProcessing
 //
 //  Created by Jason Cardwell on 12/20/17.
 //  Copyright © 2017 Moondeer Studios. All rights reserved.
@@ -13,7 +13,7 @@ extension CAFFile {
   public struct FileHeader: CAFFileChunkHeader {
 
     public static let headerSize = MemoryLayout<CAFFileHeader>.size
-    
+
     public let type: FourCharacterCode
     public let version: UInt16
     public let flags: UInt16
@@ -27,7 +27,7 @@ extension CAFFile {
     public init?(data: Data) {
 
       guard data.count == MemoryLayout<CAFFileHeader>.size else { return nil }
-      
+
       self = data.withUnsafeBytes {
         (pointer: UnsafePointer<CAFFileHeader>) -> FileHeader in
 

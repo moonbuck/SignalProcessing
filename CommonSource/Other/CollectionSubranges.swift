@@ -1,6 +1,6 @@
 //
-//  CollectionExtensions.swift
-//  caf_info
+//  CollectionSubranges.swift
+//  SignalProcessing
 //
 //  Created by Jason Cardwell on 12/20/17.
 //  Copyright © 2017 Moondeer Studios. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  ChunkHeader.swift
-//  caf_info
+//  SignalProcessing
 //
 //  Created by Jason Cardwell on 12/20/17.
 //  Copyright © 2017 Moondeer Studios. All rights reserved.

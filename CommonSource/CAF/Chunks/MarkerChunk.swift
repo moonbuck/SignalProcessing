@@ -1,20 +1,49 @@
 //
 //  MarkerChunk.swift
-//  caf_info
+//  SignalProcessing
 //
 //  Created by Jason Cardwell on 12/20/17.
 //  Copyright © 2017 Moondeer Studios. All rights reserved.
 //
 import Foundation
-import struct AudioToolbox.CAF_SMPTE_Time
-import struct AudioToolbox.CAFMarker
+import AudioToolbox
 
-private func timeDescription(_ time: CAF_SMPTE_Time?) -> String {
+private func _timeDescription(_ time: CAF_SMPTE_Time?) -> String {
   guard let time = time else { return "nil" }
   return """
-    SMPTE { hours: \(time.mHours); minutes: \(time.mMinutes); seconds: \(time.mSeconds); \
-    frames: \(time.mFrames); subFrameSampleOffset: \(time.mSubFrameSampleOffset) }
+    \(time.mHours):\(time.mMinutes):\(time.mSeconds):\(time.mFrames).\(time.mSubFrameSampleOffset)
     """
+}
+
+private func _typeDescription(_ type: UInt32) -> String {
+
+  switch type {
+    case kCAFMarkerType_ProgramStart:         return "ProgramStart"
+    case kCAFMarkerType_ProgramEnd:           return "ProgramEnd"
+    case kCAFMarkerType_TrackStart:           return "TrackStart"
+    case kCAFMarkerType_TrackEnd:             return "TrackEnd"
+    case kCAFMarkerType_Index:                return "Index"
+    case kCAFMarkerType_RegionStart:          return "RegionStart"
+    case kCAFMarkerType_RegionEnd:            return "RegionEnd"
+    case kCAFMarkerType_RegionSyncPoint:      return "RegionSyncPoint"
+    case kCAFMarkerType_SelectionStart:       return "SelectionStart"
+    case kCAFMarkerType_SelectionEnd:         return "SelectionEnd"
+    case kCAFMarkerType_EditSourceBegin:      return "EditSourceBegin"
+    case kCAFMarkerType_EditSourceEnd:        return "EditSourceEnd"
+    case kCAFMarkerType_EditDestinationBegin: return "EditDestinationBegin"
+    case kCAFMarkerType_EditDestinationEnd:   return "EditDestinationEnd"
+    case kCAFMarkerType_SustainLoopStart:     return "SustainLoopStart"
+    case kCAFMarkerType_SustainLoopEnd:       return "SustainLoopEnd"
+    case kCAFMarkerType_ReleaseLoopStart:     return "ReleaseLoopStart"
+    case kCAFMarkerType_ReleaseLoopEnd:       return "ReleaseLoopEnd"
+    case kCAFMarkerType_SavedPlayPosition:    return "SavedPlayPosition"
+    case kCAFMarkerType_Tempo:                return "Tempo"
+    case kCAFMarkerType_TimeSignature:        return "TimeSignature"
+    case kCAFMarkerType_KeySignature:         return "KeySignature"
+    default:                                  return "Generic"
+
+  }
+
 }
 
 extension CAFFile {
@@ -40,13 +69,35 @@ extension CAFFile {
       self.channel = channel
     }
 
+    public var typeDescription: String { return _typeDescription(type) }
+    public var timeDescription: String { return _timeDescription(time)}
     public var description: String {
       return """
-        Marker { type: \(type); framePosition: \(framePosition); id: \(id); \
-        time: \(timeDescription(time)); channel: \(channel) }
+        Marker { type: \(typeDescription); framePosition: \(framePosition); id: \(id); \
+        time: \(timeDescription); channel: \(channel) }
         """
     }
 
+  }
+
+}
+
+private func _timeTypeDescription(_ timeType: UInt32) -> String {
+
+  switch timeType {
+    case kCAF_SMPTE_TimeType24:       return "24"
+    case kCAF_SMPTE_TimeType25:       return "25"
+    case kCAF_SMPTE_TimeType30Drop:   return "30Drop"
+    case kCAF_SMPTE_TimeType30:       return "30"
+    case kCAF_SMPTE_TimeType2997:     return "2997"
+    case kCAF_SMPTE_TimeType2997Drop: return "2997Drop"
+    case kCAF_SMPTE_TimeType60:       return "60"
+    case kCAF_SMPTE_TimeType5994:     return "5994"
+    case kCAF_SMPTE_TimeType60Drop:   return "60Drop"
+    case kCAF_SMPTE_TimeType5994Drop: return "5994Drop"
+    case kCAF_SMPTE_TimeType50:       return "50"
+    case kCAF_SMPTE_TimeType2398:     return "2398"
+    default:                          return "None"
   }
 
 }
@@ -141,8 +192,13 @@ extension CAFFile {
 
     }
 
+    public var timeTypeDescription: String { return _timeTypeDescription(timeType) }
+
     public var description: String {
-      return "MarkerChunk { timeType: \(timeType); markers: (\(markers.count) elements) } "
+      return """
+      MarkerChunk { timeType: \(timeTypeDescription); \
+      markers: (\(markers.count) elements) }
+      """
     }
 
   }
