@@ -73,7 +73,19 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/CAF/chord_library-boesendorfer.caf"
+            argument = "--dir=/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/CAF/split/"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--create-directory"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--suffix=boesendorfer"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/CAF/chord_library_octave=3-Boesendorfer\ Grand\ Piano.caf"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

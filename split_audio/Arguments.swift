@@ -29,6 +29,7 @@ Options:
   --segment-total=<TOTAL:int>        The total number of segments to create.
   --dir=<DIR:string>                 The output directory for generated files.
   --create-directory                 Whether to create DIR if it does not exist.
+  --suffix=<SUFFIX:string>           A suffix to append to file names before the extension.
   --file-names=<NAMES>               The list of base file names for the segments created.
   --file-index=<INDEX:string>        The path to a file with newline delimited file names for the
                                      segments created.
@@ -40,9 +41,6 @@ struct Arguments: CustomStringConvertible {
 
   /// The URL for the input audio file.
   let inputURL: URL
-
-  /// The file ID for the input audio file.
-  let inputFile: AudioFileID
 
   /// The output directory for all generated files.
   let outputDirectory: URL
@@ -68,6 +66,9 @@ struct Arguments: CustomStringConvertible {
   /// The total number of segments to create.
   let totalSegments: Int?
 
+  /// A suffix to append to file names before the extension.
+  let fileNameSuffix: String?
+
   /// The list of base file names for the segments created.
   let fileNames: [String]?
 
@@ -82,8 +83,6 @@ struct Arguments: CustomStringConvertible {
 
     let inputURL = URL(fileURLWithPath: arguments["INPUT"] as! String)
     self.inputURL = inputURL
-
-    inputFile = openAudioFile(url: inputURL)
 
     outputDirectory = URL(fileURLWithPath: (arguments["--dir"] as? String) ?? "./")
 
@@ -100,6 +99,8 @@ struct Arguments: CustomStringConvertible {
     zeroPad = arguments["--zero-pad"] as! Bool
 
     totalSegments = (arguments["--segment-total"] as? NSNumber)?.intValue
+
+    fileNameSuffix = arguments["--suffix"] as? String
 
     fileNames = arguments["--file-names"] as? [String]
 
