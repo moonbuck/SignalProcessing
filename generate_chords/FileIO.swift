@@ -61,6 +61,10 @@ func write(infos: [Info], octave: Int? = nil, variation: Int? = nil) throws {
   // Write the data.
   try data.write(to: url)
 
+  if arguments.verbose {
+    print("info table written to '\(name)'")
+  }
+
 }
 
 /// Writes to disk a MIDI file composed of the specified events.
@@ -83,6 +87,10 @@ func write(events: [MIDIEvent], octave: Int? = nil, variation: Int? = nil) throw
 
   // Write the MIDI file's data.
   try midiFile.data.write(to: url)
+
+  if arguments.verbose {
+    print("MIDI file written to '\(name)'")
+  }
 
   guard arguments.eventList else { return }
 
@@ -140,5 +148,9 @@ func writeList(of events: [MIDIEvent], octave: Int? = nil, variation: Int? = nil
 
   // Write the data.
   try data.write(to: url)
+
+  if arguments.verbose {
+    print("list of MIDI events written to '\(name)'")
+  }
 
 }

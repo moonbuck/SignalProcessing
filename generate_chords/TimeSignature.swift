@@ -6,7 +6,7 @@
 //  Copyright © 2015 Moondeer Studios. All rights reserved.
 //
 import Foundation
-
+import MoonKit
 
 /// A structure for representing a MIDI time signature.
 enum TimeSignature: Hashable, ByteArrayConvertible {

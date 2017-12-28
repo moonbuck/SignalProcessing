@@ -6,6 +6,7 @@
 //  Copyright (c) 2017 Moondeer Studios. All rights reserved.
 //
 import Foundation
+import MoonKit
 
 /// A collection of chords coupled with their rate of progression in Hertz.
 public struct ChordProgression: Collection {

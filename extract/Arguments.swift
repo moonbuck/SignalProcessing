@@ -7,9 +7,10 @@
 //
 import Foundation
 import Docopt
+import MoonKit
 
 let usage = """
-Usage: extract [options] FILE ...
+Usage: extract [options] FILE...
        extract --help
 
 Arguments:
@@ -41,6 +42,8 @@ Options:
   --data                             Image output will consist of only the features with each
                                      value mapped to a single pixel.
   --title=<TITLE:string>             The title to display at the top of the plot.
+  --verbose                          Whether to print informative messages to stdout while
+                                     processing.
   --help                             Show this help message and exit.
 """
 
@@ -71,11 +74,16 @@ struct Arguments {
   /// Options relating to the generated CSV file.
   let csvOptions: CSVOptions
 
+  /// Whether to print informative messages to stdout while processing.
+  let verbose: Bool
+
   /// Initialize by parsing the command line arguments.
   init() {
 
     // Parse the command line arguments.
     let arguments = Docopt.parse(usage, help: true)
+
+    verbose = (arguments["--verbose"] as! NSNumber).boolValue
 
     // Make sure the quantization value is valid.
     guard let quantization =
@@ -113,27 +121,7 @@ struct Arguments {
                             generateDataPlot: arguments["--data"] as! Bool,
                             title: arguments["--title"] as? String)
 
-    let globList = arguments["FILE"] as! [String]
-
-    var fileList: [String] = []
-
-    for glob in globList {
-
-      let process = Process()
-      process.launchPath = "/bin/zsh"
-      process.arguments = ["-c", "print -l -- \(glob)"]
-
-      let pipe = Pipe()
-      process.standardOutput = pipe
-      process.launch()
-
-      let expandedGlob = String(data: pipe.fileHandleForReading.readDataToEndOfFile(),
-                                encoding: .utf8)!
-
-      fileList.append(contentsOf: expandedGlob.split(separator: "\n").map(String.init))
-
-    }
-
+    let fileList = expandGlobPatterns(in: arguments["FILE"] as! [String])
 
     // Initialize the list of file URLs.
     fileURLs = fileList.map(URL.init(fileURLWithPath:))
@@ -266,7 +254,8 @@ extension Arguments: CustomStringConvertible {
   var description: String {
 
     return """
-      fileURLs: '\(fileURLs)'
+      verbose: \(verbose)
+      fileURLs: \(fileURLs.map(\.path))
       outputDirectory: '\(outputDirectory.path)'
       csvDirectory: '\(csvDirectory.path)'
       pngDirectory: '\(pngDirectory.path)'

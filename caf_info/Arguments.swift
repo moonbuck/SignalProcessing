@@ -7,6 +7,7 @@
 //
 import Foundation
 import Docopt
+import MoonKit
 
 let usage = """
 Usage: caf_info -m [-sdcS] INPUT

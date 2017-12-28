@@ -69,23 +69,19 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "--segment-markers"
+            argument = "--dir=/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/CAF"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--dir=/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/CAF/split/"
+            argument = "--create-subdirectories"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--create-directory"
+            argument = "--regex-suffix=&apos;.+-(.+)\.caf&apos;"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--suffix=boesendorfer"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/CAF/chord_library_octave=3-Boesendorfer\ Grand\ Piano.caf"
+            argument = "&apos;/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/CAF/chord_library_octave=*.caf&apos;"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

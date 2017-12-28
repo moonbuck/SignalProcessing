@@ -7,6 +7,7 @@
 //
 import Foundation
 import struct AudioToolbox.CAFChunkHeader
+import MoonKit
 
 extension CAFFile {
 

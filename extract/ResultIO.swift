@@ -7,35 +7,8 @@
 //
 import Foundation
 import AppKit
+import MoonKit
 import SignalProcessing
-
-/// Checks whether a directory exists. If it does not exist and `arguments.createDirectories`,
-/// the directory and any intermediate directories will be created.
-///
-/// - Parameter url: The URL for the directory to check.
-/// - Throws: Any error thrown by `FileManager` while creating the directory.
-private func checkDirectory(url: URL) throws {
-
-  var isDirectory: ObjCBool = false
-  let exists = FileManager.`default`.fileExists(atPath: url.path, isDirectory: &isDirectory)
-
-  switch (exists, isDirectory.boolValue) {
-    case (true, true):
-      break
-    case (true, false):
-      print("Invalid directory for the generated CSV file: '\(url.path)'")
-      exit(EXIT_FAILURE)
-    case (false, _) where !arguments.createDirectories:
-      print("""
-            Directory for generated CSV file does not exist. Pass --create-directories to create
-            non-existent directories for generated files.
-            """)
-      exit(EXIT_FAILURE)
-    default:
-      try FileManager.`default`.createDirectory(at: url, withIntermediateDirectories: true)
-  }
-
-}
 
 private var checkedCSVDirectory = false
 private var checkedPNGDirectory = false
@@ -62,7 +35,13 @@ func write(result: Output) throws {
     if !checkedCSVDirectory {
 
       // Check the directory specified for the generated CSV file.
-      try checkDirectory(url: arguments.csvDirectory)
+      guard try checkDirectory(url: arguments.csvDirectory,
+                               createDirectories: arguments.createDirectories)
+        else
+      {
+        print("Invalid directory for the generated CSV files: '\(arguments.csvDirectory.path)'")
+        exit(EXIT_FAILURE)
+      }
 
       checkedCSVDirectory = true
 
@@ -94,7 +73,13 @@ func write(result: Output) throws {
     if !checkedPNGDirectory {
 
       // Check the directory specified for the generated PNG file.
-      try checkDirectory(url: arguments.pngDirectory)
+      guard try checkDirectory(url: arguments.pngDirectory,
+                               createDirectories: arguments.createDirectories)
+      else
+      {
+        print("Invalid directory for the generated PNG files: '\(arguments.csvDirectory.path)'")
+        exit(EXIT_FAILURE)
+      }
 
       checkedPNGDirectory = true
 

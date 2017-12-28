@@ -31,11 +31,7 @@
 		C210D32B1FEAECBC00DBC557 /* AudioDescriptionChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = C210D3141FEAECBC00DBC557 /* AudioDescriptionChunk.swift */; };
 		C210D32C1FEAECBC00DBC557 /* CAFFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C210D3151FEAECBC00DBC557 /* CAFFile.swift */; };
 		C210D32D1FEAECBC00DBC557 /* CAFFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C210D3151FEAECBC00DBC557 /* CAFFile.swift */; };
-		C210D3301FEAECC900DBC557 /* FourCharacterCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C210D32E1FEAECC900DBC557 /* FourCharacterCode.swift */; };
-		C210D3311FEAECC900DBC557 /* FourCharacterCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C210D32E1FEAECC900DBC557 /* FourCharacterCode.swift */; };
-		C210D3321FEAECC900DBC557 /* CollectionSubranges.swift in Sources */ = {isa = PBXBuildFile; fileRef = C210D32F1FEAECC900DBC557 /* CollectionSubranges.swift */; };
-		C210D3331FEAECC900DBC557 /* CollectionSubranges.swift in Sources */ = {isa = PBXBuildFile; fileRef = C210D32F1FEAECC900DBC557 /* CollectionSubranges.swift */; };
-		C210D3351FEB55BD00DBC557 /* SplitByMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C210D3341FEB55BD00DBC557 /* SplitByMarker.swift */; };
+		C210D3351FEB55BD00DBC557 /* Split.swift in Sources */ = {isa = PBXBuildFile; fileRef = C210D3341FEB55BD00DBC557 /* Split.swift */; };
 		C26410401FE18E830075AF45 /* Docopt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26410411FE18E830075AF45 /* Docopt.framework */; };
 		C28B6B481FE87A61008D874E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6B471FE87A61008D874E /* main.swift */; };
 		C28B6B4C1FE87B27008D874E /* Docopt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28B6B4D1FE87B27008D874E /* Docopt.framework */; };
@@ -45,17 +41,19 @@
 		C28B6B5E1FE96BDC008D874E /* Docopt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28B6B5F1FE96BDC008D874E /* Docopt.framework */; };
 		C28B6B601FE96BDC008D874E /* SignalProcessing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F81B5C1FDB03CA00D344FE /* SignalProcessing.framework */; };
 		C28B6B621FE96BFD008D874E /* Arguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6B611FE96BFD008D874E /* Arguments.swift */; };
+		C29DBD4C1FEC0B0F00A7EB56 /* MoonKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C29DBD4D1FEC0B0F00A7EB56 /* MoonKit.framework */; };
+		C29DBD4E1FEC0B1600A7EB56 /* MoonKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C29DBD4F1FEC0B1600A7EB56 /* MoonKit.framework */; };
+		C29DBD501FEC0B2700A7EB56 /* MoonKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C29DBD511FEC0B2700A7EB56 /* MoonKit.framework */; };
+		C29DBD521FEC0B3000A7EB56 /* MoonKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C29DBD531FEC0B3000A7EB56 /* MoonKit.framework */; };
+		C29DBD541FEC0BB300A7EB56 /* MoonKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C29DBD551FEC0BB300A7EB56 /* MoonKit.framework */; };
+		C29DBD561FEC0BB900A7EB56 /* MoonKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C29DBD571FEC0BB900A7EB56 /* MoonKit.framework */; };
 		C2A94C021FE6C807000E1064 /* FileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A94C011FE6C807000E1064 /* FileIO.swift */; };
 		C2D3AA0D1FE34D7800819367 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3AA0C1FE34D7800819367 /* main.swift */; };
 		C2D3AA111FE34E1D00819367 /* Docopt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D3AA121FE34E1D00819367 /* Docopt.framework */; };
 		C2D3AA131FE34E1D00819367 /* SignalProcessing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F81B5C1FDB03CA00D344FE /* SignalProcessing.framework */; };
 		C2D3AA1A1FE34EC500819367 /* MIDIFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3AA141FE34EC500819367 /* MIDIFile.swift */; };
 		C2D3AA1C1FE34EC500819367 /* TimeSignature.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3AA161FE34EC500819367 /* TimeSignature.swift */; };
-		C2D3AA1D1FE34EC500819367 /* Bytes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3AA171FE34EC500819367 /* Bytes.swift */; };
 		C2D3AA1E1FE34EC500819367 /* MIDIEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3AA181FE34EC500819367 /* MIDIEvent.swift */; };
-		C2D3AA1F1FE34EC500819367 /* ByteArrayConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3AA191FE34EC500819367 /* ByteArrayConvertible.swift */; };
-		C2D3AA211FE34FB800819367 /* SequenceManipulation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3AA201FE34FB800819367 /* SequenceManipulation.swift */; };
-		C2D3AA221FE34FB800819367 /* SequenceManipulation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3AA201FE34FB800819367 /* SequenceManipulation.swift */; };
 		C2D3AA241FE350E200819367 /* ChordMIDIEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3AA231FE350E200819367 /* ChordMIDIEvents.swift */; };
 		C2D3AA261FE3516300819367 /* Arguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3AA251FE3516300819367 /* Arguments.swift */; };
 		C2D3AA281FE43E4F00819367 /* ChordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3AA271FE43E4F00819367 /* ChordTests.swift */; };
@@ -150,10 +148,6 @@
 		C2F81C1A1FDB06D800D344FE /* ChromaFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81BB41FDB06D800D344FE /* ChromaFeatures.swift */; };
 		C2F81C1B1FDB06D800D344FE /* Chroma.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81BB51FDB06D800D344FE /* Chroma.swift */; };
 		C2F81C1C1FDB06D800D344FE /* Chroma.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81BB51FDB06D800D344FE /* Chroma.swift */; };
-		C2F81C1D1FDB06D800D344FE /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81BB71FDB06D800D344FE /* Strings.swift */; };
-		C2F81C1E1FDB06D800D344FE /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81BB71FDB06D800D344FE /* Strings.swift */; };
-		C2F81C1F1FDB06D800D344FE /* RegularExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81BB81FDB06D800D344FE /* RegularExpression.swift */; };
-		C2F81C201FDB06D800D344FE /* RegularExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81BB81FDB06D800D344FE /* RegularExpression.swift */; };
 		C2F81C301FDB07FD00D344FE /* InputMonoCompressed-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C221FDB07FC00D344FE /* InputMonoCompressed-Italic.ttf */; };
 		C2F81C311FDB07FD00D344FE /* InputMonoCompressed-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C221FDB07FC00D344FE /* InputMonoCompressed-Italic.ttf */; };
 		C2F81C321FDB07FD00D344FE /* InputMonoCompressed-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C231FDB07FC00D344FE /* InputMonoCompressed-Medium.ttf */; };
@@ -209,14 +203,6 @@
 		C2F81C931FDCB57200D344FE /* ResultIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C921FDCB57200D344FE /* ResultIO.swift */; };
 		C2F81C991FDDC96400D344FE /* DSPComplex.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C941FDDC96300D344FE /* DSPComplex.swift */; };
 		C2F81C9A1FDDC96400D344FE /* DSPComplex.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C941FDDC96300D344FE /* DSPComplex.swift */; };
-		C2F81C9B1FDDC96400D344FE /* CollectionCreationOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C951FDDC96400D344FE /* CollectionCreationOperators.swift */; };
-		C2F81C9C1FDDC96400D344FE /* CollectionCreationOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C951FDDC96400D344FE /* CollectionCreationOperators.swift */; };
-		C2F81C9D1FDDC96400D344FE /* DictionaryMerging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C961FDDC96400D344FE /* DictionaryMerging.swift */; };
-		C2F81C9E1FDDC96400D344FE /* DictionaryMerging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C961FDDC96400D344FE /* DictionaryMerging.swift */; };
-		C2F81C9F1FDDC96400D344FE /* KeyPathConvenienceExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C971FDDC96400D344FE /* KeyPathConvenienceExtensions.swift */; };
-		C2F81CA01FDDC96400D344FE /* KeyPathConvenienceExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C971FDDC96400D344FE /* KeyPathConvenienceExtensions.swift */; };
-		C2F81CA11FDDC96400D344FE /* Zip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C981FDDC96400D344FE /* Zip.swift */; };
-		C2F81CA21FDDC96400D344FE /* Zip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C981FDDC96400D344FE /* Zip.swift */; };
 		C2F81CA41FDDCC9700D344FE /* Essentia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F81CA51FDDCC9700D344FE /* Essentia.framework */; };
 		C2F81CA61FDDCC9700D344FE /* SignalProcessing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F81B5C1FDB03CA00D344FE /* SignalProcessing.framework */; };
 		C2FED3FB1FDF5554002385B9 /* ColorMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2FED3FA1FDF5554002385B9 /* ColorMap.swift */; };
@@ -294,9 +280,7 @@
 		C210D3131FEAECBC00DBC557 /* Chunk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chunk.swift; sourceTree = "<group>"; };
 		C210D3141FEAECBC00DBC557 /* AudioDescriptionChunk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioDescriptionChunk.swift; sourceTree = "<group>"; };
 		C210D3151FEAECBC00DBC557 /* CAFFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CAFFile.swift; sourceTree = "<group>"; };
-		C210D32E1FEAECC900DBC557 /* FourCharacterCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FourCharacterCode.swift; sourceTree = "<group>"; };
-		C210D32F1FEAECC900DBC557 /* CollectionSubranges.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionSubranges.swift; sourceTree = "<group>"; };
-		C210D3341FEB55BD00DBC557 /* SplitByMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitByMarker.swift; sourceTree = "<group>"; };
+		C210D3341FEB55BD00DBC557 /* Split.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Split.swift; sourceTree = "<group>"; };
 		C26410411FE18E830075AF45 /* Docopt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Docopt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C28B6B451FE87A61008D874E /* split_audio */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = split_audio; sourceTree = BUILT_PRODUCTS_DIR; };
 		C28B6B471FE87A61008D874E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -306,21 +290,22 @@
 		C28B6B591FE96B9C008D874E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		C28B6B5F1FE96BDC008D874E /* Docopt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Docopt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C28B6B611FE96BFD008D874E /* Arguments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arguments.swift; sourceTree = "<group>"; };
-		C28B6B691FE9B5E2008D874E /* ByteArrayConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ByteArrayConvertible.swift; path = generate_chords/ByteArrayConvertible.swift; sourceTree = SOURCE_ROOT; };
-		C28B6B6A1FE9B5E3008D874E /* Bytes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Bytes.swift; path = generate_chords/Bytes.swift; sourceTree = SOURCE_ROOT; };
 		C28B6B701FE9B61C008D874E /* MIDIFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIFile.swift; path = generate_chords/MIDIFile.swift; sourceTree = SOURCE_ROOT; };
 		C28B6B711FE9B61C008D874E /* TimeSignature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimeSignature.swift; path = generate_chords/TimeSignature.swift; sourceTree = SOURCE_ROOT; };
 		C28B6B721FE9B61C008D874E /* MIDIEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIDIEvent.swift; path = generate_chords/MIDIEvent.swift; sourceTree = SOURCE_ROOT; };
+		C29DBD4D1FEC0B0F00A7EB56 /* MoonKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MoonKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C29DBD4F1FEC0B1600A7EB56 /* MoonKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MoonKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C29DBD511FEC0B2700A7EB56 /* MoonKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MoonKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C29DBD531FEC0B3000A7EB56 /* MoonKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MoonKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C29DBD551FEC0BB300A7EB56 /* MoonKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MoonKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C29DBD571FEC0BB900A7EB56 /* MoonKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MoonKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2A94C011FE6C807000E1064 /* FileIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileIO.swift; sourceTree = "<group>"; };
 		C2D3AA0A1FE34D7800819367 /* generate_chords */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = generate_chords; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2D3AA0C1FE34D7800819367 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		C2D3AA121FE34E1D00819367 /* Docopt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Docopt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2D3AA141FE34EC500819367 /* MIDIFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIFile.swift; sourceTree = "<group>"; };
 		C2D3AA161FE34EC500819367 /* TimeSignature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSignature.swift; sourceTree = "<group>"; };
-		C2D3AA171FE34EC500819367 /* Bytes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bytes.swift; sourceTree = "<group>"; };
 		C2D3AA181FE34EC500819367 /* MIDIEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIEvent.swift; sourceTree = "<group>"; };
-		C2D3AA191FE34EC500819367 /* ByteArrayConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ByteArrayConvertible.swift; sourceTree = "<group>"; };
-		C2D3AA201FE34FB800819367 /* SequenceManipulation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceManipulation.swift; sourceTree = "<group>"; };
 		C2D3AA231FE350E200819367 /* ChordMIDIEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordMIDIEvents.swift; sourceTree = "<group>"; };
 		C2D3AA251FE3516300819367 /* Arguments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arguments.swift; sourceTree = "<group>"; };
 		C2D3AA271FE43E4F00819367 /* ChordTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordTests.swift; sourceTree = "<group>"; };
@@ -383,8 +368,6 @@
 		C2F81BB21FDB06D700D344FE /* ChromaTemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChromaTemplate.swift; sourceTree = "<group>"; };
 		C2F81BB41FDB06D800D344FE /* ChromaFeatures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChromaFeatures.swift; sourceTree = "<group>"; };
 		C2F81BB51FDB06D800D344FE /* Chroma.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chroma.swift; sourceTree = "<group>"; };
-		C2F81BB71FDB06D800D344FE /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
-		C2F81BB81FDB06D800D344FE /* RegularExpression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegularExpression.swift; sourceTree = "<group>"; };
 		C2F81C221FDB07FC00D344FE /* InputMonoCompressed-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "InputMonoCompressed-Italic.ttf"; sourceTree = "<group>"; };
 		C2F81C231FDB07FC00D344FE /* InputMonoCompressed-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "InputMonoCompressed-Medium.ttf"; sourceTree = "<group>"; };
 		C2F81C241FDB07FC00D344FE /* InputMonoCompressed-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "InputMonoCompressed-BlackItalic.ttf"; sourceTree = "<group>"; };
@@ -416,10 +399,6 @@
 		C2F81C8E1FDCA6C100D344FE /* Spectrum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spectrum.swift; sourceTree = "<group>"; };
 		C2F81C921FDCB57200D344FE /* ResultIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultIO.swift; sourceTree = "<group>"; };
 		C2F81C941FDDC96300D344FE /* DSPComplex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DSPComplex.swift; sourceTree = "<group>"; };
-		C2F81C951FDDC96400D344FE /* CollectionCreationOperators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionCreationOperators.swift; sourceTree = "<group>"; };
-		C2F81C961FDDC96400D344FE /* DictionaryMerging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryMerging.swift; sourceTree = "<group>"; };
-		C2F81C971FDDC96400D344FE /* KeyPathConvenienceExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyPathConvenienceExtensions.swift; sourceTree = "<group>"; };
-		C2F81C981FDDC96400D344FE /* Zip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Zip.swift; sourceTree = "<group>"; };
 		C2F81CA51FDDCC9700D344FE /* Essentia.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Essentia.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2FED3FA1FDF5554002385B9 /* ColorMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMap.swift; sourceTree = "<group>"; };
 		C2FED3FD1FDF55DF002385B9 /* GraphingHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphingHelpers.swift; sourceTree = "<group>"; };
@@ -430,6 +409,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C29DBD4E1FEC0B1600A7EB56 /* MoonKit.framework in Frameworks */,
 				C28B6B4E1FE87B33008D874E /* SignalProcessing.framework in Frameworks */,
 				C28B6B4C1FE87B27008D874E /* Docopt.framework in Frameworks */,
 			);
@@ -439,6 +419,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C29DBD4C1FEC0B0F00A7EB56 /* MoonKit.framework in Frameworks */,
 				C28B6B601FE96BDC008D874E /* SignalProcessing.framework in Frameworks */,
 				C28B6B5E1FE96BDC008D874E /* Docopt.framework in Frameworks */,
 			);
@@ -448,6 +429,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C29DBD501FEC0B2700A7EB56 /* MoonKit.framework in Frameworks */,
 				C2D3AA131FE34E1D00819367 /* SignalProcessing.framework in Frameworks */,
 				C2D3AA111FE34E1D00819367 /* Docopt.framework in Frameworks */,
 			);
@@ -457,6 +439,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C29DBD561FEC0BB900A7EB56 /* MoonKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -472,6 +455,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C29DBD541FEC0BB300A7EB56 /* MoonKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -487,6 +471,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C29DBD521FEC0B3000A7EB56 /* MoonKit.framework in Frameworks */,
 				C26410401FE18E830075AF45 /* Docopt.framework in Frameworks */,
 				C2F81CA61FDDCC9700D344FE /* SignalProcessing.framework in Frameworks */,
 				C2F81CA41FDDCC9700D344FE /* Essentia.framework in Frameworks */,
@@ -528,7 +513,7 @@
 			children = (
 				C28B6B471FE87A61008D874E /* main.swift */,
 				C28B6B4F1FE87B6D008D874E /* Arguments.swift */,
-				C210D3341FEB55BD00DBC557 /* SplitByMarker.swift */,
+				C210D3341FEB55BD00DBC557 /* Split.swift */,
 			);
 			path = split_audio;
 			sourceTree = "<group>";
@@ -555,8 +540,6 @@
 		C2D3AA0B1FE34D7800819367 /* generate_chords */ = {
 			isa = PBXGroup;
 			children = (
-				C2D3AA191FE34EC500819367 /* ByteArrayConvertible.swift */,
-				C2D3AA171FE34EC500819367 /* Bytes.swift */,
 				C2D3AA181FE34EC500819367 /* MIDIEvent.swift */,
 				C2D3AA141FE34EC500819367 /* MIDIFile.swift */,
 				C2D3AA161FE34EC500819367 /* TimeSignature.swift */,
@@ -716,18 +699,7 @@
 		C2F81BB61FDB06D800D344FE /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				C210D32F1FEAECC900DBC557 /* CollectionSubranges.swift */,
-				C210D32E1FEAECC900DBC557 /* FourCharacterCode.swift */,
-				C28B6B691FE9B5E2008D874E /* ByteArrayConvertible.swift */,
-				C28B6B6A1FE9B5E3008D874E /* Bytes.swift */,
-				C2D3AA201FE34FB800819367 /* SequenceManipulation.swift */,
-				C2F81C951FDDC96400D344FE /* CollectionCreationOperators.swift */,
-				C2F81C961FDDC96400D344FE /* DictionaryMerging.swift */,
 				C2F81C941FDDC96300D344FE /* DSPComplex.swift */,
-				C2F81C971FDDC96400D344FE /* KeyPathConvenienceExtensions.swift */,
-				C2F81C981FDDC96400D344FE /* Zip.swift */,
-				C2F81BB71FDB06D800D344FE /* Strings.swift */,
-				C2F81BB81FDB06D800D344FE /* RegularExpression.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -856,6 +828,12 @@
 		C2F81CA31FDDCC9700D344FE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C29DBD571FEC0BB900A7EB56 /* MoonKit.framework */,
+				C29DBD551FEC0BB300A7EB56 /* MoonKit.framework */,
+				C29DBD531FEC0B3000A7EB56 /* MoonKit.framework */,
+				C29DBD511FEC0B2700A7EB56 /* MoonKit.framework */,
+				C29DBD4F1FEC0B1600A7EB56 /* MoonKit.framework */,
+				C29DBD4D1FEC0B0F00A7EB56 /* MoonKit.framework */,
 				C28B6B5F1FE96BDC008D874E /* Docopt.framework */,
 				C28B6B4D1FE87B27008D874E /* Docopt.framework */,
 				C2D3AA121FE34E1D00819367 /* Docopt.framework */,
@@ -1174,7 +1152,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C28B6B501FE87B6D008D874E /* Arguments.swift in Sources */,
-				C210D3351FEB55BD00DBC557 /* SplitByMarker.swift in Sources */,
+				C210D3351FEB55BD00DBC557 /* Split.swift in Sources */,
 				C28B6B481FE87A61008D874E /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1195,8 +1173,6 @@
 				C2D3AA261FE3516300819367 /* Arguments.swift in Sources */,
 				C2D3AA1A1FE34EC500819367 /* MIDIFile.swift in Sources */,
 				C2D3AA0D1FE34D7800819367 /* main.swift in Sources */,
-				C2D3AA1F1FE34EC500819367 /* ByteArrayConvertible.swift in Sources */,
-				C2D3AA1D1FE34EC500819367 /* Bytes.swift in Sources */,
 				C2D3AA1E1FE34EC500819367 /* MIDIEvent.swift in Sources */,
 				C2A94C021FE6C807000E1064 /* FileIO.swift in Sources */,
 				C2D3AA1C1FE34EC500819367 /* TimeSignature.swift in Sources */,
@@ -1208,7 +1184,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C210D3321FEAECC900DBC557 /* CollectionSubranges.swift in Sources */,
 				C210D3241FEAECBC00DBC557 /* UnrecognizedChunk.swift in Sources */,
 				C210D3181FEAECBC00DBC557 /* ChannelLayoutChunk.swift in Sources */,
 				C2F81BF31FDB06D800D344FE /* FeatureBuffer.swift in Sources */,
@@ -1222,7 +1197,6 @@
 				C2F81BBB1FDB06D800D344FE /* Fonts.swift in Sources */,
 				C2F81BF11FDB06D800D344FE /* Resampler.swift in Sources */,
 				C2F81BEB1FDB06D800D344FE /* MultirateFilterBank.swift in Sources */,
-				C2D3AA211FE34FB800819367 /* SequenceManipulation.swift in Sources */,
 				C210D3161FEAECBC00DBC557 /* StringsChunk.swift in Sources */,
 				C2F81BFD1FDB06D800D344FE /* Features.swift in Sources */,
 				C2F81BCF1FDB06D800D344FE /* ChordInterval.swift in Sources */,
@@ -1230,14 +1204,12 @@
 				C2F81C031FDB06D800D344FE /* Windower.swift in Sources */,
 				C2F81BB91FDB06D800D344FE /* FontStyle.swift in Sources */,
 				C2FED3FB1FDF5554002385B9 /* ColorMap.swift in Sources */,
-				C2F81C9D1FDDC96400D344FE /* DictionaryMerging.swift in Sources */,
 				C2F81BF51FDB06D800D344FE /* IIRFilter.swift in Sources */,
 				C2F81C111FDB06D800D344FE /* MatchedChromaFeatures.swift in Sources */,
 				C2F81BFB1FDB06D800D344FE /* Window.swift in Sources */,
 				C2F81C501FDB174000D344FE /* PlatformAliases.swift in Sources */,
 				C2F81BF91FDB06D800D344FE /* Normalization.swift in Sources */,
 				C2F81BC51FDB06D800D344FE /* GraphingFunctions.swift in Sources */,
-				C2F81C9B1FDDC96400D344FE /* CollectionCreationOperators.swift in Sources */,
 				C2F81C071FDB06D800D344FE /* ChordPattern.swift in Sources */,
 				C2F81C131FDB06D800D344FE /* Scoring.swift in Sources */,
 				C2F81BD51FDB06D800D344FE /* SignalFilter.swift in Sources */,
@@ -1245,7 +1217,6 @@
 				C210D31E1FEAECBC00DBC557 /* OverviewChunk.swift in Sources */,
 				C2F81BE31FDB06D800D344FE /* Quantization.swift in Sources */,
 				C210D3281FEAECBC00DBC557 /* Chunk.swift in Sources */,
-				C2F81C9F1FDDC96400D344FE /* KeyPathConvenienceExtensions.swift in Sources */,
 				C210D32C1FEAECBC00DBC557 /* CAFFile.swift in Sources */,
 				C210D32A1FEAECBC00DBC557 /* AudioDescriptionChunk.swift in Sources */,
 				C2F81C0D1FDB06D800D344FE /* ChordProgression.swift in Sources */,
@@ -1265,16 +1236,12 @@
 				C210D31A1FEAECBC00DBC557 /* FreeChunk.swift in Sources */,
 				C2F81C0F1FDB06D800D344FE /* VectorCharacteristics.swift in Sources */,
 				C2F81C991FDDC96400D344FE /* DSPComplex.swift in Sources */,
-				C210D3301FEAECC900DBC557 /* FourCharacterCode.swift in Sources */,
-				C2F81C1F1FDB06D800D344FE /* RegularExpression.swift in Sources */,
 				C2F81BDF1FDB06D800D344FE /* STFT.swift in Sources */,
-				C2F81C1D1FDB06D800D344FE /* Strings.swift in Sources */,
 				C2F81C4D1FDB156500D344FE /* Drawing.swift in Sources */,
 				C2F81BF71FDB06D800D344FE /* Compression.swift in Sources */,
 				C2F81C1B1FDB06D800D344FE /* Chroma.swift in Sources */,
 				C210D3201FEAECBC00DBC557 /* MarkerChunk.swift in Sources */,
 				C2F81BDD1FDB06D800D344FE /* Float64Vector.swift in Sources */,
-				C2F81CA11FDDC96400D344FE /* Zip.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1298,7 +1265,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C210D3331FEAECC900DBC557 /* CollectionSubranges.swift in Sources */,
 				C210D3251FEAECBC00DBC557 /* UnrecognizedChunk.swift in Sources */,
 				C210D3191FEAECBC00DBC557 /* ChannelLayoutChunk.swift in Sources */,
 				C2F81BF41FDB06D800D344FE /* FeatureBuffer.swift in Sources */,
@@ -1312,7 +1278,6 @@
 				C2F81BBC1FDB06D800D344FE /* Fonts.swift in Sources */,
 				C2F81BF21FDB06D800D344FE /* Resampler.swift in Sources */,
 				C2F81BEC1FDB06D800D344FE /* MultirateFilterBank.swift in Sources */,
-				C2D3AA221FE34FB800819367 /* SequenceManipulation.swift in Sources */,
 				C210D3171FEAECBC00DBC557 /* StringsChunk.swift in Sources */,
 				C2F81BFE1FDB06D800D344FE /* Features.swift in Sources */,
 				C2F81BD01FDB06D800D344FE /* ChordInterval.swift in Sources */,
@@ -1320,14 +1285,12 @@
 				C2F81C041FDB06D800D344FE /* Windower.swift in Sources */,
 				C2F81BBA1FDB06D800D344FE /* FontStyle.swift in Sources */,
 				C2FED3FC1FDF5554002385B9 /* ColorMap.swift in Sources */,
-				C2F81C9E1FDDC96400D344FE /* DictionaryMerging.swift in Sources */,
 				C2F81BF61FDB06D800D344FE /* IIRFilter.swift in Sources */,
 				C2F81C121FDB06D800D344FE /* MatchedChromaFeatures.swift in Sources */,
 				C2F81BFC1FDB06D800D344FE /* Window.swift in Sources */,
 				C2F81C511FDB174000D344FE /* PlatformAliases.swift in Sources */,
 				C2F81BFA1FDB06D800D344FE /* Normalization.swift in Sources */,
 				C2F81BC61FDB06D800D344FE /* GraphingFunctions.swift in Sources */,
-				C2F81C9C1FDDC96400D344FE /* CollectionCreationOperators.swift in Sources */,
 				C2F81C081FDB06D800D344FE /* ChordPattern.swift in Sources */,
 				C2F81C141FDB06D800D344FE /* Scoring.swift in Sources */,
 				C2F81BD61FDB06D800D344FE /* SignalFilter.swift in Sources */,
@@ -1335,7 +1298,6 @@
 				C210D31F1FEAECBC00DBC557 /* OverviewChunk.swift in Sources */,
 				C2F81BE41FDB06D800D344FE /* Quantization.swift in Sources */,
 				C210D3291FEAECBC00DBC557 /* Chunk.swift in Sources */,
-				C2F81CA01FDDC96400D344FE /* KeyPathConvenienceExtensions.swift in Sources */,
 				C210D32D1FEAECBC00DBC557 /* CAFFile.swift in Sources */,
 				C210D32B1FEAECBC00DBC557 /* AudioDescriptionChunk.swift in Sources */,
 				C2F81C0E1FDB06D800D344FE /* ChordProgression.swift in Sources */,
@@ -1355,16 +1317,12 @@
 				C210D31B1FEAECBC00DBC557 /* FreeChunk.swift in Sources */,
 				C2F81C101FDB06D800D344FE /* VectorCharacteristics.swift in Sources */,
 				C2F81C9A1FDDC96400D344FE /* DSPComplex.swift in Sources */,
-				C210D3311FEAECC900DBC557 /* FourCharacterCode.swift in Sources */,
-				C2F81C201FDB06D800D344FE /* RegularExpression.swift in Sources */,
 				C2F81BE01FDB06D800D344FE /* STFT.swift in Sources */,
-				C2F81C1E1FDB06D800D344FE /* Strings.swift in Sources */,
 				C2F81C4E1FDB156500D344FE /* Drawing.swift in Sources */,
 				C2F81BF81FDB06D800D344FE /* Compression.swift in Sources */,
 				C2F81C1C1FDB06D800D344FE /* Chroma.swift in Sources */,
 				C210D3211FEAECBC00DBC557 /* MarkerChunk.swift in Sources */,
 				C2F81BDE1FDB06D800D344FE /* Float64Vector.swift in Sources */,
-				C2F81CA21FDDC96400D344FE /* Zip.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

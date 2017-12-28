@@ -69,10 +69,6 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--event-list"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
             argument = "--number-markers"
             isEnabled = "YES">
          </CommandLineArgument>
@@ -83,10 +79,6 @@
          <CommandLineArgument
             argument = "--create-directory"
             isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--join-octaves"
-            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--join-variations"

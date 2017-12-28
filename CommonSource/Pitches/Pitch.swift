@@ -6,6 +6,7 @@
 //  Copyright (c) 2017 Moondeer Studios. All rights reserved.
 //
 import Foundation
+import MoonKit
 
 /// A structure for representing a pitch in twelve-tone equal temperament.
 public struct Pitch: RawRepresentable {

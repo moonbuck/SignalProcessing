@@ -7,7 +7,7 @@
 //
 import Foundation
 import typealias CoreMIDI.MIDITimeStamp
-
+import MoonKit
 
 /// Struct that holds the data for a complete MIDI file.
 struct MIDIFile: ByteArrayConvertible, CustomStringConvertible {

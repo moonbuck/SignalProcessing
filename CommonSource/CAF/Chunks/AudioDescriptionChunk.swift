@@ -8,6 +8,7 @@
 import Foundation
 import struct AudioToolbox.CAFFormatFlags
 import struct AudioToolbox.CAFAudioDescription
+import MoonKit
 
 extension CAFFile {
 

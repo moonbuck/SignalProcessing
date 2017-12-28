@@ -7,6 +7,7 @@
 //
 import Foundation
 import typealias CoreMIDI.MIDITimeStamp
+import MoonKit
 
 /// A protocol with properties common to all types representing a MIDI event.
 private protocol _MIDIEvent: CustomStringConvertible {

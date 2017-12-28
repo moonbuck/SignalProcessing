@@ -6,6 +6,7 @@
 //  Copyright © 2017 Moondeer Studios. All rights reserved.
 //
 import Foundation
+import MoonKit
 import SignalProcessing
 
 let arguments = Arguments()

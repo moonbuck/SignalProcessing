@@ -7,6 +7,7 @@
 //
 import Foundation
 import AudioToolbox
+import MoonKit
 
 private func _channelLayoutTagDescription(_ tag: AudioChannelLayoutTag) -> String {
   switch tag {

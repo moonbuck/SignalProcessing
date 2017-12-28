@@ -7,6 +7,7 @@
 //
 import Foundation
 import Accelerate
+import MoonKit
 
 /// A structure for representing a chord in Western music. A `Chord` is composed of a root
 /// chroma value, representing the root interval of the chord, and an interval pattern from

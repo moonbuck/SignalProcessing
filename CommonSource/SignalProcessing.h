@@ -25,6 +25,6 @@ FOUNDATION_EXPORT double SignalProcessing_MacVersionNumber;
 FOUNDATION_EXPORT const unsigned char SignalProcessing_MacVersionString[];
 #endif
 
-// In this header, you should import all the public headers of your framework using statements like #import <SignalProcessing_iOS/PublicHeader.h>
+// In this header, you should import all the public headers of your framework using statements like #import <SignalProcessing/PublicHeader.h>
 
 

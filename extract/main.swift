@@ -13,14 +13,43 @@ let arguments = Arguments()
 
 var currentFileBaseName = ""
 
-print("extracting features from \(arguments.fileURLs.count) files...")
+if arguments.verbose {
+
+  let directoryInfo: String
+
+  switch (arguments.outputDirectory, arguments.csvDirectory, arguments.pngDirectory) {
+
+    case let (_, csv, png) where csv != png:
+
+      let pngDir = png.deletingLastPathComponent().lastPathComponent + "/" + png.lastPathComponent
+      let csvDir = csv.deletingLastPathComponent().lastPathComponent + "/" + csv.lastPathComponent
+
+      directoryInfo = """
+        generated PNG files will be placed in directory '\(pngDir)' and
+        generated CSV files will be placed in directory '\(csvDir)'
+        """
+
+    case let (root, _, _):
+      directoryInfo = "generated files will be placed in directory '\(root.lastPathComponent)'"
+
+
+  }
+
+  print("""
+    extracting features from \(arguments.fileURLs.count) file(s)...
+    \(directoryInfo)
+    """)
+
+}
 
 // Iterate the input audio files
 for (index, inputFile) in arguments.fileURLs.enumerated() {
 
   currentFileBaseName = inputFile.deletingPathExtension().lastPathComponent
 
-  print("processing file \(index + 1): \(inputFile.lastPathComponent)...", terminator: "")
+  if arguments.verbose {
+    print("processing file \(index + 1): \(inputFile.lastPathComponent)...", terminator: "")
+  }
 
   //  ************    Load input audio file.
 
@@ -57,8 +86,9 @@ for (index, inputFile) in arguments.fileURLs.enumerated() {
 
   }
 
-  print("finished")
+  if arguments.verbose { print("finished") }
 
 }
 
-print("finished processing \(arguments.fileURLs.count) files.")
+if arguments.verbose { print("finished processing \(arguments.fileURLs.count) files.") }
+

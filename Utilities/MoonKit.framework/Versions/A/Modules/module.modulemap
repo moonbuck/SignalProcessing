@@ -1,0 +1,11 @@
+framework module MoonKit {
+  umbrella header "MoonKit.h"
+
+  export *
+  module * { export * }
+}
+
+module MoonKit.Swift {
+    header "MoonKit-Swift.h"
+    requires objc
+}

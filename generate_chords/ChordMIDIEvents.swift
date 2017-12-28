@@ -28,6 +28,7 @@ private func asciiChordName(_ name: String) -> String {
       case "♭": result.append("b")
       case "♯": result.append("#")
       case "╱": result.append("/")
+      case "+": result.append("aug")
       case "°": result.append("dim")
       default:  result.append(character)
     }

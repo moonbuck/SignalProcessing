@@ -8,6 +8,7 @@
 import Foundation
 import typealias CoreMIDI.MIDITimeStamp
 import SignalProcessing
+import MoonKit
 
 // Parse the command-line arguments.
 let arguments = Arguments()
@@ -17,6 +18,13 @@ switch (arguments.joinOctaves, arguments.joinVariations) {
 
   case (true, true):
     // Create one MIDI file with all the events.
+
+    if arguments.verbose {
+      print("""
+        generating MIDI file with each chord played \(arguments.variations) times per octave \
+        for octaves \(arguments.octaves.map(\.description).joined(separator: ", "))...
+        """)
+    }
 
     var allEvents: [MIDIEvent] = []
     var allInfos: [Info] = []
@@ -61,6 +69,13 @@ switch (arguments.joinOctaves, arguments.joinVariations) {
 
     for octave in arguments.octaves {
 
+      if arguments.verbose {
+        print("""
+          generating a MIDI file for octave \(octave) with each chord played \
+          \(arguments.variations) times...
+          """)
+      }
+
       let (_, _, events, infos) = generateChordEvents(offset: 0,
                                                       chordIndex: 0,
                                                       octave: octave,
@@ -88,6 +103,13 @@ switch (arguments.joinOctaves, arguments.joinVariations) {
     // Create a MIDI file for each variation that contains events for all octaves.
 
     for variation in 0 ..< arguments.variations {
+
+      if arguments.verbose {
+        print("""
+          generating a MIDI file for variation \(variation) with each chord played once per \
+          octave for octaves \(arguments.octaves.map(\.description).joined(separator: ", "))...
+          """)
+      }
 
       var allEvents: [MIDIEvent] = []
       var allInfos: [Info] = []
@@ -135,6 +157,13 @@ switch (arguments.joinOctaves, arguments.joinVariations) {
       // Iterate the variations
       for variation in 0 ..< arguments.variations {
 
+        if arguments.verbose {
+          print("""
+            generating a MIDI file for variation \(variation) with each chord played once \
+            at octave \(octave)...
+            """)
+        }
+
         // Generate the MIDI events.
         let (_, _, events, infos) = generateChordEvents(offset: 0,
                                                         chordIndex: 0,
@@ -164,4 +193,6 @@ switch (arguments.joinOctaves, arguments.joinVariations) {
 
 }
 
-
+if arguments.verbose {
+  print("finished generating MIDI files")
+}

@@ -9,38 +9,31 @@ import Foundation
 import AudioToolbox
 import SignalProcessing
 import Docopt
+import MoonKit
 
 let usage = """
-Usage: split_audio --segment-markers [options] INPUT
-       split_audio --segment-samples=<SAMPLES> [options] INPUT
-       split_audio --segment-seconds=<SECONDS> [options] INPUT
-       split_audio --segment-total=<TOTAL> [options] INPUT
+Usage: split_audio [options] [(--suffix=<SUFFIX> | --regex-suffix=<REGEX>)] FILE...
        split_audio --help
 
 Arguments:
-  INPUT  The audio file to split.
+  FILE  The audio file(s) to split.
 
 Options:
-  --segment-markers                  Use markers in INPUT to segment the file.
-  --segment-samples=<SAMPLES:int>    The number of samples per segment.
-  --segment-seconds=<SECONDS:float>  The number of seconds per segment.
-  --zero-pad                         Whether to add zeros to the last segment if SIZE is not a factor
-                                     of the total sample count.
-  --segment-total=<TOTAL:int>        The total number of segments to create.
-  --dir=<DIR:string>                 The output directory for generated files.
-  --create-directory                 Whether to create DIR if it does not exist.
-  --suffix=<SUFFIX:string>           A suffix to append to file names before the extension.
-  --file-names=<NAMES>               The list of base file names for the segments created.
-  --file-index=<INDEX:string>        The path to a file with newline delimited file names for the
-                                     segments created.
-  --number-prefix                    Whether to prefix output files with the segment index.
-  --help                             Show this help message and exit.
+  --dir=<DIR:string>             The output directory for generated files.
+  --create-directory             Whether to create DIR if it does not exist.
+  --create-subdirectories        Whether to place segments in a subdirectory of DIR with a name
+                                 generated from the file name of the segments' source.
+  --suffix=<SUFFIX:string>       A suffix to append to file names before the extension.
+  --regex-suffix=>REGEX:string>  A regular expression with a single capture group that when
+                                 matched to an input file's name extracts the desired suffix.
+  --verbose                      Whether to print informative messages to stdout while processing.
+  --help                         Show this help message and exit.
 """
 
 struct Arguments: CustomStringConvertible {
 
-  /// The URL for the input audio file.
-  let inputURL: URL
+  /// The URLs for the audio files to split.
+  let fileURLs: [URL]
 
   /// The output directory for all generated files.
   let outputDirectory: URL
@@ -48,32 +41,17 @@ struct Arguments: CustomStringConvertible {
   /// Whether to create `outputDirectory` if it does not exist.
   let createDirectory: Bool
 
-  /// Whether to prefix marker names with their one-based index.
-  let numberPrefix: Bool
+  /// Whether to place segments in per-file subdirectory under `outputDirectory`.
+  let createSubdirectories: Bool
 
-  /// Whether to use markers to segment the file.
-  let splitByMarker: Bool
-
-  /// The number of samples per segment.
-  let samplesPerSegment: Int?
-
-  /// The number of seconds per segment.
-  let secondsPerSegment: Float?
-
-  /// Whether to add zeros to the last segment if SIZE is not a factor of the total sample count.
-  let zeroPad: Bool
-
-  /// The total number of segments to create.
-  let totalSegments: Int?
+  /// Whether to print informative messages to stdout while processing.
+  let verbose: Bool
 
   /// A suffix to append to file names before the extension.
   let fileNameSuffix: String?
 
-  /// The list of base file names for the segments created.
-  let fileNames: [String]?
-
-  /// The path to a file with newline delimited file names for the segments created.
-  let fileIndex: String?
+  /// A regular expression to match against the input file names to generate segment suffixes.
+  let fileNameSuffixRegEx: RegularExpression?
 
   /// Initialize by parsing the command line arguments.
   init() {
@@ -81,59 +59,48 @@ struct Arguments: CustomStringConvertible {
     // Parse the command line arguments.
     let arguments = Docopt.parse(usage, help: true)
 
-    let inputURL = URL(fileURLWithPath: arguments["INPUT"] as! String)
-    self.inputURL = inputURL
+    // Get the glob-expanded list of file paths.
+    let fileList = expandGlobPatterns(in: arguments["FILE"] as! [String])
 
+    // Initialize the list of file URLs.
+    fileURLs = fileList.map(URL.init(fileURLWithPath:))
+
+    // Set the output directory, using './' if the directory was not specified.
     outputDirectory = URL(fileURLWithPath: (arguments["--dir"] as? String) ?? "./")
 
-    createDirectory = arguments["--create-directory"] as! Bool
+    createDirectory = (arguments["--create-directory"] as! NSNumber).boolValue
 
-    numberPrefix = arguments["--number-prefix"] as! Bool
+    verbose = (arguments["--verbose"] as! NSNumber).boolValue
 
-    splitByMarker = arguments["--segment-markers"] as! Bool
-
-    samplesPerSegment = (arguments["--segment-samples"] as? NSNumber)?.intValue
-
-    secondsPerSegment = (arguments["--segment-seconds"] as? NSNumber)?.floatValue
-
-    zeroPad = arguments["--zero-pad"] as! Bool
-
-    totalSegments = (arguments["--segment-total"] as? NSNumber)?.intValue
+    createSubdirectories = (arguments["--create-subdirectories"] as! NSNumber).boolValue
 
     fileNameSuffix = arguments["--suffix"] as? String
 
-    fileNames = arguments["--file-names"] as? [String]
+    if let pattern = arguments["--regex-suffix"] as? String {
 
-    fileIndex = arguments["--file-index"] as? String
-
-    // Check `outputDirectory`.
-    var isDirectory: ObjCBool = false
-    let exists = FileManager.`default`.fileExists(atPath: outputDirectory.path,
-                                                  isDirectory: &isDirectory)
-
-    switch (exists, isDirectory.boolValue) {
-      case (true, true):
-        break
-      case (true, false):
-        print("'\(outputDirectory.path)' is not a directory.")
+      guard let regex = try? RegularExpression(pattern: pattern) else {
+        print("Invalid pattern for file name suffix regular expression: '\(pattern)'.")
         exit(EXIT_FAILURE)
-      case (false, _) where !createDirectory:
+      }
+
+      fileNameSuffixRegEx = regex
+
+    } else {
+      fileNameSuffixRegEx = nil
+    }
+
+    // Make sure the output directory exists or can be created.
+    do {
+      guard try checkDirectory(url: outputDirectory, createDirectories: createDirectory) else {
         print("""
-              Specified directory does not exist. Pass --create-directory to have
-              '\(outputDirectory.path)' created automatically.
-              """)
+          Specified directory does not exist. Pass --create-directory to have \
+          '\(outputDirectory.path)' created automatically.
+          """)
         exit(EXIT_FAILURE)
-      default:
-        do {
-          try FileManager.`default`.createDirectory(at: outputDirectory,
-                                                    withIntermediateDirectories: true)
-        } catch {
-          print("""
-            Error encountered creating directory '\(outputDirectory.path)': \
-            \(error.localizedDescription)
-            """)
-        }
-
+      }
+    } catch {
+      print("Error encountered checking directory: \(error.localizedDescription)")
+      exit(EXIT_FAILURE)
     }
 
   }
@@ -141,17 +108,13 @@ struct Arguments: CustomStringConvertible {
   var description: String {
 
     return """
-      inputURL: \(inputURL.path)
+      fileURLs: \(fileURLs.map(\.path))
       outputDirectory: '\(outputDirectory.path)'
       createDirectory: \(createDirectory)
-      numberPrefix: \(numberPrefix)
-      splitByMarker: \(splitByMarker)
-      samplesPerSegment: \(samplesPerSegment?.description ?? "nil")
-      secondsPerSegment: \(secondsPerSegment?.description ?? "nil")
-      zeroPad: \(zeroPad)
-      totalSegments: \(totalSegments?.description ?? "nil")
-      fileNames: \(fileNames?.description ?? "nil")
-      fileIndex: \(fileIndex ?? "nil")
+      createSubdirectories: \(createSubdirectories)
+      fileNameSuffix: \(fileNameSuffix ?? "nil")
+      fileNameSuffixPattern: \(fileNameSuffixRegEx?.pattern ?? "nil")
+      verbose: \(verbose)
       """
 
   }
