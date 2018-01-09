@@ -60,8 +60,15 @@
 		C2D3AA291FE43E4F00819367 /* ChordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3AA271FE43E4F00819367 /* ChordTests.swift */; };
 		C2D3AA2B1FE43F8000819367 /* PitchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3AA2A1FE43F8000819367 /* PitchTests.swift */; };
 		C2D3AA2C1FE43F8000819367 /* PitchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3AA2A1FE43F8000819367 /* PitchTests.swift */; };
+		C2D7ABEF2002F3F700D9D71C /* Schema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D7ABF02002F3F700D9D71C /* Schema.framework */; };
+		C2D7AC0B2004517C00D9D71C /* IO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D7AC0A2004517C00D9D71C /* IO.swift */; };
 		C2E07AEC1FE5762A00DBC009 /* DecibelConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E07AEB1FE5762A00DBC009 /* DecibelConversion.swift */; };
 		C2E07AED1FE5762A00DBC009 /* DecibelConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E07AEB1FE5762A00DBC009 /* DecibelConversion.swift */; };
+		C2EFE7DB2001AA2A00F58B10 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EFE7DA2001AA2A00F58B10 /* main.swift */; };
+		C2EFE7E02001AA9100F58B10 /* Arguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EFE7DF2001AA9100F58B10 /* Arguments.swift */; };
+		C2EFE7E12001AB1E00F58B10 /* SignalProcessing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F81B5C1FDB03CA00D344FE /* SignalProcessing.framework */; };
+		C2EFE7E22001AB2C00F58B10 /* Docopt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26410411FE18E830075AF45 /* Docopt.framework */; };
+		C2EFE7E32001AB3900F58B10 /* MoonKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2EFE7E42001AB3900F58B10 /* MoonKit.framework */; };
 		C2F81B471FDB038800D344FE /* SignalProcessing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F81B3D1FDB038800D344FE /* SignalProcessing.framework */; };
 		C2F81B651FDB03CA00D344FE /* SignalProcessing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F81B5C1FDB03CA00D344FE /* SignalProcessing.framework */; };
 		C2F81B791FDB04A600D344FE /* SignalProcessing.h in Headers */ = {isa = PBXBuildFile; fileRef = C2F81B741FDB043800D344FE /* SignalProcessing.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -256,6 +263,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		C2EFE7D62001AA2A00F58B10 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		C2F81C7F1FDC286400D344FE /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
@@ -310,7 +326,13 @@
 		C2D3AA251FE3516300819367 /* Arguments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arguments.swift; sourceTree = "<group>"; };
 		C2D3AA271FE43E4F00819367 /* ChordTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordTests.swift; sourceTree = "<group>"; };
 		C2D3AA2A1FE43F8000819367 /* PitchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchTests.swift; sourceTree = "<group>"; };
+		C2D7ABF02002F3F700D9D71C /* Schema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Schema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2D7AC0A2004517C00D9D71C /* IO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IO.swift; sourceTree = "<group>"; };
 		C2E07AEB1FE5762A00DBC009 /* DecibelConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecibelConversion.swift; sourceTree = "<group>"; };
+		C2EFE7D82001AA2A00F58B10 /* chords */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = chords; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2EFE7DA2001AA2A00F58B10 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		C2EFE7DF2001AA9100F58B10 /* Arguments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arguments.swift; sourceTree = "<group>"; };
+		C2EFE7E42001AB3900F58B10 /* MoonKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MoonKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2F81B3D1FDB038800D344FE /* SignalProcessing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SignalProcessing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2F81B461FDB038800D344FE /* SignalProcessing_iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SignalProcessing_iOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2F81B5C1FDB03CA00D344FE /* SignalProcessing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SignalProcessing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -435,6 +457,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C2EFE7D52001AA2A00F58B10 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2D7ABEF2002F3F700D9D71C /* Schema.framework in Frameworks */,
+				C2EFE7E22001AB2C00F58B10 /* Docopt.framework in Frameworks */,
+				C2EFE7E32001AB3900F58B10 /* MoonKit.framework in Frameworks */,
+				C2EFE7E12001AB1E00F58B10 /* SignalProcessing.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C2F81B391FDB038800D344FE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -551,6 +584,16 @@
 			path = generate_chords;
 			sourceTree = "<group>";
 		};
+		C2EFE7D92001AA2A00F58B10 /* chords */ = {
+			isa = PBXGroup;
+			children = (
+				C2D7AC0A2004517C00D9D71C /* IO.swift */,
+				C2EFE7DA2001AA2A00F58B10 /* main.swift */,
+				C2EFE7DF2001AA9100F58B10 /* Arguments.swift */,
+			);
+			path = chords;
+			sourceTree = "<group>";
+		};
 		C2F81B331FDB038800D344FE = {
 			isa = PBXGroup;
 			children = (
@@ -561,6 +604,7 @@
 				C2D3AA0B1FE34D7800819367 /* generate_chords */,
 				C28B6B461FE87A61008D874E /* split_audio */,
 				C28B6B581FE96B9C008D874E /* caf_info */,
+				C2EFE7D92001AA2A00F58B10 /* chords */,
 				C2F81B3E1FDB038800D344FE /* Products */,
 				C2F81CA31FDDCC9700D344FE /* Frameworks */,
 			);
@@ -577,6 +621,7 @@
 				C2D3AA0A1FE34D7800819367 /* generate_chords */,
 				C28B6B451FE87A61008D874E /* split_audio */,
 				C28B6B571FE96B9C008D874E /* caf_info */,
+				C2EFE7D82001AA2A00F58B10 /* chords */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -828,8 +873,10 @@
 		C2F81CA31FDDCC9700D344FE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C2D7ABF02002F3F700D9D71C /* Schema.framework */,
 				C29DBD571FEC0BB900A7EB56 /* MoonKit.framework */,
 				C29DBD551FEC0BB300A7EB56 /* MoonKit.framework */,
+				C2EFE7E42001AB3900F58B10 /* MoonKit.framework */,
 				C29DBD531FEC0B3000A7EB56 /* MoonKit.framework */,
 				C29DBD511FEC0B2700A7EB56 /* MoonKit.framework */,
 				C29DBD4F1FEC0B1600A7EB56 /* MoonKit.framework */,
@@ -924,6 +971,23 @@
 			name = generate_chords;
 			productName = generate_chords;
 			productReference = C2D3AA0A1FE34D7800819367 /* generate_chords */;
+			productType = "com.apple.product-type.tool";
+		};
+		C2EFE7D72001AA2A00F58B10 /* chords */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C2EFE7DE2001AA2A00F58B10 /* Build configuration list for PBXNativeTarget "chords" */;
+			buildPhases = (
+				C2EFE7D42001AA2A00F58B10 /* Sources */,
+				C2EFE7D52001AA2A00F58B10 /* Frameworks */,
+				C2EFE7D62001AA2A00F58B10 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = chords;
+			productName = chords;
+			productReference = C2EFE7D82001AA2A00F58B10 /* chords */;
 			productType = "com.apple.product-type.tool";
 		};
 		C2F81B3C1FDB038800D344FE /* SignalProcessing_iOS */ = {
@@ -1037,6 +1101,10 @@
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
 					};
+					C2EFE7D72001AA2A00F58B10 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
 					C2F81B3C1FDB038800D344FE = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
@@ -1079,6 +1147,7 @@
 				C2D3AA091FE34D7800819367 /* generate_chords */,
 				C28B6B441FE87A61008D874E /* split_audio */,
 				C28B6B561FE96B9C008D874E /* caf_info */,
+				C2EFE7D72001AA2A00F58B10 /* chords */,
 			);
 		};
 /* End PBXProject section */
@@ -1177,6 +1246,16 @@
 				C2A94C021FE6C807000E1064 /* FileIO.swift in Sources */,
 				C2D3AA1C1FE34EC500819367 /* TimeSignature.swift in Sources */,
 				C2D3AA241FE350E200819367 /* ChordMIDIEvents.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C2EFE7D42001AA2A00F58B10 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2EFE7E02001AA9100F58B10 /* Arguments.swift in Sources */,
+				C2EFE7DB2001AA2A00F58B10 /* main.swift in Sources */,
+				C2D7AC0B2004517C00D9D71C /* IO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1456,6 +1535,40 @@
 			name = Debug;
 		};
 		C2D3AA101FE34D7800819367 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JT6STF4SHA;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx @executable_path";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
+				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		C2EFE7DC2001AA2A00F58B10 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JT6STF4SHA;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx @executable_path";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
+				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		C2EFE7DD2001AA2A00F58B10 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Mac Developer";
@@ -1801,6 +1914,15 @@
 			buildConfigurations = (
 				C2D3AA0F1FE34D7800819367 /* Debug */,
 				C2D3AA101FE34D7800819367 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C2EFE7DE2001AA2A00F58B10 /* Build configuration list for PBXNativeTarget "chords" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C2EFE7DC2001AA2A00F58B10 /* Debug */,
+				C2EFE7DD2001AA2A00F58B10 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

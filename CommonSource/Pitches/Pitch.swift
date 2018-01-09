@@ -24,6 +24,21 @@ public struct Pitch: RawRepresentable {
     rawValue = (toneHeight + 1) * 12 + chroma.rawValue
   }
 
+  public init?(stringValue: String) {
+
+    // Capture the chroma and tone height or intialize with a default of C4 and return.
+    guard let match = (~/"([a-gA-G][♭b]?)(-?[0-9])").firstMatch(in: stringValue),
+      let chromaLiteral = match.captures[1]?.substring,
+      let toneHeightLiteral = match.captures[2]?.substring
+      else
+    {
+      return nil
+    }
+
+    self.init(chroma: Chroma(stringLiteral: String(chromaLiteral)),
+              toneHeight: Int(toneHeightLiteral)!)
+  }
+
   /// The pitch's center frequency given in Hz.
   public var centerFrequency: Frequency {
     return Frequency(rawValue: exp2(Float64(rawValue - 69) / 12) * 440)
@@ -113,7 +128,7 @@ extension Pitch: ExpressibleByStringLiteral {
   public init(stringLiteral value: String) {
 
     // Capture the chroma and tone height or intialize with a default of C4 and return.
-    guard let match = (~/"([a-gA-G]♭?)(-?[0-9])").firstMatch(in: value),
+    guard let match = (~/"([a-gA-G][♭b]?)(-?[0-9])").firstMatch(in: value),
           let chromaLiteral = match.captures[1]?.substring,
           let toneHeightLiteral = match.captures[2]?.substring
     else

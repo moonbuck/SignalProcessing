@@ -31,6 +31,19 @@ public struct ChordPattern: OptionSet {
     self.rawValue = rawValue & 0b0000_0000_1111_1111_1111_1111_1111_1111
   }
 
+  /// Initializing with a pattern suffix. If the suffix does not match the suffix of a
+  /// static pattern then `nil` is returned.
+  ///
+  /// - Parameter suffix: The suffix of the desired pattern.
+  public init?(suffix: String) {
+    guard let index = ChordPattern.suffixIndex.index(where: {$1 == suffix}) else {
+      return nil
+    }
+
+    let (rawValue, _) = ChordPattern.suffixIndex[index]
+    self.init(rawValue: rawValue)
+  }
+
   /// Initiliazing with a sequence of intervals.
   public init<S>(_ intervals: S)
     where S:Sequence, S.Iterator.Element == ChordInterval

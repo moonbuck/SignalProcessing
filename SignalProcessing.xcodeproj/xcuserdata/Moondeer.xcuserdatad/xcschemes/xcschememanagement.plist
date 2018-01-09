@@ -19,6 +19,11 @@
 			<key>orderHint</key>
 			<integer>15</integer>
 		</dict>
+		<key>chords.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>16</integer>
+		</dict>
 		<key>extract.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -48,6 +53,11 @@
 			<true/>
 		</dict>
 		<key>C2D3AA091FE34D7800819367</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C2EFE7D72001AA2A00F58B10</key>
 		<dict>
 			<key>primary</key>
 			<true/>
