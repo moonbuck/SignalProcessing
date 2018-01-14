@@ -22,10 +22,16 @@ func dumpInfo(for pattern: ChordPattern) {
 
 }
 
-func dumpInfo(for pattern: ChordPattern, with root: Pitch) {
+func dumpInfo(for pattern: ChordPattern, with root: Pitch, pitchesOnly: Bool) {
 
   let chord = Chord(root: root.chroma, pattern: pattern)
   let pitches = chord.pitches(rootToneHeight: root.toneHeight)
+  let pitchesDesc = pitches.map(\.description).joined(separator: "-")
+
+  guard !pitchesOnly else {
+    print(pitchesDesc)
+    return
+  }
 
   print("""
     Chord (with root \(root))
@@ -35,7 +41,7 @@ func dumpInfo(for pattern: ChordPattern, with root: Pitch) {
     # notes: \(chord.pattern.noteCount)
     value: \(String(chord.rawValue, radix: 2, pad: 32, group: 4)) \(chord.rawValue)
     chromas: \(chord.chromas.map(\.description).joined(separator: ", "))
-    pitches: \(pitches.map(\.description).joined(separator: "-"))
+    pitches: \(pitchesDesc)
     MIDI: \(pitches.map(\.rawValue.description).joined(separator: ", "))
     """)
 

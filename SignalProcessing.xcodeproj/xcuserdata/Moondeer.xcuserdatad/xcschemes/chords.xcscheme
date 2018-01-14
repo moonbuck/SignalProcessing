@@ -73,11 +73,15 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "--pitches"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "--with-root=Gb4 name M7"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "name farts"
+            argument = "name m11b5"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument

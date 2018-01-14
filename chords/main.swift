@@ -19,7 +19,7 @@ case .name, .index:
   }
 
   if let root = arguments.root {
-    dumpInfo(for: pattern, with: root)
+    dumpInfo(for: pattern, with: root, pitchesOnly: arguments.pitchesOnly)
   } else {
     dumpInfo(for: pattern)
   }

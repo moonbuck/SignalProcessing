@@ -26,6 +26,7 @@ Arguments:
 
 Options:
   --with-root=<root>  A note to use as the chord's root interval
+  --pitches           Only print the pitches to stdout.
 
 The commands are:
   index  Lookup via pattern index.
@@ -65,6 +66,7 @@ struct Arguments: CustomStringConvertible {
 
   let command: Command
   let root: Pitch?
+  let pitchesOnly: Bool
   let pattern: ChordPattern?
 
   init() {
@@ -72,6 +74,7 @@ struct Arguments: CustomStringConvertible {
     let schema = Schema([
       "<command>": >>Command.init(rawValue:),
       "--with-root": ∈NSNull.self || (∈String.self && >>Pitch.init(stringValue:)),
+      "--pitches": ∈NSNumber.self,
       "<args>": ∈[String].self
       ], ignoreExtras: true)
 
@@ -88,7 +91,8 @@ struct Arguments: CustomStringConvertible {
     let command = arguments["<command>"] as! Command
     self.command = command
     self.root = arguments["--with-root"] as? Pitch
-
+    self.pitchesOnly = (arguments["--pitches"] as! NSNumber).boolValue
+    
     let argv = [command.rawValue] + (arguments["<args>"] as! [String])
 
     do {

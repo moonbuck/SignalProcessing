@@ -6,7 +6,84 @@
 //  Copyright (c) 2017 Moondeer Studios. All rights reserved.
 //
 import Foundation
+import MoonKit
 
+/// Generates an ASCII-friendly, canonical suffix from the given suffix.
+/// The following symbols are used in suffix composition:
+/// • flat accidentals are represented by 'b'
+/// • sharp accidentals are represented by '#'
+/// • major is represented by 'M'
+/// • minor is represented by 'm'
+/// • diminished is represented by 'dim'
+/// • augmented is represented by 'aug'
+/// • opening and closing parentheses are replaced by '_'
+/// • '/' is replaced by '-'
+///
+/// - Parameter suffix: The non-ASCII suffix.
+/// - Returns: A version of `suffix` with all ASCII characters.
+private func canonicalSuffix(for suffix: String) -> String {
+
+  var result = ""
+
+  for character in suffix {
+
+    switch character {
+      case "♭": result.append("b")
+      case "♯": result.append("#")
+      case "╱", "/": result.append("-")
+      case "+": result.append("aug")
+      case "°": result.append("dim")
+      case "(", ")": result.append("_")
+      default:  result.append(character)
+    }
+
+  }
+
+  return result
+
+}
+
+/// Generates a presentational suffix from a given suffix.
+/// The following symbols are used in suffix composition:
+/// • flat accidentals are represented by '♭'
+/// • sharp accidentals are represented by '♯'
+/// • major is represented by 'M'
+/// • minor is represented by 'm'
+/// • diminished is represented by '°'
+/// • augmented is represented by '+'
+/// • matching '_' are replaced by opening and closing parentheses
+/// • '-' is replaced by '╱'
+///
+/// - Parameter suffix: The non-presentational suffix.
+/// - Returns: A version of `suffix` with presentational characters.
+private func presentationalSuffix(for suffix: String) -> String {
+
+  var result = ""
+  var opening = true
+  var aug = ""
+  var dim = ""
+
+  for character in suffix {
+
+    switch character {
+      case "b": result.append("♭")
+      case "#": result.append("♯")
+      case "-": result.append("╱")
+      case "a": aug = "a"
+      case "u": aug += "u"
+      case "g": if aug == "au" { result.append("+"); aug = "" }
+      case "d": dim = "d"
+      case "i": dim += "i"
+      case "m": if dim == "di" { result.append("°"); dim = "" } else { result.append("m") }
+      case "_": if opening { result.append("("); opening = false } else { result.append(")") }
+      default:  result.append(character)
+    }
+
+  }
+
+  return result
+
+}
 
 /// A type for specifiying a musical chord. `ChordPattern` stores which intervals, from a ♭2
 /// through a ♯13, are included in the formation of a chord. Interval 1 represents the root of
@@ -36,7 +113,8 @@ public struct ChordPattern: OptionSet {
   ///
   /// - Parameter suffix: The suffix of the desired pattern.
   public init?(suffix: String) {
-    guard let index = ChordPattern.suffixIndex.index(where: {$1 == suffix}) else {
+    let suffix = presentationalSuffix(for: suffix)
+    guard let index = ChordPattern.suffixIndex .index(where: {$1 == suffix}) else {
       return nil
     }
 
@@ -172,91 +250,91 @@ public struct ChordPattern: OptionSet {
   public static let ﹡m11_M7_    = ChordPattern(.m3, .P5, .M7, .M9, .P11)
 
   public static let all: [ChordPattern] = [
-    ﹡M, ﹡m, ﹡aug, ﹡dim, ﹡sus4, ﹡_f5_, ﹡sus2, ﹡6, ﹡_add2_, ﹡M7, ﹡M7f5, ﹡M7s5,
-    ﹡7, ﹡7f5, ﹡7s5, ﹡7sus4, ﹡m_add2_, ﹡m6, ﹡m7, ﹡m_M7_, ﹡m7f5, ﹡dim7, ﹡dim7_M7_,
-    ﹡5, ﹡6_9, ﹡M6_9, ﹡M7s11, ﹡M9, ﹡M9f5, ﹡M9s5, ﹡M9s11, ﹡M13, ﹡M13f5, ﹡M13s11,
-    ﹡7f9, ﹡7s9, ﹡7s11, ﹡7f5_f9_, ﹡7f5_s9_, ﹡7s5_f9_, ﹡7s5_s9_, ﹡7_add13_,
-    ﹡7f13, ﹡7f9_s11_, ﹡7s9_s11_, ﹡7f9_f13_, ﹡7s9_f13_, ﹡7s11_f13_, ﹡9,
-    ﹡9_f5_, ﹡9s5, ﹡9s11, ﹡9f13, ﹡9s11_f13_, ﹡11, ﹡13, ﹡13f5, ﹡13f9, ﹡13s9, ﹡13s11,
-    ﹡13_sus4_, ﹡m_s5_, ﹡m6_9t, ﹡m7_add4_, ﹡m7_add11_, ﹡m7f5_f9_, ﹡m9, ﹡m9_M7_, ﹡m9_f5_,
-    ﹡m11, ﹡m13, ﹡dim7_add9_, ﹡m11f5, ﹡m11_M7_
+    .﹡dim, .﹡_f5_, .﹡5, .﹡sus2, .﹡m, .﹡m_add2_, .﹡M, .﹡_add2_, .﹡sus4, .﹡m_s5_,
+    .﹡aug, .﹡dim7, .﹡m6, .﹡6, .﹡m7f5, .﹡7f5, .﹡m7, .﹡7, .﹡7sus4, .﹡m7_add4_, .﹡7s5,
+    .﹡dim7_M7_, .﹡M7f5, .﹡m_M7_, .﹡M7, .﹡M7s5, .﹡m7f5_f9_, .﹡7f5_f9_, .﹡7f9, .﹡7s5_f9_,
+    .﹡dim7_add9_, .﹡m6_9t, .﹡6_9, .﹡m9_f5_, .﹡9_f5_, .﹡m9, .﹡9, .﹡9s5, .﹡M9f5, .﹡m9_M7_,
+    .﹡M9, .﹡M9s5, .﹡M6_9, .﹡7f5_s9_, .﹡7s9, .﹡7s5_s9_, .﹡m7_add11_, .﹡m11f5, .﹡11, .﹡m11,
+    .﹡m11_M7_, .﹡7s11, .﹡M7s11, .﹡7f9_s11_, .﹡9s11, .﹡M9s11, .﹡7s9_s11_, .﹡7f13, .﹡7f9_f13_,
+    .﹡9f13, .﹡7s9_f13_, .﹡7s11_f13_, .﹡9s11_f13_, .﹡7_add13_, .﹡13f9, .﹡13f5, .﹡13, .﹡13_sus4_,
+    .﹡M13f5, .﹡M13, .﹡13s9, .﹡m13, .﹡13s11, .﹡M13s11
   ]
 
   private static let suffixIndex: [RawValue:String] = [
-    ChordPattern.﹡M.rawValue: "M",
-    ChordPattern.﹡m.rawValue: "m",
-    ChordPattern.﹡aug.rawValue: "+",
     ChordPattern.﹡dim.rawValue: "°",
-    ChordPattern.﹡sus4.rawValue: "sus4",
     ChordPattern.﹡_f5_.rawValue: "(♭5)",
-    ChordPattern.﹡sus2.rawValue: "sus2",
-    ChordPattern.﹡6.rawValue: "6",
-    ChordPattern.﹡_add2_.rawValue: "(add2)",
-    ChordPattern.﹡M7.rawValue: "M7",
-    ChordPattern.﹡M7f5.rawValue: "M7♭5",
-    ChordPattern.﹡M7s5.rawValue: "M7♯5",
-    ChordPattern.﹡7.rawValue: "7",
-    ChordPattern.﹡7f5.rawValue: "7♭5",
-    ChordPattern.﹡7s5.rawValue: "7♯5",
-    ChordPattern.﹡7sus4.rawValue: "7sus4",
-    ChordPattern.﹡m_add2_.rawValue: "m(add2)",
-    ChordPattern.﹡m6.rawValue: "m6",
-    ChordPattern.﹡m7.rawValue: "m7",
-    ChordPattern.﹡m_M7_.rawValue: "m(M7)",
-    ChordPattern.﹡m7f5.rawValue: "m7♭5",
-    ChordPattern.﹡dim7.rawValue: "°7",
-    ChordPattern.﹡dim7_M7_.rawValue: "°7(M7)",
     ChordPattern.﹡5.rawValue: "5",
-    ChordPattern.﹡6_9.rawValue: "6╱9",
-    ChordPattern.﹡M6_9.rawValue: "M6╱9",
-    ChordPattern.﹡M7s11.rawValue: "M7♯11",
-    ChordPattern.﹡M9.rawValue: "M9",
-    ChordPattern.﹡M9f5.rawValue: "M9♭5",
-    ChordPattern.﹡M9s5.rawValue: "M9♯5",
-    ChordPattern.﹡M9s11.rawValue: "M9♯11",
-    ChordPattern.﹡M13.rawValue: "M13",
-    ChordPattern.﹡M13f5.rawValue: "M13♭5",
-    ChordPattern.﹡M13s11.rawValue: "M13♯11",
-    ChordPattern.﹡7f9.rawValue: "7♭9",
-    ChordPattern.﹡7s9.rawValue: "7♯9",
-    ChordPattern.﹡7s11.rawValue: "7♯11",
+    ChordPattern.﹡sus2.rawValue: "sus2",
+    ChordPattern.﹡m.rawValue: "m",
+    ChordPattern.﹡m_add2_.rawValue: "m(add2)",
+    ChordPattern.﹡M.rawValue: "M",
+    ChordPattern.﹡_add2_.rawValue: "(add2)",
+    ChordPattern.﹡sus4.rawValue: "sus4",
+    ChordPattern.﹡m_s5_.rawValue: "m(♯5)",
+    ChordPattern.﹡aug.rawValue: "+",
+    ChordPattern.﹡dim7.rawValue: "°7",
+    ChordPattern.﹡m6.rawValue: "m6",
+    ChordPattern.﹡6.rawValue: "6",
+    ChordPattern.﹡m7f5.rawValue: "m7♭5",
+    ChordPattern.﹡7f5.rawValue: "7♭5",
+    ChordPattern.﹡m7.rawValue: "m7",
+    ChordPattern.﹡7.rawValue: "7",
+    ChordPattern.﹡7sus4.rawValue: "7sus4",
+    ChordPattern.﹡m7_add4_.rawValue: "m7(add4)",
+    ChordPattern.﹡7s5.rawValue: "7♯5",
+    ChordPattern.﹡dim7_M7_.rawValue: "°7(M7)",
+    ChordPattern.﹡M7f5.rawValue: "M7♭5",
+    ChordPattern.﹡m_M7_.rawValue: "m(M7)",
+    ChordPattern.﹡M7.rawValue: "M7",
+    ChordPattern.﹡M7s5.rawValue: "M7♯5",
+    ChordPattern.﹡m7f5_f9_.rawValue: "m7♭5(♭9)",
     ChordPattern.﹡7f5_f9_.rawValue: "7♭5(♭9)",
-    ChordPattern.﹡7f5_s9_.rawValue: "7♭5(♯9)",
+    ChordPattern.﹡7f9.rawValue: "7♭9",
     ChordPattern.﹡7s5_f9_.rawValue: "7♯5(♭9)",
+    ChordPattern.﹡dim7_add9_.rawValue: "°7(add9)",
+    ChordPattern.﹡m6_9t.rawValue: "m6╱9",
+    ChordPattern.﹡6_9.rawValue: "6╱9",
+    ChordPattern.﹡m9_f5_.rawValue: "m9(♭5)",
+    ChordPattern.﹡9_f5_.rawValue: "9(♭5)",
+    ChordPattern.﹡m9.rawValue: "m9",
+    ChordPattern.﹡9.rawValue: "9",
+    ChordPattern.﹡9s5.rawValue: "9♯5",
+    ChordPattern.﹡M9f5.rawValue: "M9♭5",
+    ChordPattern.﹡m9_M7_.rawValue: "m9(M7)",
+    ChordPattern.﹡M9.rawValue: "M9",
+    ChordPattern.﹡M9s5.rawValue: "M9♯5",
+    ChordPattern.﹡M6_9.rawValue: "M6╱9",
+    ChordPattern.﹡7f5_s9_.rawValue: "7♭5(♯9)",
+    ChordPattern.﹡7s9.rawValue: "7♯9",
     ChordPattern.﹡7s5_s9_.rawValue: "7♯5(♯9)",
-    ChordPattern.﹡7_add13_.rawValue: "7(add13)",
-    ChordPattern.﹡7f13.rawValue: "7♭13",
+    ChordPattern.﹡m7_add11_.rawValue: "m7(add11)",
+    ChordPattern.﹡m11f5.rawValue: "m11♭5",
+    ChordPattern.﹡11.rawValue: "11",
+    ChordPattern.﹡m11.rawValue: "m11",
+    ChordPattern.﹡m11_M7_.rawValue: "m11(M7)",
+    ChordPattern.﹡7s11.rawValue: "7♯11",
+    ChordPattern.﹡M7s11.rawValue: "M7♯11",
     ChordPattern.﹡7f9_s11_.rawValue: "7♭9(♯11)",
+    ChordPattern.﹡9s11.rawValue: "9♯11",
+    ChordPattern.﹡M9s11.rawValue: "M9♯11",
     ChordPattern.﹡7s9_s11_.rawValue: "7♯9(♯11)",
+    ChordPattern.﹡7f13.rawValue: "7♭13",
     ChordPattern.﹡7f9_f13_.rawValue: "7♭9(♭13)",
+    ChordPattern.﹡9f13.rawValue: "9♭13",
     ChordPattern.﹡7s9_f13_.rawValue: "7♯9(♭13)",
     ChordPattern.﹡7s11_f13_.rawValue: "7♯11(♭13)",
-    ChordPattern.﹡9.rawValue: "9",
-    ChordPattern.﹡9_f5_.rawValue: "9(♭5)",
-    ChordPattern.﹡9s5.rawValue: "9♯5",
-    ChordPattern.﹡9s11.rawValue: "9♯11",
-    ChordPattern.﹡9f13.rawValue: "9♭13",
     ChordPattern.﹡9s11_f13_.rawValue: "9♯11(♭13)",
-    ChordPattern.﹡11.rawValue: "11",
-    ChordPattern.﹡13.rawValue: "13",
-    ChordPattern.﹡13f5.rawValue: "13♭5",
+    ChordPattern.﹡7_add13_.rawValue: "7(add13)",
     ChordPattern.﹡13f9.rawValue: "13♭9",
-    ChordPattern.﹡13s9.rawValue: "13♯9",
-    ChordPattern.﹡13s11.rawValue: "13♯11",
+    ChordPattern.﹡13f5.rawValue: "13♭5",
+    ChordPattern.﹡13.rawValue: "13",
     ChordPattern.﹡13_sus4_.rawValue: "13(sus4)",
-    ChordPattern.﹡m_s5_.rawValue: "m(♯5)",
-    ChordPattern.﹡m6_9t.rawValue: "m6╱9",
-    ChordPattern.﹡m7_add4_.rawValue: "m7(add4)",
-    ChordPattern.﹡m7_add11_.rawValue: "m7(add11)",
-    ChordPattern.﹡m7f5_f9_.rawValue: "m7♭5(♭9)",
-    ChordPattern.﹡m9.rawValue: "m9",
-    ChordPattern.﹡m9_M7_.rawValue: "m9(M7)",
-    ChordPattern.﹡m9_f5_.rawValue: "m9(♭5)",
-    ChordPattern.﹡m11.rawValue: "m11",
+    ChordPattern.﹡M13f5.rawValue: "M13♭5",
+    ChordPattern.﹡M13.rawValue: "M13",
+    ChordPattern.﹡13s9.rawValue: "13♯9",
     ChordPattern.﹡m13.rawValue: "m13",
-    ChordPattern.﹡dim7_add9_.rawValue: "°7(add9)",
-    ChordPattern.﹡m11f5.rawValue: "m11♭5",
-    ChordPattern.﹡m11_M7_.rawValue: "m11(M7)"
+    ChordPattern.﹡13s11.rawValue: "13♯11",
+    ChordPattern.﹡M13s11.rawValue: "M13♯11"
   ]
 
 }
@@ -290,7 +368,8 @@ extension ChordPattern: ExpressibleByStringLiteral {
   /// - Parameter value: The suffix for the chord pattern.
   public init(stringLiteral value: String) {
 
-    if let index = ChordPattern.suffixIndex.index(where: {$1 == value}) {
+    let value = presentationalSuffix(for: value)
+    if let index = ChordPattern.suffixIndex .index(where: {$1 == value}) {
       let (rawValue, _) = ChordPattern.suffixIndex[index]
       self.init(rawValue: rawValue)
     } else {

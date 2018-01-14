@@ -1,0 +1,11 @@
+framework module Schema {
+  umbrella header "Schema.h"
+
+  export *
+  module * { export * }
+}
+
+module Schema.Swift {
+    header "Schema-Swift.h"
+    requires objc
+}
