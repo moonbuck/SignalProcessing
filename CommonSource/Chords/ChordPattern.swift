@@ -58,30 +58,35 @@ private func canonicalSuffix(for suffix: String) -> String {
 /// - Returns: A version of `suffix` with presentational characters.
 private func presentationalSuffix(for suffix: String) -> String {
 
-  var result = ""
-  var opening = true
-  var aug = ""
-  var dim = ""
+  let result = NSMutableString()
+  result.append(suffix)
+  let range = NSRange(location: 0, length: result.length)
+  result.replaceOccurrences(of: "b", with: "♭", range: range)
+  result.replaceOccurrences(of: "#", with: "♯", range: range)
+  result.replaceOccurrences(of: "-", with: "╱", range: range)
+  result.replaceOccurrences(of: "/", with: "╱", range: range)
+  result.replaceOccurrences(of: "aug", with: "+", range: range)
+  result.replaceOccurrences(of: "dim", with: "°", range: range)
 
-  for character in suffix {
+  var resultʹ = ""
+
+  var opening = true
+
+  for character in result as String {
 
     switch character {
-      case "b": result.append("♭")
-      case "#": result.append("♯")
-      case "-": result.append("╱")
-      case "a": aug = "a"
-      case "u": aug += "u"
-      case "g": if aug == "au" { result.append("+"); aug = "" }
-      case "d": dim = "d"
-      case "i": dim += "i"
-      case "m": if dim == "di" { result.append("°"); dim = "" } else { result.append("m") }
-      case "_": if opening { result.append("("); opening = false } else { result.append(")") }
-      default:  result.append(character)
+      case "_" where opening:
+        resultʹ.append("(")
+        opening = false
+      case "_":
+        resultʹ.append(")")
+      default:
+        resultʹ.append(character)
     }
 
   }
 
-  return result
+  return resultʹ
 
 }
 
@@ -256,8 +261,8 @@ public struct ChordPattern: OptionSet {
     .﹡dim7_add9_, .﹡m6_9t, .﹡6_9, .﹡m9_f5_, .﹡9_f5_, .﹡m9, .﹡9, .﹡9s5, .﹡M9f5, .﹡m9_M7_,
     .﹡M9, .﹡M9s5, .﹡M6_9, .﹡7f5_s9_, .﹡7s9, .﹡7s5_s9_, .﹡m7_add11_, .﹡m11f5, .﹡11, .﹡m11,
     .﹡m11_M7_, .﹡7s11, .﹡M7s11, .﹡7f9_s11_, .﹡9s11, .﹡M9s11, .﹡7s9_s11_, .﹡7f13, .﹡7f9_f13_,
-    .﹡9f13, .﹡7s9_f13_, .﹡7s11_f13_, .﹡9s11_f13_, .﹡7_add13_, .﹡13f9, .﹡13f5, .﹡13, .﹡13_sus4_,
-    .﹡M13f5, .﹡M13, .﹡13s9, .﹡m13, .﹡13s11, .﹡M13s11
+    .﹡9f13, .﹡7s9_f13_, .﹡7s11_f13_, .﹡9s11_f13_, .﹡7_add13_, .﹡13f9, .﹡13f5, .﹡13,
+    .﹡13_sus4_, .﹡M13f5, .﹡M13, .﹡13s9, .﹡m13, .﹡13s11, .﹡M13s11
   ]
 
   private static let suffixIndex: [RawValue:String] = [
