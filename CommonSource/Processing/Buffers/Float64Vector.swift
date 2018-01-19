@@ -44,6 +44,7 @@ public protocol ConstantSizeFloat64Vector: Float64Vector {
 
 infix operator • : MultiplicationPrecedence
 infix operator ~
+prefix operator ∑
 
 // Extending `Float64Vector` with some basic Collection protocol support and some common behaviour.
 extension Float64Vector {
@@ -157,6 +158,16 @@ extension Float64Vector {
     let count = vDSP_Length(lhs.count)
     var result = 0.0
     vDSP_dotprD(lhs.storage, 1, rhs.storage, 1, &result, count)
+    return result
+  }
+
+  /// Calculates the sum of the elements of the specified vector.
+  ///
+  /// - Parameter value: The vector to sum.
+  /// - Returns: The sum of all the elements in `value`.
+  public static prefix func ∑(value: Self) -> Float64 {
+    var result = 0.0
+    vDSP_sveD(value.storage, 1, &result, vDSP_Length(value.count))
     return result
   }
 

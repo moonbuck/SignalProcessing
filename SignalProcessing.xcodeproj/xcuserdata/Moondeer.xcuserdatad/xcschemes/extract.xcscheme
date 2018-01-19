@@ -109,12 +109,12 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/Tone_Height_3/Boesendorfer/Cmaj_boesendorfer_th=3.aif"
-            isEnabled = "NO">
+            argument = "/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/CAF/4_Ab7b5_octave=3_variation=4_celesta.caf"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/AIF/Tone_Height*/*/*.aif  "
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>
