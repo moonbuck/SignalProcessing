@@ -103,7 +103,7 @@ public struct STFT: Collection {
       let windowedData = Float64Buffer.allocate(capacity: windowSize)
 
       // Initialize all the samples to 0
-      windowedData.initialize(to: 0, count: windowSize)
+      windowedData.initialize(repeating: 0, count: windowSize)
 
       // Calculate the number of samples.
       let sampleCount = vDSP_Length(
@@ -139,10 +139,10 @@ public struct STFT: Collection {
 //    vDSP_destroy_fftsetup(fftSetup)
 
     // Deallocate the window.
-    window.deallocate(capacity: windowSize)
+    window.deallocate()
 
     // Deallocate the frames.
-    frames.deallocate(capacity: endIndex)
+    frames.deallocate()
 
   }
 

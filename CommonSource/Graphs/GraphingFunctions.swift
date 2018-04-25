@@ -57,7 +57,7 @@ public func chromaPlot<Source>(features: Source,
                                mapSize: ColorMap.Size = .s64,
                                mapKind: ColorMap.Kind = .grayscale,
                                title: String? = nil) -> Image
-  where Source:Collection, Source.Element == ChromaVector, Source.IndexDistance == Int
+  where Source:Collection, Source.Element == ChromaVector
 {
 
   // Establish the size of the image.
@@ -161,7 +161,6 @@ public func pitchPlot<Source>(features: Source,
                               title: String? = nil) -> Image
   where Source:Collection,
         Source.Element == PitchVector,
-        Source.IndexDistance == Int,
         Source.Index == Int
 {
 
@@ -253,7 +252,6 @@ public func binPlot<Source>(features: Source,
                             title: String? = nil) -> Image
   where Source:Collection,
         Source.Element == BinVector,
-        Source.IndexDistance == Int,
         Source.Index == Int
 {
 
@@ -520,7 +518,7 @@ public func chromaDataImage(features: ChromaFeatures, mapSize: ColorMap.Size = .
 public func chromaDataImage<Source>(features: Source,
                                     featureRate: CGFloat,
                                     mapSize: ColorMap.Size = .s64) -> Image
-  where Source:Collection, Source.Element == ChromaVector, Source.IndexDistance == Int
+  where Source:Collection, Source.Element == ChromaVector
 {
 
   let imageSize = CGFloat(features.count) × 12
@@ -553,7 +551,7 @@ public func pitchDataImage(features: PitchFeatures, mapSize: ColorMap.Size = .s6
 public func pitchDataImage<Source>(features: Source,
                                     featureRate: CGFloat,
                                     mapSize: ColorMap.Size = .s64) -> Image
-  where Source:Collection, Source.Element == PitchVector, Source.IndexDistance == Int
+  where Source:Collection, Source.Element == PitchVector
 {
 
   let imageSize = CGFloat(features.count) × 128
@@ -580,7 +578,7 @@ public func pitchDataImage<Source>(features: Source,
 public func binDataImage<Source>(features: Source,
                                  featureRate: CGFloat,
                                  mapSize: ColorMap.Size = .s64) -> Image
-  where Source:Collection, Source.Element == BinVector, Source.IndexDistance == Int
+  where Source:Collection, Source.Element == BinVector
 {
 
   // Get the number of bins, ensuring that all vectors have the same number of bins.

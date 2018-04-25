@@ -129,8 +129,7 @@ public func smooth<Vector>(buffer: FeatureBuffer<Vector>,
 ///   - settings: The parameters to use when smoothing and/or downsampling.
 /// - Returns: A buffer of processed chroma features.
 public func smooth<Source>(source: Source, settings: SmoothingSettings) -> [Source.Element]
-  where Source: Collection, Source.Element: Float64Vector,
-        Source.IndexDistance == Int, Source.Index == Int
+  where Source: Collection, Source.Element: Float64Vector, Source.Index == Int
 {
 
   // Determine the count by using the smallest vector.

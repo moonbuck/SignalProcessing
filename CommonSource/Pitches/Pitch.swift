@@ -99,13 +99,9 @@ public struct Pitch: RawRepresentable {
 
 }
 
-extension Pitch: CustomPlaygroundQuickLookable {
+extension Pitch: CustomPlaygroundDisplayConvertible {
 
-  public var customPlaygroundQuickLook: PlaygroundQuickLook {
-
-    return PlaygroundQuickLook.text(description)
-
-  }
+  public var playgroundDescription: Any {  return description  }
 
 }
 

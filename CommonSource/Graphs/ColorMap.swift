@@ -99,15 +99,15 @@ public struct ColorMap: Collection {
 
       let redValues = UnsafeMutablePointer<Double>.allocate(capacity: 64)
       redValues.initialize(from: ramp24AtoOne, count: 24)
-      (redValues + 24).initialize(to: 1, count: 40)
+      (redValues + 24).initialize(repeating: 1, count: 40)
 
       let greenValues = UnsafeMutablePointer<Double>.allocate(capacity: 64)
-      greenValues.initialize(to: 0, count: 24)
+      greenValues.initialize(repeating: 0, count: 24)
       (greenValues + 24).initialize(from: ramp24ZerotoOne, count: 24)
-      (greenValues + 48).initialize(to: 1, count: 16)
+      (greenValues + 48).initialize(repeating: 1, count: 16)
 
       let blueValues = UnsafeMutablePointer<Double>.allocate(capacity: 64)
-      blueValues.initialize(to: 0, count: 48)
+      blueValues.initialize(repeating: 0, count: 48)
       (blueValues + 48).initialize(from: ramp16ZeroToOne, count: 16)
 
       colors = (0..<64).map { Color(red: CGFloat(redValues[$0]),
@@ -115,9 +115,9 @@ public struct ColorMap: Collection {
                                     blue: CGFloat(blueValues[$0]),
                                     alpha: 1) }
 
-      redValues.deallocate(capacity: 64)
-      greenValues.deallocate(capacity: 64)
-      blueValues.deallocate(capacity: 64)
+      redValues.deallocate()
+      greenValues.deallocate()
+      blueValues.deallocate()
 
     case .s128:
 
@@ -135,17 +135,17 @@ public struct ColorMap: Collection {
       let redValues = UnsafeMutablePointer<Double>.allocate(capacity: 128)
       redValues.initialize(from: ramp64OneHalfToZero, count: 64)
       (redValues + 64).initialize(from: ramp24AtoOne, count: 24)
-      (redValues + 88).initialize(to: 1, count: 40)
+      (redValues + 88).initialize(repeating: 1, count: 40)
 
       let greenValues = UnsafeMutablePointer<Double>.allocate(capacity: 128)
       greenValues.initialize(from: ramp64OneHalfToZero, count: 64)
-      (greenValues + 64).initialize(to: 0, count: 24)
+      (greenValues + 64).initialize(repeating: 0, count: 24)
       (greenValues + 88).initialize(from: ramp24AtoOne, count: 24)
-      (greenValues + 112).initialize(to: 1, count: 16)
+      (greenValues + 112).initialize(repeating: 1, count: 16)
 
       let blueValues = UnsafeMutablePointer<Double>.allocate(capacity: 128)
       blueValues.initialize(from: ramp64OneToZero, count: 64)
-      (blueValues + 64).initialize(to: 0, count: 48)
+      (blueValues + 64).initialize(repeating: 0, count: 48)
       (blueValues + 112).initialize(from: ramp16BtoOne, count: 16)
 
       colors = (0..<128).map { Color(red: CGFloat(redValues[$0]),
@@ -153,20 +153,20 @@ public struct ColorMap: Collection {
                                      blue: CGFloat(blueValues[$0]),
                                      alpha: 1) }
 
-      ramp64OneHalfToZero.deallocate(capacity: 64)
-      ramp64OneToZero.deallocate(capacity: 64)
-      ramp16BtoOne.deallocate(capacity: 16)
-      redValues.deallocate(capacity: 128)
-      greenValues.deallocate(capacity: 128)
-      blueValues.deallocate(capacity: 128)
+      ramp64OneHalfToZero.deallocate()
+      ramp64OneToZero.deallocate()
+      ramp16BtoOne.deallocate()
+      redValues.deallocate()
+      greenValues.deallocate()
+      blueValues.deallocate()
 
       case .infinite:
         fatalError("Only maps of kind `.data` support the `.infinite` size.")
     }
 
-    ramp24AtoOne.deallocate(capacity: 24)
-    ramp24ZerotoOne.deallocate(capacity: 24)
-    ramp16ZeroToOne.deallocate(capacity: 16)
+    ramp24AtoOne.deallocate()
+    ramp24ZerotoOne.deallocate()
+    ramp16ZeroToOne.deallocate()
 
   }
 
@@ -188,7 +188,7 @@ public struct ColorMap: Collection {
       vDSP_vgenD(&min, &max, ramp, 1, 64)
       colors = (0..<64).reversed().map { Color(white: CGFloat(ramp[$0]), alpha: 1) }
 
-      ramp.deallocate(capacity: 64)
+      ramp.deallocate()
 
     case .s128:
 
@@ -198,7 +198,7 @@ public struct ColorMap: Collection {
       vDSP_vgenD(&min, &max, ramp, 1, 128)
       colors = (0..<128).reversed().map { Color(white: CGFloat(ramp[$0]), alpha: 1) }
 
-      ramp.deallocate(capacity: 128)
+      ramp.deallocate()
       
       case .infinite:
         fatalError("Only maps of kind `.data` support the `.infinite` size.")

@@ -114,9 +114,7 @@ func csvFormattedText(from output: Output) -> String {
           C.Element:Collection,
           C.Element.Element:CustomStringConvertible,
           C.Index == Int,
-          C.Element.Index == Int,
-          C.IndexDistance == Int,
-          C.Element.IndexDistance == Int
+          C.Element.Index == Int
   {
     let rowCount = collection.count
     let maxColumnCount = collection.map(\.count).max() ?? 0

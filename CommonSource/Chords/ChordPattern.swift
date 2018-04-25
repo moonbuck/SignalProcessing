@@ -147,7 +147,7 @@ public struct ChordPattern: OptionSet {
   /// An array of `Interval` values for the intervals of which the pattern is composed.
   /// - Note: This does not include the implied root interval.
   public var intervals: [ChordInterval] {
-    return stride(from: UInt32(), through: 22, by: 2).flatMap {
+    return stride(from: UInt32(), through: 22, by: 2).compactMap {
       let intervalRawValue = rawValue & (0b11 << $0)
       return intervalRawValue > 0 ? ChordInterval(rawValue: intervalRawValue) : nil
     }
@@ -352,7 +352,7 @@ extension ChordPattern: Hashable {
 
 extension ChordPattern: ExpressibleByArrayLiteral {
 
-  public init(arrayLiteral: ChordInterval) { self.init(arrayLiteral) }
+//  public init(arrayLiteral: ChordInterval) { self.init(arrayLiteral) }
 
 }
 

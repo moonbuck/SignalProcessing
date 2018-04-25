@@ -66,7 +66,7 @@ public final class FeatureBuffer<Vector>: FeatureCollection, Float64VectorBuffer
   public let buffer: UnsafeMutablePointer<Vector>
 
   deinit {
-    buffer.deallocate(capacity: count)
+    buffer.deallocate()
   }
 
   /// The number of feature vectors in `buffer`.
@@ -212,7 +212,6 @@ extension FeatureBuffer where Vector == ChromaVector {
   public convenience init<Source>(source: Source)
     where Source: FeatureCollection,
           Source.Iterator.Element == PitchVector,
-          Source.IndexDistance == Int,
           Source.Index == Int
   {
 

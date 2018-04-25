@@ -99,8 +99,8 @@ public struct FFT {
     vvsqrt(bins.storage, bins.storage, &binCount)
 
     // Deallocate memory.
-    complexBuffer.realp.deallocate(capacity: Int(K) + 1)
-    complexBuffer.imagp.deallocate(capacity: Int(K) + 1)
+    complexBuffer.realp.deallocate()
+    complexBuffer.imagp.deallocate()
 
   }
 

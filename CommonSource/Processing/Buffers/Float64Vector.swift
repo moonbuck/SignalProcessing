@@ -265,6 +265,8 @@ public final class PitchVector: Collection, ConstantSizeFloat64Vector, Equatable
 
   public static let count = 128
 
+  public let count = 128
+
   private typealias BinCount = Int
   private typealias WindowLength = Int
 
@@ -304,7 +306,7 @@ public final class PitchVector: Collection, ConstantSizeFloat64Vector, Equatable
   public let ownsMemory: Bool
 
   deinit {
-    if ownsMemory { storage.deallocate(capacity: count) }
+    if ownsMemory { storage.deallocate() }
   }
 
   /// Initialize an all-zero vector.
@@ -444,15 +446,15 @@ private func binMap(windowLength: Int, sampleRate: SampleRate) -> [Pitch] {
   }
 
   // Deallocate memory.
-  binIndices.deallocate(capacity: count)
-  pitches8.deallocate(capacity: count)
+  binIndices.deallocate()
+  pitches8.deallocate()
 
   // Fix the first value if the second is less than 0.
   if pitches[1] < 0 { pitches[0] = Pitch(rawValue: Int.min) }
 
   let array = Array(UnsafeBufferPointer(start: pitches, count: count))
 
-  pitches.deallocate(capacity: count)
+  pitches.deallocate()
 
   return array
 
@@ -466,13 +468,15 @@ public final class ChromaVector: Collection, ConstantSizeFloat64Vector, Equatabl
 
   public static let count = 12
 
+  public let count = 12
+
   /// Storage for the `Float64` values.
   public let storage: Float64Buffer
 
   public let ownsMemory: Bool
 
   deinit {
-    if ownsMemory { storage.deallocate(capacity: count) }
+    if ownsMemory { storage.deallocate() }
   }
 
   /// Initialize an all-zero vector.
@@ -523,7 +527,7 @@ public final class BinVector: Collection, Float64Vector, Equatable {
   public let ownsMemory: Bool
 
   deinit {
-    if ownsMemory { storage.deallocate(capacity: count) }
+    if ownsMemory { storage.deallocate() }
   }
 
   /// Initialize an all-zero vector.
@@ -603,7 +607,7 @@ public final class SignalVector: Collection, Float64Vector, Equatable {
   public let ownsMemory: Bool
 
   deinit {
-    if ownsMemory { storage.deallocate(capacity: count) }
+    if ownsMemory { storage.deallocate() }
   }
 
   /// Initialize an all-zero vector.

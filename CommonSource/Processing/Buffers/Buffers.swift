@@ -49,7 +49,7 @@ extension UnsafeMutablePointer where Pointee == Float64 {
 
       let pad = columnCount - Int(availableColumns)
       if pad > 0 {
-        (buffer + (row * columnCount + Int(availableColumns))).initialize(to: 0, count: pad)
+        (buffer + (row * columnCount + Int(availableColumns))).initialize(repeating: 0, count: pad)
       }
     }
 
@@ -149,7 +149,7 @@ extension UnsafeMutablePointer where Pointee == Float64 {
     }
 
     // Not sure if it is right to deallocate memory here.
-    deallocate(capacity: totalCount)
+    deallocate()
     self = selfʹ
   }
 
@@ -204,7 +204,7 @@ extension UnsafeMutablePointer where Pointee == UnsafeMutablePointer<Float64> {
       let c = vDSP_Length(row.count)
       let rowʹ = Float64Buffer.allocate(capacity: row.count + pad)
       vDSP_mmovD(row, rowʹ, c, 1, c, c)
-      if pad > 0 { (rowʹ + row.count).initialize(to: 0, count: pad) }
+      if pad > 0 { (rowʹ + row.count).initialize(repeating: 0, count: pad) }
       (buffer + i).initialize(to: rowʹ)
     }
 

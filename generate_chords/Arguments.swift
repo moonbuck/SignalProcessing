@@ -72,7 +72,7 @@ struct Arguments: CustomStringConvertible {
     // Parse the command line arguments.
     let arguments = Docopt.parse(usage, help: true)
 
-    octaves = (arguments["--octaves"] as! String).split(separator: ",").flatMap {
+    octaves = (arguments["--octaves"] as! String).split(separator: ",").compactMap {
       Int(($0 as NSString).trimmingCharacters(in: .whitespaces))
     }
 
