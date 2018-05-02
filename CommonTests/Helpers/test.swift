@@ -14,7 +14,7 @@ import Foundation
 ///   - block: The block used to test the elements in `array`.
 ///   - element: The element of `array` being tested.
 /// - Returns: `true` if all elements pass and `false` otherwise.
-internal func test<T>(array: [T], using block: (_ element: T) -> Bool) -> Bool {
+internal func test<T>(array1D array: [T], using block: (_ element: T) -> Bool) -> Bool {
   for value in array where !block(value) { return false }
   return true
 }
@@ -26,8 +26,8 @@ internal func test<T>(array: [T], using block: (_ element: T) -> Bool) -> Bool {
 ///   - block: The block used to test the elements in the elements of `array`.
 ///   - element: The element of an element of `array` being tested.
 /// - Returns: `true` if all elements pass and `false` otherwise.
-internal func test<T>(array: [[T]], using block: (_ element: T) -> Bool) -> Bool {
-  for child in array where !test(array: child, using: block) { return false }
+internal func test<T>(array2D array: [[T]], using block: (_ element: T) -> Bool) -> Bool {
+  for child in array where !test(array1D: child, using: block) { return false }
   return true
 }
 
@@ -38,8 +38,8 @@ internal func test<T>(array: [[T]], using block: (_ element: T) -> Bool) -> Bool
 ///   - block: The block used to test the elements in the elements of the elements of `array`.
 ///   - element: The element of an element of an element of `array` being tested.
 /// - Returns: `true` if all elements pass and `false` otherwise.
-internal func test<T>(array: [[[T]]], using block: (_ element: T) -> Bool) -> Bool {
-  for child in array where !test(array: child, using: block) { return false }
+internal func test<T>(array3D array: [[[T]]], using block: (_ element: T) -> Bool) -> Bool {
+  for child in array where !test(array2D: child, using: block) { return false }
   return true
 }
 
@@ -51,7 +51,7 @@ internal func test<T>(array: [[[T]]], using block: (_ element: T) -> Bool) -> Bo
 ///   - block: The block used to test the elements in `array`.
 ///   - element: The element of `array` being tested.
 /// - Returns: `true` if all elements pass and `false` otherwise.
-internal func test<T>(array: [T],
+internal func test<T>(array1D array: [T],
                       against value: T,
                       using block: (_ element: T, _ value: T) -> Bool) -> Bool
 {
@@ -67,11 +67,11 @@ internal func test<T>(array: [T],
 ///   - block: The block used to test the elements in the elements of `array`.
 ///   - element: The element of an element of `array` being tested.
 /// - Returns: `true` if all elements pass and `false` otherwise.
-internal func test<T>(array: [[T]],
+internal func test<T>(array2D array: [[T]],
                       against value: T,
                       using block: (_ element: T, _ value: T) -> Bool) -> Bool
 {
-  for child in array where !test(array: child, against: value, using: block) { return false }
+  for child in array where !test(array1D: child, against: value, using: block) { return false }
   return true
 }
 
@@ -83,11 +83,11 @@ internal func test<T>(array: [[T]],
 ///   - block: The block used to test the elements in the elements of the elements of `array`.
 ///   - element: The element of an element of an element of `array` being tested.
 /// - Returns: `true` if all elements pass and `false` otherwise.
-internal func test<T>(array: [[[T]]],
+internal func test<T>(array3D array: [[[T]]],
                       against value: T,
                       using block: (_ element: T, _ value: T) -> Bool) -> Bool
 {
-  for child in array where !test(array: child, against: value, using: block) { return false }
+  for child in array where !test(array2D: child, against: value, using: block) { return false }
   return true
 }
 
@@ -101,7 +101,7 @@ internal func test<T>(array: [[[T]]],
 ///   - element1: The element of `array1` being tested.
 ///   - element2: The element of `array2` being tested.
 /// - Returns: `true` if all element pairs pass and `false` otherwise.
-internal func test<T>(array array1: [T],
+internal func test<T>(array1D array1: [T],
                       against array2: [T],
                       countMismatch: UnsafeMutablePointer<Bool>? = nil,
                       using block: (_ element1: T, _ element2: T) -> Bool) -> Bool
@@ -122,14 +122,14 @@ internal func test<T>(array array1: [T],
 ///   - element1: The element of an element of `array1` being tested.
 ///   - element2: The element of an element of `array2` being tested.
 /// - Returns: `true` if all element pairs pass and `false` otherwise.
-internal func test<T>(array array1: [[T]],
+internal func test<T>(array2D array1: [[T]],
                       against array2: [[T]],
                       countMismatch: UnsafeMutablePointer<Bool>? = nil,
                       using block: (_ element1: T, _ element2: T) -> Bool) -> Bool
 {
   guard array1.count == array2.count else { countMismatch?.pointee = true; return false }
   for (child1, child2) in zip(array1, array2) {
-    guard test(array: child1, against: child2, countMismatch: countMismatch, using: block) else {
+    guard test(array1D: child1, against: child2, countMismatch: countMismatch, using: block) else {
       return false
     }
   }
@@ -148,14 +148,14 @@ internal func test<T>(array array1: [[T]],
 ///   - element1: The element of an element of an element of `array1` being tested.
 ///   - element2: The element of an element of an element of `array2` being tested.
 /// - Returns: `true` if all element pairs pass and `false` otherwise.
-internal func test<T>(array array1: [[[T]]],
+internal func test<T>(array3D array1: [[[T]]],
                       against array2: [[[T]]],
                       countMismatch: UnsafeMutablePointer<Bool>? = nil,
                       using block: (_ element1: T, _ element2: T) -> Bool) -> Bool
 {
   guard array1.count == array2.count else { countMismatch?.pointee = true; return false }
   for (child1, child2) in zip(array1, array2) {
-    guard test(array: child1, against: child2, countMismatch: countMismatch, using: block) else {
+    guard test(array2D: child1, against: child2, countMismatch: countMismatch, using: block) else {
       return false
     }
   }

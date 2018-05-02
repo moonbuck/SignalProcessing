@@ -9,6 +9,7 @@ import Foundation
 import XCTest
 import Essentia
 import Accelerate
+import MoonKit
 @testable import SignalProcessing
 
 /// An enumeration for specifying the general basis of an assertion.
@@ -222,12 +223,12 @@ private let valueWidth = 16
 private let zValueWidth = valueWidth * 2 + 2
 private let indexColumnWidth = 8
 
-private let line = "─" * (columnWidth * 4 + indexColumnWidth)
-private let zLine = "─" * (zColumnWidth * 2 + columnWidth * 2 + indexColumnWidth)
-private let averagesLabel = "Averages:" + " " * ((columnWidth * 2 + indexColumnWidth) - 11)
-private let zAveragesLabel = "Averages:" + " " * ((zColumnWidth * 2 + indexColumnWidth) - 11)
-private let spacer = " " * valueWidth
-private let zSpacer = " " * zValueWidth
+private let line = String(repeating: "─", count: columnWidth * 4 + indexColumnWidth)
+private let zLine = String(repeating: "─", count: zColumnWidth * 2 + columnWidth * 2 + indexColumnWidth)
+private let averagesLabel = "Averages:" + String(repeating: " ", count: (columnWidth * 2 + indexColumnWidth) - 11)
+private let zAveragesLabel = "Averages:" + String(repeating: " ", count: (zColumnWidth * 2 + indexColumnWidth) - 11)
+private let spacer = String(repeating: " ", count: valueWidth)
+private let zSpacer = String(repeating: " ", count: zValueWidth)
 
 private let tableHeader: String = {
 
@@ -618,7 +619,8 @@ private func appendComparison<T>(of array1: [String],
   let expectedLabel = "Expected".padded(to: expectedColumnWidth, alignment: .center)
 
   print(indexLabel, actualLabel, expectedLabel, separator: "", to: &target)
-  print("─" * (indexColumnWidth + actualColumnWidth + expectedColumnWidth), to: &target)
+  print(String(repeating: "─", count: indexColumnWidth + actualColumnWidth + expectedColumnWidth),
+        to: &target)
 
   for (index, (value1, value2)) in zip(array1, array2).enumerated() {
 
@@ -645,7 +647,7 @@ private func appendComparison<T>(of array1: [String],
 
   } else if array2.count > array1.count {
 
-    let spacer = " " * actualColumnWidth
+    let spacer = String(repeating: " ", count: actualColumnWidth)
 
     for (index, value) in zip(array1.count..<array2.count, array2[array1.count...]) {
 
