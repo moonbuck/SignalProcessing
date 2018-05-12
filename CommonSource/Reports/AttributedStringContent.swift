@@ -6,6 +6,7 @@
 //  Copyright (c) 2017 Moondeer Studios. All rights reserved.
 //
 import Foundation
+import MoonKit
 
 #if os(iOS)
   import UIKit
@@ -13,69 +14,8 @@ import Foundation
   import AppKit
 #endif
 
-extension NSAttributedString {
-
-  /// Invokes `attributedSubstring(from:)` with a range derived from `location` and the length
-  /// of the attributed string.
-  ///
-  /// - Parameter location: The location denoting the first character in the return substring.
-  /// - Returns: The substring from `location` to the end of the string.
-  public func attributedSubstring(from location: Int) -> NSAttributedString {
-
-    return attributedSubstring(from: NSRange(location: location, length: length - location))
-
-  }
-
-  /// The full range of the attributed string's text.
-  public var textRange: NSRange { return NSRange(location: 0, length: length) }
-
-  /// Whether the string's content consists only of whitespace and/or newline characters.
-  public var isWhitespace: Bool {
-
-    let whitespaceCharacterSet = CharacterSet.whitespacesAndNewlines
-
-    for unicodeScalar in string.unicodeScalars {
-
-      guard whitespaceCharacterSet.contains(unicodeScalar) else { return false }
-
-    }
-
-    return true
-
-  }
-
-}
-
 /// Extension of mutable attributed strings with functions used by various report content providers.
 extension NSMutableAttributedString {
-
-  /// Appends a string to the attributed string using the specified attributes or without 
-  /// attributes if the parameter is `nil`..
-  ///
-  /// - Parameters:
-  ///   - string: The string to append.
-  ///   - attributes: The attributes for `string` or `nil`.
-  public func append(_ string: String, attributes:  [NSAttributedStringKey:Any]? = nil) {
-    append(NSAttributedString(string: string, attributes: attributes))
-  }
-
-  /// Appends a string to the attributed string.
-  ///
-  /// - Parameters:
-  ///   - lhs: The attributed string to which `rhs` will be appended.
-  ///   - rhs: The string to append to `lhs`.
-  public static func += (lhs: NSMutableAttributedString, rhs: String) {
-    lhs.append(rhs)
-  }
-
-  /// Appends a string to an attributed string using the specified attributes.
-  ///
-  /// - Parameters:
-  ///   - lhs: The attributed string to which `rhs.0` will be appended with attributes `rhs.1`.
-  ///   - rhs: The tuple containing the string and attributes to be appended to `lhs`.
-  public static func +=(lhs: NSMutableAttributedString, rhs: (String, [NSAttributedStringKey:Any])) {
-    lhs.append(rhs.0, attributes: rhs.1)
-  }
 
   /// Appends a description for the source of extracted features.
   ///
@@ -86,10 +26,10 @@ extension NSMutableAttributedString {
     switch featureSource {
 
     case .mic:
-      self += ("audio input", .black)
+      self += ("audio input", .ctBlack)
 
     case .file(url: let url):
-      self += (url.lastPathComponent, .extraLightItalic)
+      self += (url.lastPathComponent, .ctExtraLightItalic)
 
     }
 
@@ -98,14 +38,14 @@ extension NSMutableAttributedString {
   /// Appends a horizontal line.
   public func appendLine() {
 
-    self += ("\("─" * ReportRenderer.columnCount)\n", .bold)
+    self += ("\("─" * ReportRenderer.columnCount)\n", .ctBold)
 
   }
 
   /// Appends a double horizontal line.
   public func appendDoubleLine() {
 
-    self += ("\("═" * ReportRenderer.columnCount)\n", .bold)
+    self += ("\("═" * ReportRenderer.columnCount)\n", .ctBold)
 
   }
 
@@ -116,12 +56,12 @@ extension NSMutableAttributedString {
   public func appendInfo(for chromaFeatures: ChromaFeatures) {
 
     // Append the frame count.
-    self += ("# Frames: ", .mediumItalic)
-    self += ("\(chromaFeatures.count)\n", .lightItalic)
+    self += ("# Frames: ", .ctMediumItalic)
+    self += ("\(chromaFeatures.count)\n", .ctLightItalic)
 
     // Append the feature rate.
-    self += ("Feature Rate: ", .mediumItalic)
-    self += ("\(chromaFeatures.featureRate) Hz\n", .lightItalic)
+    self += ("Feature Rate: ", .ctMediumItalic)
+    self += ("\(chromaFeatures.featureRate) Hz\n", .ctLightItalic)
 
     // Append the parameters.
     append(parameters: chromaFeatures.parameters)
@@ -135,7 +75,7 @@ extension NSMutableAttributedString {
   public func append(parameters: ChromaFeatures.Parameters, indent: Int = 0) {
 
     // Introduce the pitch feature parameters and start a new line.
-    self += ("\(" " * indent)Pitch Feature Parameters:\n", .mediumItalic)
+    self += ("\(" " * indent)Pitch Feature Parameters:\n", .ctMediumItalic)
 
     // Append a description of the pitch feature parameters with a slight indentation.
     append(parameters: parameters.pitchFeatureParameters, indent: indent + 4)
@@ -152,12 +92,12 @@ extension NSMutableAttributedString {
   public func appendInfo(for pitchFeatures: PitchFeatures) {
 
     // Append the frame count.
-    self += ("# Frames: ", .mediumItalic)
-    self += ("\(pitchFeatures.count)\n", .lightItalic)
+    self += ("# Frames: ", .ctMediumItalic)
+    self += ("\(pitchFeatures.count)\n", .ctLightItalic)
 
     // Append the feature rate.
-    self += ("Feature Rate: ", .mediumItalic)
-    self += ("\(pitchFeatures.featureRate) Hz\n", .lightItalic)
+    self += ("Feature Rate: ", .ctMediumItalic)
+    self += ("\(pitchFeatures.featureRate) Hz\n", .ctLightItalic)
 
     // Append the parameters.
     append(parameters: pitchFeatures.parameters)
@@ -174,7 +114,7 @@ extension NSMutableAttributedString {
 
     append(extractionMethod: parameters.method, indent: indent)
 
-    self += ("\(" " * indent)Filters:\(parameters.filters.isEmpty ? " None" : "")\n", .mediumItalic)
+    self += ("\(" " * indent)Filters:\(parameters.filters.isEmpty ? " None" : "")\n", .ctMediumItalic)
 
     for filter in parameters.filters {
 
@@ -192,6 +132,9 @@ extension NSMutableAttributedString {
         case .smoothing(settings: let settings):
           append(smoothingSettings: settings, indent: indent + 4)
 
+        case .decibel(let settings):
+          append(decibelConversionSettings: settings, indent: indent + 4)
+        
       }
 
     }
@@ -202,22 +145,22 @@ extension NSMutableAttributedString {
   public func appendInfo(for features: Features) {
 
     // Append the frame count.
-    self += ("Pitch Features:\n", .mediumItalic)
-    self += ("    # Frames: ", .mediumItalic)
-    self += ("\(features.pitchFeatures.count)\n", .lightItalic)
+    self += ("Pitch Features:\n", .ctMediumItalic)
+    self += ("    # Frames: ", .ctMediumItalic)
+    self += ("\(features.pitchFeatures.count)\n", .ctLightItalic)
 
     // Append the feature rate.
-    self += ("    Feature Rate: ", .mediumItalic)
-    self += ("\(features.pitchFeatures.featureRate) Hz\n", .lightItalic)
+    self += ("    Feature Rate: ", .ctMediumItalic)
+    self += ("\(features.pitchFeatures.featureRate) Hz\n", .ctLightItalic)
 
     // Append the frame count.
-    self += ("Smoothed Pitch/Chroma Features:\n", .mediumItalic)
-    self += ("    # Frames: ", .mediumItalic)
-    self += ("\(features.chromaFeatures.count)\n", .lightItalic)
+    self += ("Smoothed Pitch/Chroma Features:\n", .ctMediumItalic)
+    self += ("    # Frames: ", .ctMediumItalic)
+    self += ("\(features.chromaFeatures.count)\n", .ctLightItalic)
 
     // Append the feature rate.
-    self += ("    Feature Rate: ", .mediumItalic)
-    self += ("\(features.chromaFeatures.featureRate) Hz\n", .lightItalic)
+    self += ("    Feature Rate: ", .ctMediumItalic)
+    self += ("\(features.chromaFeatures.featureRate) Hz\n", .ctLightItalic)
 
     // Append a description of the recipe.
     append(recipe: features.recipe)
@@ -230,10 +173,10 @@ extension NSMutableAttributedString {
   public func append(recipe: Features.Recipe) {
 
     // Introduce the recipe and start a new line.
-    self += ("Recipe:\n", .mediumItalic)
+    self += ("Recipe:\n", .ctMediumItalic)
 
     // Introduce the pitch feature parameters and start a new line.
-    self += ("    Pitch Feature Parameters:\n", .mediumItalic)
+    self += ("    Pitch Feature Parameters:\n", .ctMediumItalic)
 
     // Append a description of the pitch feature parameters with a slight indentation.
     append(parameters: recipe.pitchFeatureParameters, indent: 8)
@@ -252,17 +195,17 @@ extension NSMutableAttributedString {
   public func append(scoreAdjustments: [ScoreAdjustment], indent: Int = 0) {
 
     // Append a line to introduce the similarity score configuration.
-    self += ("\(" " * indent)Similarity Score Adjustments:", .medium)
+    self += ("\(" " * indent)Similarity Score Adjustments:", .ctMedium)
 
     guard !scoreAdjustments.isEmpty else {
 
-      self += (" None\n", .lightItalic)
+      self += (" None\n", .ctLightItalic)
 
       return
 
     }
 
-    self += ("\n", .medium)
+    self += ("\n", .ctMedium)
 
 
     for adjustment in scoreAdjustments {
@@ -272,57 +215,57 @@ extension NSMutableAttributedString {
         case let .noteCount(matchingBonus):
 
           // Append an intro for the note count adjustment.
-          self += ("\(" " * (indent + 4))Note Count Adjustment:\n", .mediumItalic)
+          self += ("\(" " * (indent + 4))Note Count Adjustment:\n", .ctMediumItalic)
 
           // Append the matching bonus.
-          self += ("\(" " * (indent + 8))Matching Bonus: ", .italic)
-          self += ("\(matchingBonus)\n", .lightItalic)
+          self += ("\(" " * (indent + 8))Matching Bonus: ", .ctItalic)
+          self += ("\(matchingBonus)\n", .ctLightItalic)
 
         case let .chordRoot(matching, penalty, threshold, bonus):
 
           // Append an intro for the chord root adjustment.
-          self += ("\(" " * (indent + 4))Chord Root Adjustment:\n", .mediumItalic)
+          self += ("\(" " * (indent + 4))Chord Root Adjustment:\n", .ctMediumItalic)
 
           // Append the matching bonus.
-          self += ("\(" " * (indent + 8))Matching Bonus: ", .italic)
-          self += ("\(matching)\n", .lightItalic)
+          self += ("\(" " * (indent + 8))Matching Bonus: ", .ctItalic)
+          self += ("\(matching)\n", .ctLightItalic)
 
           // Append the mismatch penalty.
-          self += ("\(" " * (indent + 8))Mismatch Penalty: ", .italic)
-          self += ("\(penalty)\n", .lightItalic)
+          self += ("\(" " * (indent + 8))Mismatch Penalty: ", .ctItalic)
+          self += ("\(penalty)\n", .ctLightItalic)
 
           // Append the high energy threshold.
-          self += ("\(" " * (indent + 8))High Energy Threshold: ", .italic)
-          self += ("\(threshold)\n", .lightItalic)
+          self += ("\(" " * (indent + 8))High Energy Threshold: ", .ctItalic)
+          self += ("\(threshold)\n", .ctLightItalic)
 
           // Append the high energy bonus.
-          self += ("\(" " * (indent + 8))High Energy Bonus: ", .italic)
-          self += ("\(bonus)\n", .lightItalic)
+          self += ("\(" " * (indent + 8))High Energy Bonus: ", .ctItalic)
+          self += ("\(bonus)\n", .ctLightItalic)
 
         case let .energyDistribution(absent, matching, threshold, bonus, penalty):
 
           // Append an intro for the energy distribution adjustment.
-          self += ("\(" " * (indent + 4))Energy Distribution Adjustment:\n", .mediumItalic)
+          self += ("\(" " * (indent + 4))Energy Distribution Adjustment:\n", .ctMediumItalic)
 
           // Append the absent chroma threshold.
-          self += ("\(" " * (indent + 8))Absent Chroma Threshold: ", .italic)
-          self += ("\(absent)\n", .lightItalic)
+          self += ("\(" " * (indent + 8))Absent Chroma Threshold: ", .ctItalic)
+          self += ("\(absent)\n", .ctLightItalic)
 
           // Append the matching chroma bonus.
-          self += ("\(" " * (indent + 8))Matching Chromas Bonus: ", .italic)
-          self += ("\(matching)\n", .lightItalic)
+          self += ("\(" " * (indent + 8))Matching Chromas Bonus: ", .ctItalic)
+          self += ("\(matching)\n", .ctLightItalic)
 
           // Append the high energy threshold.
-          self += ("\(" " * (indent + 8))High Energy Threshold: ", .italic)
-          self += ("\(threshold)\n", .lightItalic)
+          self += ("\(" " * (indent + 8))High Energy Threshold: ", .ctItalic)
+          self += ("\(threshold)\n", .ctLightItalic)
 
           // Append the high energy bonus.
-          self += ("\(" " * (indent + 8))High Energy Bonus: ", .italic)
-          self += ("\(bonus)\n", .lightItalic)
+          self += ("\(" " * (indent + 8))High Energy Bonus: ", .ctItalic)
+          self += ("\(bonus)\n", .ctLightItalic)
 
           // Append the high energy penalty.
-          self += ("\(" " * (indent + 8))High Energy Penalty: ", .italic)
-          self += ("\(penalty)\n", .lightItalic)
+          self += ("\(" " * (indent + 8))High Energy Penalty: ", .ctItalic)
+          self += ("\(penalty)\n", .ctLightItalic)
 
       }
 
@@ -338,16 +281,16 @@ extension NSMutableAttributedString {
   public func append(extractionMethod: PitchFeatures.ExtractionMethod, indent: Int = 0) {
 
     // Append a description of the extraction method.
-    self += ("\(" " * indent)Extraction Method: ", .mediumItalic)
+    self += ("\(" " * indent)Extraction Method: ", .ctMediumItalic)
 
     // Initialize `methodDesc`.
     switch extractionMethod {
 
       case .stft(let p):
-        self += ("STFT { Window Size: \(p.windowSize), Hop Size: \(p.hopSize) }\n", .lightItalic)
+        self += ("STFT { Window Size: \(p.windowSize), Hop Size: \(p.hopSize) }\n", .ctLightItalic)
 
       case .filterbank(let p):
-        self += ("Filterbank { Window Size: \(p.windowSize), Hop Size: \(p.hopSize) }\n", .lightItalic)
+        self += ("Filterbank { Window Size: \(p.windowSize), Hop Size: \(p.hopSize) }\n", .ctLightItalic)
 
     }
 
@@ -362,12 +305,33 @@ extension NSMutableAttributedString {
   public func append(compressionSettings compression: CompressionSettings?, indent: Int = 0) {
 
     // Append a description of `compression`.
-    self += ("\(" " * indent)Logarithmic Compression: ", .mediumItalic)
+    self += ("\(" " * indent)Logarithmic Compression: ", .ctMediumItalic)
 
     if let compression = compression {
-      self += ("{ Term: \(compression.term), Factor: \(compression.factor) }\n", .lightItalic)
+      self += ("{ Term: \(compression.term), Factor: \(compression.factor) }\n", .ctLightItalic)
     } else {
-      self += ("No\n", .lightItalic)
+      self += ("No\n", .ctLightItalic)
+    }
+
+  }
+
+  /// Appends a description for feature decibel conversion settings.
+  ///
+  /// - Parameters:
+  ///   - decibels: The settings to describe or `nil` if decibel conversion was not applied.
+  ///   - indent: The number of spaces that should be prepended to each line.
+  public func append(decibelConversionSettings decibels: DecibelConversionSettings?,
+                     indent: Int = 0)
+  {
+
+    // Append a description of `compression`.
+    self += ("\(" " * indent)Logarithmic Compression: ", .ctMediumItalic)
+
+    if let decibels = decibels {
+      self += ("{ Multiplier: \(decibels.multiplier), ", .ctLightItalic)
+      self += ("Zero Reference: \(decibels.zeroReference) }\n", .ctLightItalic)
+    } else {
+      self += ("No\n", .ctLightItalic)
     }
 
   }
@@ -380,18 +344,18 @@ extension NSMutableAttributedString {
   public func append(normalizationSettings normalization: NormalizationSettings?, indent: Int = 0) {
 
     // Append a description of `normalization`.
-    self += ("\(" " * indent)Normalization: ", .mediumItalic)
+    self += ("\(" " * indent)Normalization: ", .ctMediumItalic)
 
     switch normalization {
 
       case .maxValue?:
-        self += ("Max Value\n", .lightItalic)
+        self += ("Max Value\n", .ctLightItalic)
 
       case .lᵖNorm(let space, let threshold)?:
-        self += ("{ Space: \(space), Threshold: \(threshold) }\n", .lightItalic)
+        self += ("{ Space: \(space), Threshold: \(threshold) }\n", .ctLightItalic)
 
       case nil:
-        self += ("No\n", .lightItalic)
+        self += ("No\n", .ctLightItalic)
 
     }
 
@@ -405,7 +369,7 @@ extension NSMutableAttributedString {
   public func append(quantizationSettings quantization: QuantizationSettings, indent: Int = 0) {
 
     // Append a description of `quantization`.
-    self += ("\(" " * indent)Quantization: ", .mediumItalic)
+    self += ("\(" " * indent)Quantization: ", .ctMediumItalic)
 
     // Create a string with step values.
     let steps = quantization.steps.map({String(format: "%.2lf", $0)}).joined(separator: ", ")
@@ -413,7 +377,7 @@ extension NSMutableAttributedString {
     // Create a string with the weight values.
     let weights = quantization.weights.map({String(format: "%.2lf", $0)}).joined(separator: ", ")
 
-    self += ("{ Steps: [\(steps)], Weights: [\(weights)] }\n", .lightItalic)
+    self += ("{ Steps: [\(steps)], Weights: [\(weights)] }\n", .ctLightItalic)
 
   }
 
@@ -425,13 +389,13 @@ extension NSMutableAttributedString {
   public func append(smoothingSettings smoothing: SmoothingSettings?, indent: Int = 0) {
 
     // Append a description of `smoothing`.
-    self += ("\(" " * indent)Smoothing: ", .mediumItalic)
+    self += ("\(" " * indent)Smoothing: ", .ctMediumItalic)
 
     if let smoothing = smoothing {
-      self += ("{ Window Size: \(smoothing.windowSize), ", .lightItalic)
-      self += ("Downsample Factor: \(smoothing.downsampleFactor) }\n", .lightItalic)
+      self += ("{ Window Size: \(smoothing.windowSize), ", .ctLightItalic)
+      self += ("Downsample Factor: \(smoothing.downsampleFactor) }\n", .ctLightItalic)
     } else {
-      self += ("No\n", .lightItalic)
+      self += ("No\n", .ctLightItalic)
     }
 
   }
@@ -444,8 +408,8 @@ extension NSMutableAttributedString {
  public func append(coefficients: CountableRange<Int>, indent: Int = 0) {
 
     // Append a description of `coefficients`.
-    self += ("\(" " * indent)Coefficients: ", .mediumItalic)
-    self += ("\(coefficients.lowerBound) - \(coefficients.upperBound - 1)\n", .lightItalic)
+    self += ("\(" " * indent)Coefficients: ", .ctMediumItalic)
+    self += ("\(coefficients.lowerBound) - \(coefficients.upperBound - 1)\n", .ctLightItalic)
 
   }
 
@@ -457,14 +421,14 @@ extension NSMutableAttributedString {
   public func append(variant: ChromaFeatures.Variant, indent: Int = 0) {
 
     // Append a description of the `variant`.
-    self += ("\(" " * indent)Variant: ", .mediumItalic)
+    self += ("\(" " * indent)Variant: ", .ctMediumItalic)
 
     switch variant {
 
       case .CP(compression: let compression, normalization: let normalization):
 
         // Append the kind of variant.
-        self += ("CP\n", .lightItalic)
+        self += ("CP\n", .ctLightItalic)
 
         // Append a description of `compression`.
         append(compressionSettings: compression, indent: indent + 4)
@@ -475,7 +439,7 @@ extension NSMutableAttributedString {
       case .CENS(quantization: let quantization, smoothing: let smoothing):
 
         // Append the kind of variant.
-        self += ("CENS\n", .lightItalic)
+        self += ("CENS\n", .ctLightItalic)
 
         // Append a description of `quantization`.
         append(quantizationSettings: quantization, indent: indent + 4)
@@ -486,7 +450,7 @@ extension NSMutableAttributedString {
       case .CRP(coefficients: let coefficients, smoothing: let smoothing):
 
         // Append the kind of variant.
-        self += ("CRP\n", .lightItalic)
+        self += ("CRP\n", .ctLightItalic)
 
         // Append a description of `coefficients`.
         append(coefficients: coefficients, indent: indent + 4)
@@ -510,7 +474,7 @@ extension NSMutableAttributedString {
     let frameLabelPad = ReportRenderer.columnCount - frameLabel.count
 
     // Append the padded frame label to `self`.
-    self += ("\(" " * frameLabelPad)\(frameLabel)\n", .mediumItalic)
+    self += ("\(" " * frameLabelPad)\(frameLabel)\n", .ctMediumItalic)
 
   }
 
@@ -524,7 +488,7 @@ extension NSMutableAttributedString {
     let line = "─" * (ReportRenderer.columnCount - 2)
 
     // Append the box top.
-    self += ("┌\(line)┐\n│", .regular)
+    self += ("┌\(line)┐\n│", .ctRegular)
 
     // Get the indices for the vector's top `boldCount` values.
     let boldIndices = Set(template.chord.chromas.map({$0.rawValue}))
@@ -539,12 +503,12 @@ extension NSMutableAttributedString {
       if chromaDesc.count == 1 { chromaDesc = " " + chromaDesc }
 
       // Append the chroma description with font weighted by whether it is a top three chroma.
-      self += ("   \(chromaDesc)   ", (boldIndices.contains(chroma) ? .black : .thin))
+      self += ("   \(chromaDesc)   ", (boldIndices.contains(chroma) ? .ctBlack : .ctThin))
 
     }
 
     // End the previous line,add another separator and begin the next line.
-    self += ("│\n├\(line)┤\n│  ", .regular)
+    self += ("│\n├\(line)┤\n│  ", .ctRegular)
 
     // Iterate over the vector indices up to the last.
     for index in 0..<11 {
@@ -553,7 +517,7 @@ extension NSMutableAttributedString {
       let valueDesc = String(format: "%5.3lf   ", template.vector[index])
 
       // Add the value's description with font weighted by whether this is a top three value.
-      self += (valueDesc, (boldIndices.contains(index) ? .black : .regular))
+      self += (valueDesc, (boldIndices.contains(index) ? .ctBlack : .ctRegular))
 
     }
 
@@ -561,10 +525,10 @@ extension NSMutableAttributedString {
     let valueDesc = String(format: "%5.3lf │\n", template.vector[11])
 
     // Add the value's description with font weighted by whether this is a top three value.
-    self += (valueDesc, (boldIndices.contains(11) ? .black : .regular))
+    self += (valueDesc, (boldIndices.contains(11) ? .ctBlack : .ctRegular))
 
     // Append a bottom separator and a blank line.
-    self += ("└\(line)┘\n", .regular)
+    self += ("└\(line)┘\n", .ctRegular)
 
   }
 
@@ -596,7 +560,7 @@ extension NSMutableAttributedString {
     let line = "─" * (ReportRenderer.columnCount - 2)
 
     // Append the box top.
-    self += ("┌\(line)┐\n│", .regular)
+    self += ("┌\(line)┐\n│", .ctRegular)
 
     // Create the line of chroma labels.
     for chroma in 0 ..< 12 {
@@ -608,12 +572,12 @@ extension NSMutableAttributedString {
       if chromaDesc.count == 1 { chromaDesc = " " + chromaDesc }
 
       // Append the chroma description with font weighted by whether it is a top three chroma.
-      self += ("   \(chromaDesc)   ", (boldIndices.contains(chroma) ? .black : .thin))
+      self += ("   \(chromaDesc)   ", (boldIndices.contains(chroma) ? .ctBlack : .ctThin))
 
     }
 
     // End the previous line,add another separator and begin the next line.
-    self += ("│\n├\(line)┤\n│  ", .regular)
+    self += ("│\n├\(line)┤\n│  ", .ctRegular)
 
     // Iterate over the vector indices up to the last.
     for index in 0..<11 {
@@ -622,7 +586,7 @@ extension NSMutableAttributedString {
       let valueDesc = String(format: "%5.3lf   ", vector[index])
 
       // Add the value's description with font weighted by whether this is a top three value.
-      self += (valueDesc, (boldIndices.contains(index) ? .black : .regular))
+      self += (valueDesc, (boldIndices.contains(index) ? .ctBlack : .ctRegular))
 
     }
 
@@ -630,10 +594,10 @@ extension NSMutableAttributedString {
     let valueDesc = String(format: "%5.3lf │\n", vector[11])
 
     // Add the value's description with font weighted by whether this is a top three value.
-    self += (valueDesc, (boldIndices.contains(11) ? .black : .regular))
+    self += (valueDesc, (boldIndices.contains(11) ? .ctBlack : .ctRegular))
 
     // Append a bottom separator and a blank line.
-    self += ("└\(line)┘\n", .regular)
+    self += ("└\(line)┘\n", .ctRegular)
 
   }
   
@@ -643,15 +607,15 @@ extension NSMutableAttributedString {
   /// - Parameter possibleRoots: The tuple for which to append a description.
   public func append(possibleRoots: PossibleRoots) {
 
-    self += ("(pos: ", .thin)
-    self += ("\(possibleRoots.byFrequency)", .light)
-    self += (", count: ", .thin)
-    self += ("\(possibleRoots.byCount)", .light)
-    self += (", energy: ", .thin)
-    self += ("\(possibleRoots.byEnergy)", .light)
-    self += (", avg: ", .thin)
-    self += ("\(possibleRoots.averaged)", .light)
-    self += (")", .thin)
+    self += ("(pos: ", .ctThin)
+    self += ("\(possibleRoots.byFrequency)", .ctLight)
+    self += (", count: ", .ctThin)
+    self += ("\(possibleRoots.byCount)", .ctLight)
+    self += (", energy: ", .ctThin)
+    self += ("\(possibleRoots.byEnergy)", .ctLight)
+    self += (", avg: ", .ctThin)
+    self += ("\(possibleRoots.averaged)", .ctLight)
+    self += (")", .ctThin)
 
   }
 */
@@ -679,13 +643,13 @@ extension NSMutableAttributedString {
     let line9 = "─" * 9
 
     // Append a line separating the frame label from the column headers.
-    self += ("┌\(line9)┬\(line86)┐\n│ ", .regular)
+    self += ("┌\(line9)┬\(line86)┐\n│ ", .ctRegular)
 
     // Append the octave column header.
-    self += ("Octave", .thin)
+    self += ("Octave", .ctThin)
 
     // Append a separator.
-    self += ("  │", .regular)
+    self += ("  │", .ctRegular)
 
     // Create an array for holding the sum of the values for each chroma.
     var sums = Array<Float64>(repeating: 0, count: 12)
@@ -705,10 +669,10 @@ extension NSMutableAttributedString {
       let labelStyle: FontStyle
 
       switch (boldLabel, italicLabel) {
-        case let (b, i) where b == i && b == rawChroma: labelStyle = .blackItalic
-        case let (b, _) where b == rawChroma:           labelStyle = .black
-        case let (_, i) where i == rawChroma:           labelStyle = .italic
-        default:                                        labelStyle = .thin
+        case let (b, i) where b == i && b == rawChroma: labelStyle = .ctBlackItalic
+        case let (b, _) where b == rawChroma:           labelStyle = .ctBlack
+        case let (_, i) where i == rawChroma:           labelStyle = .ctItalic
+        default:                                        labelStyle = .ctThin
       }
 
       // Append the chroma description with font weighted by whether it is a top three chroma.
@@ -737,7 +701,7 @@ extension NSMutableAttributedString {
     }
 
     // End the previous line,add another separator.
-    self += ("  │\n├\(line9)┼\(line86)┤\n", .regular)
+    self += ("  │\n├\(line9)┼\(line86)┤\n", .ctRegular)
 
     // Get the indices of `vector` ranked from highest to lowest.
     let sortedIndices = vector.indicesByValue
@@ -766,7 +730,7 @@ extension NSMutableAttributedString {
       guard octaveValues.first(where: {$0 > 0.0009}) != nil else { continue }
 
       // Append the left bar and pad.
-      self += ("│   ", .regular)
+      self += ("│   ", .ctRegular)
 
       // Calculate the octave.
       let octave = cPitch / 12 - 1
@@ -775,10 +739,10 @@ extension NSMutableAttributedString {
       let octaveDesc = String(format: "%2li", octave)
 
       // Append the octave.
-      self += (octaveDesc, .thin)
+      self += (octaveDesc, .ctThin)
 
       // Append a separator.
-      self += ("    │  ", .regular)
+      self += ("    │  ", .ctRegular)
 
       // Iterate the pitches for this octave.
       for pitch in cPitch..<(cPitch + octaveValues.count) {
@@ -793,47 +757,47 @@ extension NSMutableAttributedString {
         let valueDesc = String(format: "%5.3lf  ", value)
 
         // Append `valueDesc` weighted by the membership of `indexʹ`.
-        if tier1Indices.contains(pitch) { self += (valueDesc, .black) }
-        else if tier2Indices.contains(pitch) { self += (valueDesc, .bold) }
-        else if tier3Indices.contains(pitch) { self += (valueDesc, .medium) }
-        else if vector[pitch] > 0.0009 { self += (valueDesc, .light) }
-        else { self += (valueDesc, .thin) }
+        if tier1Indices.contains(pitch) { self += (valueDesc, .ctBlack) }
+        else if tier2Indices.contains(pitch) { self += (valueDesc, .ctBold) }
+        else if tier3Indices.contains(pitch) { self += (valueDesc, .ctMedium) }
+        else if vector[pitch] > 0.0009 { self += (valueDesc, .ctLight) }
+        else { self += (valueDesc, .ctThin) }
 
       }
 
       if octave == 9 {
 
         // Pad the final line and terminate it.
-        self += ("\(" " * 28)│\n", .regular)
+        self += ("\(" " * 28)│\n", .ctRegular)
 
       } else {
 
         // Terminate the line.
-        self += ("│\n", .regular)
+        self += ("│\n", .ctRegular)
 
       }
 
     }
 
     // Append a separator for the row of sums and start the next line.
-    self += ("├\(line9)┼\(line86)┤\n│  ", .regular)
+    self += ("├\(line9)┼\(line86)┤\n│  ", .ctRegular)
 
     // Append the label for the row of sums.
-    self += ("Total", .thin)
+    self += ("Total", .ctThin)
 
     // Append the separator between the label and sums.
-    self += ("  │  ", .regular)
+    self += ("  │  ", .ctRegular)
 
     // Iterate the sums.
     for sum in sums {
 
       // Append the sum.
-      self += ("\(String(format: "%5.3lf ", sum)) ", .regular)
+      self += ("\(String(format: "%5.3lf ", sum)) ", .ctRegular)
 
     }
 
     // End the row of sums and close the bottom of the box.
-    self += ("│\n└\(line9)┴\(line86)┘\n", .regular)
+    self += ("│\n└\(line9)┴\(line86)┘\n", .ctRegular)
 
   }
 
@@ -851,7 +815,7 @@ extension NSMutableAttributedString {
     let dateDescription = dateFormatter.string(from: date)
 
     // Append the date description.
-    self += (dateDescription, .extraLight)
+    self += (dateDescription, .ctExtraLight)
 
   }
 

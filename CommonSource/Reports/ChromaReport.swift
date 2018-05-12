@@ -6,6 +6,14 @@
 //  Copyright (c) 2017 Moondeer Studios. All rights reserved.
 //
 import Foundation
+import MoonKit
+
+#if os(iOS)
+import struct UIKit.CGFloat
+#else
+import struct AppKit.CGFloat
+#endif
+
 
 /// A structure that generates reports focused on a collection of chroma features.
 public struct ChromaReport: Report, ReportContentProvider {
@@ -55,7 +63,7 @@ public struct ChromaReport: Report, ReportContentProvider {
   public func generateHeader() -> NSAttributedString {
 
     // Create an attributed string with the header.
-    let text = NSMutableAttributedString(string: "Chroma features extracted from ", style: .black)
+    let text = NSMutableAttributedString(string: "Chroma features extracted from ", style: .ctBlack)
 
     // Append a description of the chroma feature source.
     text.append(featureSource: source)
@@ -90,7 +98,9 @@ public struct ChromaReport: Report, ReportContentProvider {
     text.append(vector: features[frame], boldCount: 3)
 
     // Append an attribute to keep the frame label and table on the same page.
-    text.addAttribute(NSAttributedStringKey(rawValue: ReportRenderer.samePageAttributeName), value: true, range: text.textRange)
+    text.addAttribute(NSAttributedStringKey(rawValue: ReportRenderer.samePageAttributeName),
+                      value: true,
+                      range: text.textRange)
 
     // Append a blank line.
     text += "\n"
@@ -109,19 +119,23 @@ public struct ChromaReport: Report, ReportContentProvider {
   /// - Returns: The image containing the spectrogram.
   public func generateFigures() -> [(Image, NSAttributedString?)]? {
 
-    let colorMap: ColorMap
+    let colorMapSize: ColorMap.Size
 
     switch recipe.chromaVariant {
-      case .CRP: colorMap = ColorMap(size: .s128)
-      default:   colorMap = ColorMap(size: .s64)
+      case .CRP: colorMapSize = .s128
+      default:   colorMapSize = .s64
     }
 
     // Generate the plot of chroma features.
-    let figure = chromaPlot(features: features, colorMap: colorMap)
+    let figure = chromaPlot(features: features,
+                            featureRate: CGFloat(features.featureRate),
+                            mapSize: colorMapSize,
+                            mapKind: ColorMap.Kind.heat,
+                            title: nil)
 
     // Create the title.
     let title = NSAttributedString(string: "Chromagram of Extracted Features",
-                                   style: .lightCentered)
+                                   style: .ctLightCentered)
 
     // Return the figure and the title.
     return [(figure, title)]
@@ -138,16 +152,16 @@ public struct ChromaReport: Report, ReportContentProvider {
     let text = NSMutableAttributedString()
 
     // Append lead in text for the report's source.
-    text += ("Chroma Report for ", .extraLight)
+    text += ("Chroma Report for ", .ctExtraLight)
 
     // Append the source of the report.
     switch source {
-      case .mic:                text += ("Captured Audio", .extraLight)
-      case .file(url: let url): text += (url.lastPathComponent, .extraLightItalic)
+      case .mic:                text += ("Captured Audio", .ctExtraLight)
+      case .file(url: let url): text += (url.lastPathComponent, .ctExtraLightItalic)
     }
 
     // Append the lead in text for the date.
-    text += (" generated ", .extraLight)
+    text += (" generated ", .ctExtraLight)
 
     // Append a description for the current date and time.
     text.append(date: Date())

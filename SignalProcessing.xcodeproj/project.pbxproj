@@ -32,6 +32,20 @@
 		C210D32C1FEAECBC00DBC557 /* CAFFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C210D3151FEAECBC00DBC557 /* CAFFile.swift */; };
 		C210D32D1FEAECBC00DBC557 /* CAFFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C210D3151FEAECBC00DBC557 /* CAFFile.swift */; };
 		C210D3351FEB55BD00DBC557 /* Split.swift in Sources */ = {isa = PBXBuildFile; fileRef = C210D3341FEB55BD00DBC557 /* Split.swift */; };
+		C23591E020A6443E00F1C813 /* ReportRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B871FDB06D700D344FE /* ReportRenderer.swift */; };
+		C23591E120A6443F00F1C813 /* ReportRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B871FDB06D700D344FE /* ReportRenderer.swift */; };
+		C23591E220A6445800F1C813 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B821FDB06D700D344FE /* Report.swift */; };
+		C23591E320A6445900F1C813 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B821FDB06D700D344FE /* Report.swift */; };
+		C23591E420A6447900F1C813 /* ChromaReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B811FDB06D700D344FE /* ChromaReport.swift */; };
+		C23591E520A6447A00F1C813 /* ChromaReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B811FDB06D700D344FE /* ChromaReport.swift */; };
+		C23591E620A6448F00F1C813 /* AttributedStringContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B831FDB06D700D344FE /* AttributedStringContent.swift */; };
+		C23591E720A6449000F1C813 /* AttributedStringContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B831FDB06D700D344FE /* AttributedStringContent.swift */; };
+		C23591E820A6471800F1C813 /* PitchReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B881FDB06D700D344FE /* PitchReport.swift */; };
+		C23591E920A6471900F1C813 /* PitchReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B881FDB06D700D344FE /* PitchReport.swift */; };
+		C23591EA20A6473900F1C813 /* TemplateReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B861FDB06D700D344FE /* TemplateReport.swift */; };
+		C23591EB20A6473A00F1C813 /* TemplateReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B861FDB06D700D344FE /* TemplateReport.swift */; };
+		C23591EC20A647B200F1C813 /* FeatureReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B841FDB06D700D344FE /* FeatureReport.swift */; };
+		C23591ED20A647B200F1C813 /* FeatureReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B841FDB06D700D344FE /* FeatureReport.swift */; };
 		C26410401FE18E830075AF45 /* Docopt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26410411FE18E830075AF45 /* Docopt.framework */; };
 		C28B6B481FE87A61008D874E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6B471FE87A61008D874E /* main.swift */; };
 		C28B6B4C1FE87B27008D874E /* Docopt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C28B6B4D1FE87B27008D874E /* Docopt.framework */; };
@@ -75,10 +89,6 @@
 		C2F81B7A1FDB04A700D344FE /* SignalProcessing.h in Headers */ = {isa = PBXBuildFile; fileRef = C2F81B741FDB043800D344FE /* SignalProcessing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C2F81B7B1FDB04D900D344FE /* SignalProcessingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B771FDB047200D344FE /* SignalProcessingTests.swift */; };
 		C2F81B7C1FDB04DA00D344FE /* SignalProcessingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B771FDB047200D344FE /* SignalProcessingTests.swift */; };
-		C2F81BB91FDB06D800D344FE /* FontStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B7E1FDB06D700D344FE /* FontStyle.swift */; };
-		C2F81BBA1FDB06D800D344FE /* FontStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B7E1FDB06D700D344FE /* FontStyle.swift */; };
-		C2F81BBB1FDB06D800D344FE /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B7F1FDB06D700D344FE /* Fonts.swift */; };
-		C2F81BBC1FDB06D800D344FE /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B7F1FDB06D700D344FE /* Fonts.swift */; };
 		C2F81BC51FDB06D800D344FE /* GraphingFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B851FDB06D700D344FE /* GraphingFunctions.swift */; };
 		C2F81BC61FDB06D800D344FE /* GraphingFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B851FDB06D700D344FE /* GraphingFunctions.swift */; };
 		C2F81BCD1FDB06D800D344FE /* Pitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81B8A1FDB06D700D344FE /* Pitch.swift */; };
@@ -155,34 +165,6 @@
 		C2F81C1A1FDB06D800D344FE /* ChromaFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81BB41FDB06D800D344FE /* ChromaFeatures.swift */; };
 		C2F81C1B1FDB06D800D344FE /* Chroma.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81BB51FDB06D800D344FE /* Chroma.swift */; };
 		C2F81C1C1FDB06D800D344FE /* Chroma.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81BB51FDB06D800D344FE /* Chroma.swift */; };
-		C2F81C301FDB07FD00D344FE /* InputMonoCompressed-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C221FDB07FC00D344FE /* InputMonoCompressed-Italic.ttf */; };
-		C2F81C311FDB07FD00D344FE /* InputMonoCompressed-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C221FDB07FC00D344FE /* InputMonoCompressed-Italic.ttf */; };
-		C2F81C321FDB07FD00D344FE /* InputMonoCompressed-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C231FDB07FC00D344FE /* InputMonoCompressed-Medium.ttf */; };
-		C2F81C331FDB07FD00D344FE /* InputMonoCompressed-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C231FDB07FC00D344FE /* InputMonoCompressed-Medium.ttf */; };
-		C2F81C341FDB07FD00D344FE /* InputMonoCompressed-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C241FDB07FC00D344FE /* InputMonoCompressed-BlackItalic.ttf */; };
-		C2F81C351FDB07FD00D344FE /* InputMonoCompressed-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C241FDB07FC00D344FE /* InputMonoCompressed-BlackItalic.ttf */; };
-		C2F81C361FDB07FD00D344FE /* InputMonoCompressed-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C251FDB07FC00D344FE /* InputMonoCompressed-ThinItalic.ttf */; };
-		C2F81C371FDB07FD00D344FE /* InputMonoCompressed-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C251FDB07FC00D344FE /* InputMonoCompressed-ThinItalic.ttf */; };
-		C2F81C381FDB07FD00D344FE /* InputMonoCompressed-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C261FDB07FC00D344FE /* InputMonoCompressed-ExtraLight.ttf */; };
-		C2F81C391FDB07FD00D344FE /* InputMonoCompressed-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C261FDB07FC00D344FE /* InputMonoCompressed-ExtraLight.ttf */; };
-		C2F81C3A1FDB07FD00D344FE /* InputMonoCompressed-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C271FDB07FC00D344FE /* InputMonoCompressed-Regular.ttf */; };
-		C2F81C3B1FDB07FD00D344FE /* InputMonoCompressed-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C271FDB07FC00D344FE /* InputMonoCompressed-Regular.ttf */; };
-		C2F81C3C1FDB07FD00D344FE /* InputMonoCompressed-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C281FDB07FC00D344FE /* InputMonoCompressed-Black.ttf */; };
-		C2F81C3D1FDB07FD00D344FE /* InputMonoCompressed-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C281FDB07FC00D344FE /* InputMonoCompressed-Black.ttf */; };
-		C2F81C3E1FDB07FD00D344FE /* InputMonoCompressed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C291FDB07FC00D344FE /* InputMonoCompressed-Light.ttf */; };
-		C2F81C3F1FDB07FD00D344FE /* InputMonoCompressed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C291FDB07FC00D344FE /* InputMonoCompressed-Light.ttf */; };
-		C2F81C401FDB07FD00D344FE /* InputMonoCompressed-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C2A1FDB07FD00D344FE /* InputMonoCompressed-ExtraLightItalic.ttf */; };
-		C2F81C411FDB07FD00D344FE /* InputMonoCompressed-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C2A1FDB07FD00D344FE /* InputMonoCompressed-ExtraLightItalic.ttf */; };
-		C2F81C421FDB07FD00D344FE /* InputMonoCompressed-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C2B1FDB07FD00D344FE /* InputMonoCompressed-Thin.ttf */; };
-		C2F81C431FDB07FD00D344FE /* InputMonoCompressed-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C2B1FDB07FD00D344FE /* InputMonoCompressed-Thin.ttf */; };
-		C2F81C441FDB07FD00D344FE /* InputMonoCompressed-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C2C1FDB07FD00D344FE /* InputMonoCompressed-BoldItalic.ttf */; };
-		C2F81C451FDB07FD00D344FE /* InputMonoCompressed-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C2C1FDB07FD00D344FE /* InputMonoCompressed-BoldItalic.ttf */; };
-		C2F81C461FDB07FD00D344FE /* InputMonoCompressed-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C2D1FDB07FD00D344FE /* InputMonoCompressed-LightItalic.ttf */; };
-		C2F81C471FDB07FD00D344FE /* InputMonoCompressed-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C2D1FDB07FD00D344FE /* InputMonoCompressed-LightItalic.ttf */; };
-		C2F81C481FDB07FD00D344FE /* InputMonoCompressed-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C2E1FDB07FD00D344FE /* InputMonoCompressed-MediumItalic.ttf */; };
-		C2F81C491FDB07FD00D344FE /* InputMonoCompressed-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C2E1FDB07FD00D344FE /* InputMonoCompressed-MediumItalic.ttf */; };
-		C2F81C4A1FDB07FD00D344FE /* InputMonoCompressed-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C2F1FDB07FD00D344FE /* InputMonoCompressed-Bold.ttf */; };
-		C2F81C4B1FDB07FD00D344FE /* InputMonoCompressed-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2F81C2F1FDB07FD00D344FE /* InputMonoCompressed-Bold.ttf */; };
 		C2F81C4D1FDB156500D344FE /* Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C4C1FDB156500D344FE /* Drawing.swift */; };
 		C2F81C4E1FDB156500D344FE /* Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C4C1FDB156500D344FE /* Drawing.swift */; };
 		C2F81C501FDB174000D344FE /* PlatformAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F81C4F1FDB174000D344FE /* PlatformAliases.swift */; };
@@ -341,8 +323,6 @@
 		C2F81B751FDB043800D344FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C2F81B771FDB047200D344FE /* SignalProcessingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalProcessingTests.swift; sourceTree = "<group>"; };
 		C2F81B781FDB047200D344FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C2F81B7E1FDB06D700D344FE /* FontStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontStyle.swift; sourceTree = "<group>"; };
-		C2F81B7F1FDB06D700D344FE /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		C2F81B811FDB06D700D344FE /* ChromaReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChromaReport.swift; sourceTree = "<group>"; };
 		C2F81B821FDB06D700D344FE /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		C2F81B831FDB06D700D344FE /* AttributedStringContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributedStringContent.swift; sourceTree = "<group>"; };
@@ -368,7 +348,6 @@
 		C2F81B991FDB06D700D344FE /* AudioBuffers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioBuffers.swift; sourceTree = "<group>"; };
 		C2F81B9A1FDB06D700D344FE /* MultirateFilterBank.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultirateFilterBank.swift; sourceTree = "<group>"; };
 		C2F81B9B1FDB06D700D344FE /* SampleRate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleRate.swift; sourceTree = "<group>"; };
-		C2F81B9C1FDB06D700D344FE /* PitchFilterBank.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchFilterBank.swift; sourceTree = "<group>"; };
 		C2F81B9D1FDB06D700D344FE /* Resampler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resampler.swift; sourceTree = "<group>"; };
 		C2F81B9E1FDB06D700D344FE /* FeatureBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureBuffer.swift; sourceTree = "<group>"; };
 		C2F81B9F1FDB06D700D344FE /* IIRFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IIRFilter.swift; sourceTree = "<group>"; };
@@ -376,7 +355,6 @@
 		C2F81BA11FDB06D700D344FE /* Normalization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Normalization.swift; sourceTree = "<group>"; };
 		C2F81BA21FDB06D700D344FE /* Window.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
 		C2F81BA31FDB06D700D344FE /* Features.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Features.swift; sourceTree = "<group>"; };
-		C2F81BA51FDB06D700D344FE /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		C2F81BA61FDB06D700D344FE /* Windower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Windower.swift; sourceTree = "<group>"; };
 		C2F81BA71FDB06D700D344FE /* FeatureFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureFilter.swift; sourceTree = "<group>"; };
 		C2F81BA91FDB06D700D344FE /* ChordPattern.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChordPattern.swift; sourceTree = "<group>"; };
@@ -390,20 +368,6 @@
 		C2F81BB21FDB06D700D344FE /* ChromaTemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChromaTemplate.swift; sourceTree = "<group>"; };
 		C2F81BB41FDB06D800D344FE /* ChromaFeatures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChromaFeatures.swift; sourceTree = "<group>"; };
 		C2F81BB51FDB06D800D344FE /* Chroma.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chroma.swift; sourceTree = "<group>"; };
-		C2F81C221FDB07FC00D344FE /* InputMonoCompressed-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "InputMonoCompressed-Italic.ttf"; sourceTree = "<group>"; };
-		C2F81C231FDB07FC00D344FE /* InputMonoCompressed-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "InputMonoCompressed-Medium.ttf"; sourceTree = "<group>"; };
-		C2F81C241FDB07FC00D344FE /* InputMonoCompressed-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "InputMonoCompressed-BlackItalic.ttf"; sourceTree = "<group>"; };
-		C2F81C251FDB07FC00D344FE /* InputMonoCompressed-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "InputMonoCompressed-ThinItalic.ttf"; sourceTree = "<group>"; };
-		C2F81C261FDB07FC00D344FE /* InputMonoCompressed-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "InputMonoCompressed-ExtraLight.ttf"; sourceTree = "<group>"; };
-		C2F81C271FDB07FC00D344FE /* InputMonoCompressed-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "InputMonoCompressed-Regular.ttf"; sourceTree = "<group>"; };
-		C2F81C281FDB07FC00D344FE /* InputMonoCompressed-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "InputMonoCompressed-Black.ttf"; sourceTree = "<group>"; };
-		C2F81C291FDB07FC00D344FE /* InputMonoCompressed-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "InputMonoCompressed-Light.ttf"; sourceTree = "<group>"; };
-		C2F81C2A1FDB07FD00D344FE /* InputMonoCompressed-ExtraLightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "InputMonoCompressed-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
-		C2F81C2B1FDB07FD00D344FE /* InputMonoCompressed-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "InputMonoCompressed-Thin.ttf"; sourceTree = "<group>"; };
-		C2F81C2C1FDB07FD00D344FE /* InputMonoCompressed-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "InputMonoCompressed-BoldItalic.ttf"; sourceTree = "<group>"; };
-		C2F81C2D1FDB07FD00D344FE /* InputMonoCompressed-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "InputMonoCompressed-LightItalic.ttf"; sourceTree = "<group>"; };
-		C2F81C2E1FDB07FD00D344FE /* InputMonoCompressed-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "InputMonoCompressed-MediumItalic.ttf"; sourceTree = "<group>"; };
-		C2F81C2F1FDB07FD00D344FE /* InputMonoCompressed-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "InputMonoCompressed-Bold.ttf"; sourceTree = "<group>"; };
 		C2F81C4C1FDB156500D344FE /* Drawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawing.swift; sourceTree = "<group>"; };
 		C2F81C4F1FDB174000D344FE /* PlatformAliases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformAliases.swift; sourceTree = "<group>"; };
 		C2F81C531FDB33AF00D344FE /* test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
@@ -599,7 +563,6 @@
 			children = (
 				C2F81B731FDB043800D344FE /* CommonSource */,
 				C2F81B761FDB047200D344FE /* CommonTests */,
-				C2F81C211FDB074200D344FE /* CommonResources */,
 				C2F81C821FDC286400D344FE /* extract */,
 				C2D3AA0B1FE34D7800819367 /* generate_chords */,
 				C28B6B461FE87A61008D874E /* split_audio */,
@@ -633,7 +596,6 @@
 				C28B6B6F1FE9B5FC008D874E /* MIDI */,
 				C2F81BA81FDB06D700D344FE /* Chords */,
 				C2F81BB31FDB06D800D344FE /* Chromas */,
-				C2F81B7D1FDB06D700D344FE /* Fonts */,
 				C2F81BAD1FDB06D700D344FE /* Matching */,
 				C2F81BB61FDB06D800D344FE /* Other */,
 				C2F81B891FDB06D700D344FE /* Pitches */,
@@ -657,15 +619,6 @@
 				C2F81B781FDB047200D344FE /* Info.plist */,
 			);
 			path = CommonTests;
-			sourceTree = "<group>";
-		};
-		C2F81B7D1FDB06D700D344FE /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				C2F81B7E1FDB06D700D344FE /* FontStyle.swift */,
-				C2F81B7F1FDB06D700D344FE /* Fonts.swift */,
-			);
-			path = Fonts;
 			sourceTree = "<group>";
 		};
 		C2F81B801FDB06D700D344FE /* Reports */ = {
@@ -749,27 +702,6 @@
 			path = Other;
 			sourceTree = "<group>";
 		};
-		C2F81C211FDB074200D344FE /* CommonResources */ = {
-			isa = PBXGroup;
-			children = (
-				C2F81C281FDB07FC00D344FE /* InputMonoCompressed-Black.ttf */,
-				C2F81C241FDB07FC00D344FE /* InputMonoCompressed-BlackItalic.ttf */,
-				C2F81C2F1FDB07FD00D344FE /* InputMonoCompressed-Bold.ttf */,
-				C2F81C2C1FDB07FD00D344FE /* InputMonoCompressed-BoldItalic.ttf */,
-				C2F81C261FDB07FC00D344FE /* InputMonoCompressed-ExtraLight.ttf */,
-				C2F81C2A1FDB07FD00D344FE /* InputMonoCompressed-ExtraLightItalic.ttf */,
-				C2F81C221FDB07FC00D344FE /* InputMonoCompressed-Italic.ttf */,
-				C2F81C291FDB07FC00D344FE /* InputMonoCompressed-Light.ttf */,
-				C2F81C2D1FDB07FD00D344FE /* InputMonoCompressed-LightItalic.ttf */,
-				C2F81C231FDB07FC00D344FE /* InputMonoCompressed-Medium.ttf */,
-				C2F81C2E1FDB07FD00D344FE /* InputMonoCompressed-MediumItalic.ttf */,
-				C2F81C271FDB07FC00D344FE /* InputMonoCompressed-Regular.ttf */,
-				C2F81C2B1FDB07FD00D344FE /* InputMonoCompressed-Thin.ttf */,
-				C2F81C251FDB07FC00D344FE /* InputMonoCompressed-ThinItalic.ttf */,
-			);
-			path = CommonResources;
-			sourceTree = "<group>";
-		};
 		C2F81C521FDB33AF00D344FE /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -821,7 +753,6 @@
 			children = (
 				C2F81B8F1FDB06D700D344FE /* SignalFilter.swift */,
 				C2F81B911FDB06D700D344FE /* EqualLoudnessFilter.swift */,
-				C2F81BA51FDB06D700D344FE /* Filter.swift */,
 				C2F81B9F1FDB06D700D344FE /* IIRFilter.swift */,
 			);
 			path = "Signal Filters";
@@ -830,7 +761,6 @@
 		C2F81C6F1FDB8D5C00D344FE /* Spectrum */ = {
 			isa = PBXGroup;
 			children = (
-				C2F81B9C1FDB06D700D344FE /* PitchFilterBank.swift */,
 				C2F81B9A1FDB06D700D344FE /* MultirateFilterBank.swift */,
 				C2F81B941FDB06D700D344FE /* STFT.swift */,
 				C2F81B971FDB06D700D344FE /* FFT.swift */,
@@ -1157,20 +1087,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2F81C421FDB07FD00D344FE /* InputMonoCompressed-Thin.ttf in Resources */,
-				C2F81C3A1FDB07FD00D344FE /* InputMonoCompressed-Regular.ttf in Resources */,
-				C2F81C481FDB07FD00D344FE /* InputMonoCompressed-MediumItalic.ttf in Resources */,
-				C2F81C401FDB07FD00D344FE /* InputMonoCompressed-ExtraLightItalic.ttf in Resources */,
-				C2F81C321FDB07FD00D344FE /* InputMonoCompressed-Medium.ttf in Resources */,
-				C2F81C3C1FDB07FD00D344FE /* InputMonoCompressed-Black.ttf in Resources */,
-				C2F81C381FDB07FD00D344FE /* InputMonoCompressed-ExtraLight.ttf in Resources */,
-				C2F81C3E1FDB07FD00D344FE /* InputMonoCompressed-Light.ttf in Resources */,
-				C2F81C441FDB07FD00D344FE /* InputMonoCompressed-BoldItalic.ttf in Resources */,
-				C2F81C461FDB07FD00D344FE /* InputMonoCompressed-LightItalic.ttf in Resources */,
-				C2F81C4A1FDB07FD00D344FE /* InputMonoCompressed-Bold.ttf in Resources */,
-				C2F81C301FDB07FD00D344FE /* InputMonoCompressed-Italic.ttf in Resources */,
-				C2F81C361FDB07FD00D344FE /* InputMonoCompressed-ThinItalic.ttf in Resources */,
-				C2F81C341FDB07FD00D344FE /* InputMonoCompressed-BlackItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1187,20 +1103,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2F81C431FDB07FD00D344FE /* InputMonoCompressed-Thin.ttf in Resources */,
-				C2F81C3B1FDB07FD00D344FE /* InputMonoCompressed-Regular.ttf in Resources */,
-				C2F81C491FDB07FD00D344FE /* InputMonoCompressed-MediumItalic.ttf in Resources */,
-				C2F81C411FDB07FD00D344FE /* InputMonoCompressed-ExtraLightItalic.ttf in Resources */,
-				C2F81C331FDB07FD00D344FE /* InputMonoCompressed-Medium.ttf in Resources */,
-				C2F81C3D1FDB07FD00D344FE /* InputMonoCompressed-Black.ttf in Resources */,
-				C2F81C391FDB07FD00D344FE /* InputMonoCompressed-ExtraLight.ttf in Resources */,
-				C2F81C3F1FDB07FD00D344FE /* InputMonoCompressed-Light.ttf in Resources */,
-				C2F81C451FDB07FD00D344FE /* InputMonoCompressed-BoldItalic.ttf in Resources */,
-				C2F81C471FDB07FD00D344FE /* InputMonoCompressed-LightItalic.ttf in Resources */,
-				C2F81C4B1FDB07FD00D344FE /* InputMonoCompressed-Bold.ttf in Resources */,
-				C2F81C311FDB07FD00D344FE /* InputMonoCompressed-Italic.ttf in Resources */,
-				C2F81C371FDB07FD00D344FE /* InputMonoCompressed-ThinItalic.ttf in Resources */,
-				C2F81C351FDB07FD00D344FE /* InputMonoCompressed-BlackItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1269,11 +1171,11 @@
 				C210D3261FEAECBC00DBC557 /* DataChunk.swift in Sources */,
 				C210D3221FEAECBC00DBC557 /* ChunkHeader.swift in Sources */,
 				C2F81BD71FDB06D800D344FE /* SincWindow.swift in Sources */,
+				C23591E420A6447900F1C813 /* ChromaReport.swift in Sources */,
 				C2F81C091FDB06D800D344FE /* Chord.swift in Sources */,
 				C2F81BD91FDB06D800D344FE /* EqualLoudnessFilter.swift in Sources */,
 				C2F81C171FDB06D800D344FE /* ChromaTemplate.swift in Sources */,
 				C2F81BD31FDB06D800D344FE /* PitchFeatures.swift in Sources */,
-				C2F81BBB1FDB06D800D344FE /* Fonts.swift in Sources */,
 				C2F81BF11FDB06D800D344FE /* Resampler.swift in Sources */,
 				C2F81BEB1FDB06D800D344FE /* MultirateFilterBank.swift in Sources */,
 				C210D3161FEAECBC00DBC557 /* StringsChunk.swift in Sources */,
@@ -1281,9 +1183,10 @@
 				C2F81BCF1FDB06D800D344FE /* ChordInterval.swift in Sources */,
 				C2F81BE91FDB06D800D344FE /* AudioBuffers.swift in Sources */,
 				C2F81C031FDB06D800D344FE /* Windower.swift in Sources */,
-				C2F81BB91FDB06D800D344FE /* FontStyle.swift in Sources */,
 				C2FED3FB1FDF5554002385B9 /* ColorMap.swift in Sources */,
 				C2F81BF51FDB06D800D344FE /* IIRFilter.swift in Sources */,
+				C23591E020A6443E00F1C813 /* ReportRenderer.swift in Sources */,
+				C23591EC20A647B200F1C813 /* FeatureReport.swift in Sources */,
 				C2F81C111FDB06D800D344FE /* MatchedChromaFeatures.swift in Sources */,
 				C2F81BFB1FDB06D800D344FE /* Window.swift in Sources */,
 				C2F81C501FDB174000D344FE /* PlatformAliases.swift in Sources */,
@@ -1311,16 +1214,20 @@
 				C2F81BE51FDB06D800D344FE /* FFT.swift in Sources */,
 				C2F81C0B1FDB06D800D344FE /* ChordLibrary.swift in Sources */,
 				C2F81C191FDB06D800D344FE /* ChromaFeatures.swift in Sources */,
+				C23591E820A6471800F1C813 /* PitchReport.swift in Sources */,
+				C23591EA20A6473900F1C813 /* TemplateReport.swift in Sources */,
 				C2F81BED1FDB06D800D344FE /* SampleRate.swift in Sources */,
 				C210D31A1FEAECBC00DBC557 /* FreeChunk.swift in Sources */,
 				C2F81C0F1FDB06D800D344FE /* VectorCharacteristics.swift in Sources */,
 				C2F81C991FDDC96400D344FE /* DSPComplex.swift in Sources */,
 				C2F81BDF1FDB06D800D344FE /* STFT.swift in Sources */,
 				C2F81C4D1FDB156500D344FE /* Drawing.swift in Sources */,
+				C23591E620A6448F00F1C813 /* AttributedStringContent.swift in Sources */,
 				C2F81BF71FDB06D800D344FE /* Compression.swift in Sources */,
 				C2F81C1B1FDB06D800D344FE /* Chroma.swift in Sources */,
 				C210D3201FEAECBC00DBC557 /* MarkerChunk.swift in Sources */,
 				C2F81BDD1FDB06D800D344FE /* Float64Vector.swift in Sources */,
+				C23591E220A6445800F1C813 /* Report.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1350,11 +1257,11 @@
 				C210D3271FEAECBC00DBC557 /* DataChunk.swift in Sources */,
 				C210D3231FEAECBC00DBC557 /* ChunkHeader.swift in Sources */,
 				C2F81BD81FDB06D800D344FE /* SincWindow.swift in Sources */,
+				C23591E520A6447A00F1C813 /* ChromaReport.swift in Sources */,
 				C2F81C0A1FDB06D800D344FE /* Chord.swift in Sources */,
 				C2F81BDA1FDB06D800D344FE /* EqualLoudnessFilter.swift in Sources */,
 				C2F81C181FDB06D800D344FE /* ChromaTemplate.swift in Sources */,
 				C2F81BD41FDB06D800D344FE /* PitchFeatures.swift in Sources */,
-				C2F81BBC1FDB06D800D344FE /* Fonts.swift in Sources */,
 				C2F81BF21FDB06D800D344FE /* Resampler.swift in Sources */,
 				C2F81BEC1FDB06D800D344FE /* MultirateFilterBank.swift in Sources */,
 				C210D3171FEAECBC00DBC557 /* StringsChunk.swift in Sources */,
@@ -1362,9 +1269,10 @@
 				C2F81BD01FDB06D800D344FE /* ChordInterval.swift in Sources */,
 				C2F81BEA1FDB06D800D344FE /* AudioBuffers.swift in Sources */,
 				C2F81C041FDB06D800D344FE /* Windower.swift in Sources */,
-				C2F81BBA1FDB06D800D344FE /* FontStyle.swift in Sources */,
 				C2FED3FC1FDF5554002385B9 /* ColorMap.swift in Sources */,
 				C2F81BF61FDB06D800D344FE /* IIRFilter.swift in Sources */,
+				C23591E120A6443F00F1C813 /* ReportRenderer.swift in Sources */,
+				C23591ED20A647B200F1C813 /* FeatureReport.swift in Sources */,
 				C2F81C121FDB06D800D344FE /* MatchedChromaFeatures.swift in Sources */,
 				C2F81BFC1FDB06D800D344FE /* Window.swift in Sources */,
 				C2F81C511FDB174000D344FE /* PlatformAliases.swift in Sources */,
@@ -1392,16 +1300,20 @@
 				C2F81BE61FDB06D800D344FE /* FFT.swift in Sources */,
 				C2F81C0C1FDB06D800D344FE /* ChordLibrary.swift in Sources */,
 				C2F81C1A1FDB06D800D344FE /* ChromaFeatures.swift in Sources */,
+				C23591E920A6471900F1C813 /* PitchReport.swift in Sources */,
+				C23591EB20A6473A00F1C813 /* TemplateReport.swift in Sources */,
 				C2F81BEE1FDB06D800D344FE /* SampleRate.swift in Sources */,
 				C210D31B1FEAECBC00DBC557 /* FreeChunk.swift in Sources */,
 				C2F81C101FDB06D800D344FE /* VectorCharacteristics.swift in Sources */,
 				C2F81C9A1FDDC96400D344FE /* DSPComplex.swift in Sources */,
 				C2F81BE01FDB06D800D344FE /* STFT.swift in Sources */,
 				C2F81C4E1FDB156500D344FE /* Drawing.swift in Sources */,
+				C23591E720A6449000F1C813 /* AttributedStringContent.swift in Sources */,
 				C2F81BF81FDB06D800D344FE /* Compression.swift in Sources */,
 				C2F81C1C1FDB06D800D344FE /* Chroma.swift in Sources */,
 				C210D3211FEAECBC00DBC557 /* MarkerChunk.swift in Sources */,
 				C2F81BDE1FDB06D800D344FE /* Float64Vector.swift in Sources */,
+				C23591E320A6445900F1C813 /* Report.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,6 +7,7 @@
 //
 import Foundation
 import CoreText
+import MoonKit
 
 #if os(iOS)
   import UIKit
@@ -492,7 +493,7 @@ extension Report {
     // Get the number of spaces to pad for right alignment.
     let pad = ReportRenderer.columnCount - pageNumberDesc.count
 
-    return NSAttributedString(string: "\(" " * pad)\(pageNumberDesc)", style: .extraLight)
+    return NSAttributedString(string: "\(" " * pad)\(pageNumberDesc)", style: .ctExtraLight)
 
   }
 

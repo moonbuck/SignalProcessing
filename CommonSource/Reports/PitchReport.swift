@@ -6,6 +6,7 @@
 //  Copyright (c) 2017 Moondeer Studios. All rights reserved.
 //
 import Foundation
+import MoonKit
 
 /// A structure that generates reports focused on a collection of pitch features.
 public struct PitchReport: Report, ReportContentProvider {
@@ -56,7 +57,7 @@ public struct PitchReport: Report, ReportContentProvider {
   public func generateHeader() -> NSAttributedString {
 
     // Create an attributed string with the header.
-    let text = NSMutableAttributedString(string: "Pitch features extracted from ", style: .black)
+    let text = NSMutableAttributedString(string: "Pitch features extracted from ", style: .ctBlack)
 
     // Append a description of the pitch feature source.
     text.append(featureSource: source)
@@ -177,7 +178,7 @@ public struct PitchReport: Report, ReportContentProvider {
 
       // Create the title.
       let title = NSAttributedString(string: "Spectrogram of Extracted Features",
-                                     style: .mediumCentered)
+                                     style: .ctMediumCentered)
 
       // Return the plot and the title.
       return [(figure, title)]
@@ -193,7 +194,7 @@ public struct PitchReport: Report, ReportContentProvider {
     // Create the title.
     let title = NSAttributedString(string: "Spectrogram of Extracted Features (\(range.lowerBound)" +
                                             " through \(range.upperBound))",
-                                   style: .lightCentered)
+                                   style: .ctLightCentered)
 
     // Return the figure and the title
     return [(figure, title)]
@@ -210,16 +211,16 @@ public struct PitchReport: Report, ReportContentProvider {
     let text = NSMutableAttributedString()
 
     // Append lead in text for the report's source.
-    text += ("Pitch Report for ", .extraLight)
+    text += ("Pitch Report for ", .ctExtraLight)
 
     // Append the source of the report.
     switch source {
-      case .mic:                text += ("Captured Audio", .extraLight)
-      case .file(url: let url): text += (url.lastPathComponent, .extraLightItalic)
+      case .mic:                text += ("Captured Audio", .ctExtraLight)
+      case .file(url: let url): text += (url.lastPathComponent, .ctExtraLightItalic)
     }
 
     // Append the lead in text for the date.
-    text += (" generated ", .extraLight)
+    text += (" generated ", .ctExtraLight)
 
     // Append a description for the current date and time.
     text.append(date: Date())

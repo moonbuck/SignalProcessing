@@ -6,6 +6,13 @@
 //  Copyright (c) 2017 Moondeer Studios. All rights reserved.
 //
 import Foundation
+import MoonKit
+
+#if os(iOS)
+import struct UIKit.CGFloat
+#else
+import struct AppKit.CGFloat
+#endif
 
 public struct TemplateReport: Report, ReportContentProvider {
 
@@ -69,12 +76,12 @@ public struct TemplateReport: Report, ReportContentProvider {
   public func generateHeader() -> NSAttributedString {
 
     // Create an attributed string with the header.
-    let text = NSMutableAttributedString(string: "Chroma features extracted from ", style: .black)
+    let text = NSMutableAttributedString(string: "Chroma features extracted from ", style: .ctBlack)
 
     // Append a description of the chroma feature source.
     text.append(featureSource: source)
 
-    text += (" with matched and expected chord templates\n", .black)
+    text += (" with matched and expected chord templates\n", .ctBlack)
     
     // Append a line dividing the header and subtext.
     text.appendLine()
@@ -109,7 +116,7 @@ public struct TemplateReport: Report, ReportContentProvider {
     let pitches = expectedChords.composition(forFrame: frame, frameRate: features.featureRate)
 
     // Append a label for the feature vector.
-    text += ("Feature Vector", .thinItalic)
+    text += ("Feature Vector", .ctThinItalic)
 
     // Create a variable for number of spaces to add before appending possible roots.
     var possiblesPad = -70
@@ -118,7 +125,7 @@ public struct TemplateReport: Report, ReportContentProvider {
     let pitchesDesc = pitches.map({$0.description}).joined(separator: "-")
 
     // Append the description of the pitches.
-    text += (" \(pitchesDesc)", .extraLightItalic)
+    text += (" \(pitchesDesc)", .ctExtraLightItalic)
 
     // Subtract the number of characters appended from `possiblesPad`.
     possiblesPad -= pitchesDesc.count + 1
@@ -138,7 +145,7 @@ public struct TemplateReport: Report, ReportContentProvider {
 //    possiblesPad += ReportRenderer.columnCount
 
     // Append the spaces and the label for the possible roots.
-//    text += ("\(" " * possiblesPad)Possible Roots: ", .thinItalic)
+//    text += ("\(" " * possiblesPad)Possible Roots: ", .ctThinItalic)
 
     // Append the possible root chroma values and end the line.
 //    text.append(possibleRoots: possibles)
@@ -174,21 +181,21 @@ public struct TemplateReport: Report, ReportContentProvider {
       rangeStart = text.length
 
       // Append a label introducing the matched chord template.
-      text += ("Matched Expected Template ", .thinItalic)
+      text += ("Matched Expected Template ", .ctThinItalic)
 
       // Append the name of the matched chord.
-      text += (matchedChord.name, .light)
+      text += (matchedChord.name, .ctLight)
 
       // Append spaces to pad the score label and value.
       // `"Matched Template "` contains 17 characters
       // The score label and value will contain 11 characters.
-      text += (" " * (ReportRenderer.columnCount - 37 - matchedChord.name.count), .regular)
+      text += (" " * (ReportRenderer.columnCount - 37 - matchedChord.name.count), .ctRegular)
 
       // Append a label for the matched chord template's score.
-      text += ("Score ", .thinItalic)
+      text += ("Score ", .ctThinItalic)
 
       // Append the matched chord template's score and end the line.
-      text += (String(format: "%5.3lf\n", matchedScore), .light)
+      text += (String(format: "%5.3lf\n", matchedScore), .ctLight)
 
       // Append the template vector for the matched chord.
       text.append(template: matchedChord.template)
@@ -204,21 +211,21 @@ public struct TemplateReport: Report, ReportContentProvider {
       rangeStart = text.length
 
       // Append a label introducing the matched chord template.
-      text += ("Matched Template ", .thinItalic)
+      text += ("Matched Template ", .ctThinItalic)
 
       // Append the name of the matched chord.
-      text += (matchedChord.name, .light)
+      text += (matchedChord.name, .ctLight)
 
       // Append spaces to pad the score label and value.
       // `"Matched Template "` contains 17 characters
       // The score label and value will contain 11 characters.
-      text += (" " * (ReportRenderer.columnCount - 28 - matchedChord.name.count), .regular)
+      text += (" " * (ReportRenderer.columnCount - 28 - matchedChord.name.count), .ctRegular)
 
       // Append a label for the matched chord template's score.
-      text += ("Score ", .thinItalic)
+      text += ("Score ", .ctThinItalic)
 
       // Append the matched chord template's score and end the line.
-      text += (String(format: "%5.3lf\n", matchedScore), .light)
+      text += (String(format: "%5.3lf\n", matchedScore), .ctLight)
 
       // Append the template vector for the matched chord.
       text.append(template: matchedChord.template)
@@ -232,21 +239,21 @@ public struct TemplateReport: Report, ReportContentProvider {
       rangeStart = text.length
 
       // Append a label introducing the expected chord template.
-      text += ("Expected Template ", .thinItalic)
+      text += ("Expected Template ", .ctThinItalic)
 
       // Append the name of the expected chord.
-      text += (expectedChord.name, .light)
+      text += (expectedChord.name, .ctLight)
 
       // Append spaces to pad the score label and value.
       // `"Expected Template "` contains 18 characters
       // The score label and value will contain 11 characters.
-      text += (" " * (ReportRenderer.columnCount - 29 - expectedChord.name.count), .regular)
+      text += (" " * (ReportRenderer.columnCount - 29 - expectedChord.name.count), .ctRegular)
 
       // Append a label for the expected chord template's score.
-      text += ("Score ", .thinItalic)
+      text += ("Score ", .ctThinItalic)
 
       // Append the expected chord template's score and end the line.
-      text += (String(format: "%5.3lf\n", expectedChordScore), .light)
+      text += (String(format: "%5.3lf\n", expectedChordScore), .ctLight)
 
       // Append the template vector for the expected chord.
       text.append(template: expectedChord.template)
@@ -280,7 +287,7 @@ public struct TemplateReport: Report, ReportContentProvider {
     text += "\n"
 
     // Append a line to introduce the table to follow.
-    text += ("Overview of Matched Chords by Frame:\n", .medium)
+    text += ("Overview of Matched Chords by Frame:\n", .ctMedium)
 
     // Create variables to track true and false positives, as well as false negatives.
     var TP = 0, FP = 0, FN = 0
@@ -294,31 +301,31 @@ public struct TemplateReport: Report, ReportContentProvider {
     let frameLine = "─" * frameCharCount
 
     // Append the top of the box.
-    text += ("┌\(frameLine)┬\(nameLine)┬\(nameLine)┐\n", .regular)
+    text += ("┌\(frameLine)┬\(nameLine)┬\(nameLine)┐\n", .ctRegular)
 
     // Append the left bar for the column headers.
-    text += ("│\(" " * 6)", .regular)
+    text += ("│\(" " * 6)", .ctRegular)
 
     // Append the header for the frame column.
-    text += ("Frame", .thin)
+    text += ("Frame", .ctThin)
 
     // Append the next bar.
-    text += ("\(" " * 7)│\(" " * 11)", .regular)
+    text += ("\(" " * 7)│\(" " * 11)", .ctRegular)
 
     // Append the matched template column header.
-    text += ("Matched Template", .thin)
+    text += ("Matched Template", .ctThin)
 
     // Append the next bar.
-    text += ("\(" " * 11)│\(" " * 13)", .regular)
+    text += ("\(" " * 11)│\(" " * 13)", .ctRegular)
 
     // Append the expected chord column header.
-    text += ("Actual Chord", .thin)
+    text += ("Actual Chord", .ctThin)
 
     // Append the last bar and end the header line.
-    text += ("\(" " * 13)│\n", .regular)
+    text += ("\(" " * 13)│\n", .ctRegular)
 
     // Append the line separating the headers from the values.
-    text += ("├\(frameLine)┼\(nameLine)┼\(nameLine)┤\n", .regular)
+    text += ("├\(frameLine)┼\(nameLine)┼\(nameLine)┤\n", .ctRegular)
 
     // Iterate the match results the matched and actual chords.
     for (frame, matchResults) in features.enumerated() {
@@ -342,13 +349,13 @@ public struct TemplateReport: Report, ReportContentProvider {
       let frameSpaces = frameCharCount - frameLabel.count
 
       // Append the left bar and half the frame spaces.
-      text += ("│\(" " * (frameSpaces/2))", .regular)
+      text += ("│\(" " * (frameSpaces/2))", .ctRegular)
 
       // Append the frame label.
-      text += (frameLabel, .thin)
+      text += (frameLabel, .ctThin)
 
       // Append the rest of the frame spaces and another bar.
-      text += ("\(" " * (frameSpaces - frameSpaces/2))│", .regular)
+      text += ("\(" " * (frameSpaces - frameSpaces/2))│", .ctRegular)
 
       // Get the matched chord description.
       let matchedDesc = match.name
@@ -357,17 +364,17 @@ public struct TemplateReport: Report, ReportContentProvider {
       let matchedSpaces = nameCharCount - matchedDesc.count
 
       // Append half the matched spaces.
-      text += (" " * (matchedSpaces/2), .regular)
+      text += (" " * (matchedSpaces/2), .ctRegular)
 
       // Append the matched chord description.
       text += (matchedDesc, isCorrect
-                              ? .bold
+                              ? .ctBold
                               : match.template.vector == actual.template.vector
-                                  ? .thinItalic
-                                  : .light)
+                                  ? .ctThinItalic
+                                  : .ctLight)
 
       // Append the rest of the matched spaces and another bar.
-      text += ("\(" " * (matchedSpaces - matchedSpaces/2))│", .regular)
+      text += ("\(" " * (matchedSpaces - matchedSpaces/2))│", .ctRegular)
 
       // Try getting the chord composition for the actual chord.
       let composition = expectedChords.composition(forFrame: frame, frameRate: features.featureRate)
@@ -379,27 +386,27 @@ public struct TemplateReport: Report, ReportContentProvider {
       let actualSpaces = nameCharCount - actualDesc.count
 
       // Append half the actual spaces.
-      text += (" " * (actualSpaces/2), .regular)
+      text += (" " * (actualSpaces/2), .ctRegular)
 
       // Append the actual chord's description.
-      text += (actualDesc, .light)
+      text += (actualDesc, .ctLight)
 
       // Append the rest of the actual spaces, another bar, and end the line.
-      text += ("\(" " * (actualSpaces - actualSpaces/2))│\n", .regular)
+      text += ("\(" " * (actualSpaces - actualSpaces/2))│\n", .ctRegular)
 
     }
 
     // Append the bottom of the box.
-    text += ("└\(frameLine)┴\(nameLine)┴\(nameLine)┘\n", .regular)
+    text += ("└\(frameLine)┴\(nameLine)┴\(nameLine)┘\n", .ctRegular)
 
     // Calculate the F score.
     let fScore = Fscore(TP: TP, FP: FP, FN: FN)
 
     // Append the F score label.
-    text += ("F Score: ", .thinItalic)
+    text += ("F Score: ", .ctThinItalic)
 
     // Append the F score.
-    text += ("\(String(format: "%.3f", fScore))", .light)
+    text += ("\(String(format: "%.3f", fScore))", .ctLight)
 
     // Determine how wide the remaining three columns of content for this line should be.
     let pad = (ReportRenderer.columnCount - 14) / 3
@@ -408,28 +415,28 @@ public struct TemplateReport: Report, ReportContentProvider {
     let TPDesc = "\(TP)"
 
     // Append the TP label.
-    text += ("\(" " * (pad - 4 - TPDesc.count))TP: ", .thinItalic)
+    text += ("\(" " * (pad - 4 - TPDesc.count))TP: ", .ctThinItalic)
 
     // Append `TP`.
-    text += (TPDesc, .light)
+    text += (TPDesc, .ctLight)
 
     // Create a description for `FP`.
     let FPDesc = "\(FP)"
 
     // Append the FP label.
-    text += ("\(" " * (pad - 4 - FPDesc.count))FP: ", .thinItalic)
+    text += ("\(" " * (pad - 4 - FPDesc.count))FP: ", .ctThinItalic)
 
     // Append `FP`.
-    text += (FPDesc, .light)
+    text += (FPDesc, .ctLight)
 
     // Create a description for `FN`.
     let FNDesc = "\(FN)"
 
     // Append the FN label.
-    text += ("\(" " * (pad - 4 - FNDesc.count))FN: ", .thinItalic)
+    text += ("\(" " * (pad - 4 - FNDesc.count))FN: ", .ctThinItalic)
 
     // Append `FN`.
-    text += (FNDesc, .light)
+    text += (FNDesc, .ctLight)
 
     // End the line, appending an additional newline for padding.
     text += "\n\n"
@@ -451,18 +458,23 @@ public struct TemplateReport: Report, ReportContentProvider {
   /// - Returns: The image containing the spectrogram.
   public func generateFigures() -> [(Image, NSAttributedString?)]? {
 
-    let colorMap: ColorMap
+    let colorMapSize: ColorMap.Size
 
     switch features.features.parameters.variant {
-      case .CRP: colorMap = ColorMap(size: .s128)
-      default:   colorMap = ColorMap(size: .s64)
+      case .CRP: colorMapSize = .s128
+      default:   colorMapSize = .s64
     }
 
-    let figure = chromaPlot(features: features.features, colorMap: colorMap)
+    // Generate the plot of chroma features.
+    let figure = chromaPlot(features: features.features,
+                            featureRate: CGFloat(features.featureRate),
+                            mapSize: colorMapSize,
+                            mapKind: ColorMap.Kind.heat,
+                            title: nil)
 
     let title = NSAttributedString(string: "Chromagram of Extracted Features Normalized to have a" +
                                            "Sum ≤ 1",
-                                   style: .lightCentered)
+                                   style: .ctLightCentered)
 
     return [(figure, title)]
 
@@ -478,16 +490,16 @@ public struct TemplateReport: Report, ReportContentProvider {
     let text = NSMutableAttributedString()
 
     // Append lead in text for the report's source.
-    text += ("Template Report for ", .extraLight)
+    text += ("Template Report for ", .ctExtraLight)
 
     // Append the source of the report.
     switch source {
-      case .mic:                text += ("Captured Audio", .extraLight)
-      case .file(url: let url): text += (url.lastPathComponent, .extraLightItalic)
+      case .mic:                text += ("Captured Audio", .ctExtraLight)
+      case .file(url: let url): text += (url.lastPathComponent, .ctExtraLightItalic)
     }
 
     // Append the lead in text for the date.
-    text += (" generated ", .extraLight)
+    text += (" generated ", .ctExtraLight)
 
     // Append a description for the current date and time.
     text.append(date: Date())
