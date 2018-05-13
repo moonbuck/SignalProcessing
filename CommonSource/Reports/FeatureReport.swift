@@ -70,8 +70,7 @@ public struct FeatureReport: Report, ReportContentProvider {
   public func generateHeader() -> NSAttributedString {
 
     // Create an attributed string with the header.
-    let text = NSMutableAttributedString(string: "Pitch and chroma features extracted from ",
-                                         style: .ctBlack)
+    let text = NSMutableAttributedString("Pitch and chroma features extracted from ", style: .ctBlack)
 
     // Append a description of the chroma feature source.
     text.append(featureSource: features.source)
@@ -105,7 +104,7 @@ public struct FeatureReport: Report, ReportContentProvider {
     text.appendDoubleLine()
 
     // Create an attributed string that uses a font half the normal size to use in spacing.
-    let spacer = NSAttributedString(string: "\n", style: .halfLine)
+    let spacer = NSAttributedString("\n", style: .halfLine)
 
     // Append the spacer.
     text.append(spacer)
@@ -533,8 +532,7 @@ public struct FeatureReport: Report, ReportContentProvider {
                             mapKind: ColorMap.Kind.heat,
                             title: nil)
 
-    let title1 = NSAttributedString(string: "Chromagram of Extracted Chroma Features",
-                                   style: .ctLightCentered)
+    let title1 = NSAttributedString("Chromagram of Extracted Chroma Features", style: .ctLightCentered)
 
     let figure2: Image
     let title2: NSAttributedString?
@@ -597,8 +595,7 @@ public struct FeatureReport: Report, ReportContentProvider {
       figure2 = pitchPlot(features: features.smoothedPitchFeatures)
 
       // Create the title.
-      title2 = NSAttributedString(string: "Spectrogram of Smoothed Pitch Features",
-                                  style: .ctMediumCentered)
+      title2 = NSAttributedString("Spectrogram of Smoothed Pitch Features", style: .ctMediumCentered)
 
       return [(figure1, title1), (figure2, title2)]
 
@@ -613,8 +610,7 @@ public struct FeatureReport: Report, ReportContentProvider {
     let rangeDesc = "(\(range.lowerBound) through \(range.upperBound))"
 
     // Create the title.
-    title2 = NSAttributedString(string: "Spectrogram of Smoothed Pitch Features \(rangeDesc)",
-                                style: .ctLightCentered)
+    title2 = NSAttributedString("Spectrogram of Smoothed Pitch Features \(rangeDesc)", style: .ctLightCentered)
 
 
     return [(figure1, title1), (figure2, title2)]

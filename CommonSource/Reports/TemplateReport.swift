@@ -76,7 +76,7 @@ public struct TemplateReport: Report, ReportContentProvider {
   public func generateHeader() -> NSAttributedString {
 
     // Create an attributed string with the header.
-    let text = NSMutableAttributedString(string: "Chroma features extracted from ", style: .ctBlack)
+    let text = NSMutableAttributedString("Chroma features extracted from ", style: .ctBlack)
 
     // Append a description of the chroma feature source.
     text.append(featureSource: source)
@@ -472,9 +472,8 @@ public struct TemplateReport: Report, ReportContentProvider {
                             mapKind: ColorMap.Kind.heat,
                             title: nil)
 
-    let title = NSAttributedString(string: "Chromagram of Extracted Features Normalized to have a" +
-                                           "Sum ≤ 1",
-                                   style: .ctLightCentered)
+    let title = NSAttributedString("Chromagram of Extracted Features Normalized to have a" +
+                                   "Sum ≤ 1", style: .ctLightCentered)
 
     return [(figure, title)]
 

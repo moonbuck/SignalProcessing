@@ -57,7 +57,7 @@ public struct PitchReport: Report, ReportContentProvider {
   public func generateHeader() -> NSAttributedString {
 
     // Create an attributed string with the header.
-    let text = NSMutableAttributedString(string: "Pitch features extracted from ", style: .ctBlack)
+    let text = NSMutableAttributedString("Pitch features extracted from ", style: .ctBlack)
 
     // Append a description of the pitch feature source.
     text.append(featureSource: source)
@@ -177,8 +177,7 @@ public struct PitchReport: Report, ReportContentProvider {
       let figure = pitchPlot(features: features)
 
       // Create the title.
-      let title = NSAttributedString(string: "Spectrogram of Extracted Features",
-                                     style: .ctMediumCentered)
+      let title = NSAttributedString("Spectrogram of Extracted Features", style: .ctMediumCentered)
 
       // Return the plot and the title.
       return [(figure, title)]
@@ -192,9 +191,8 @@ public struct PitchReport: Report, ReportContentProvider {
     let figure = pitchPlot(features: features, range: range)
 
     // Create the title.
-    let title = NSAttributedString(string: "Spectrogram of Extracted Features (\(range.lowerBound)" +
-                                            " through \(range.upperBound))",
-                                   style: .ctLightCentered)
+    let title = NSAttributedString("Spectrogram of Extracted Features (\(range.lowerBound)" +
+                                   " through \(range.upperBound))", style: .ctLightCentered)
 
     // Return the figure and the title
     return [(figure, title)]

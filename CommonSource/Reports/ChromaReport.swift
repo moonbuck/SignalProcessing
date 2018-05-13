@@ -63,7 +63,7 @@ public struct ChromaReport: Report, ReportContentProvider {
   public func generateHeader() -> NSAttributedString {
 
     // Create an attributed string with the header.
-    let text = NSMutableAttributedString(string: "Chroma features extracted from ", style: .ctBlack)
+    let text = NSMutableAttributedString("Chroma features extracted from ", style: .ctBlack)
 
     // Append a description of the chroma feature source.
     text.append(featureSource: source)
@@ -134,8 +134,7 @@ public struct ChromaReport: Report, ReportContentProvider {
                             title: nil)
 
     // Create the title.
-    let title = NSAttributedString(string: "Chromagram of Extracted Features",
-                                   style: .ctLightCentered)
+    let title = NSAttributedString("Chromagram of Extracted Features", style: .ctLightCentered)
 
     // Return the figure and the title.
     return [(figure, title)]
