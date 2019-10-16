@@ -428,9 +428,24 @@ private func binMap(windowLength: Int, sampleRate: SampleRate) -> [Pitch] {
   var twelve: Float = 12
   vDSP_vsmul(binIndices, 1, &twelve, binIndices, 1, countu)
 
-  // Subtract one to correct an 'off by one' error.
-  one.negate()
-  vDSP_vsadd(binIndices, 1, &one, binIndices, 1, countu)
+
+  // Subtract one or two to correct for an undiagnosed error.
+  switch 1 << Int(log2(Float(windowLength))) == windowLength {
+
+    case true:
+
+      var two: Float = 2
+      two.negate()
+      vDSP_vsadd(binIndices, 1, &two, binIndices, 1, countu)
+
+    case false:
+
+      one.negate()
+      vDSP_vsadd(binIndices, 1, &one, binIndices, 1, countu)
+
+  }
+
+
 
   // Allocate memory for converting to `Int`.
   let pitches8 = UnsafeMutablePointer<Int8>.allocate(capacity: count)
@@ -617,6 +632,22 @@ public final class SignalVector: Collection, Float64Vector, Equatable {
     storage = Float64Buffer.allocate(capacity: count)
     ownsMemory = true
     vDSP_vclrD(storage, 1, vDSP_Length(count))
+
+  }
+
+  /// Initialize by copying the specified storage.
+  ///
+  /// - Parameters:
+  ///   - buffer: A pointer to the contiguous memory location for the values to copy.
+  ///   - count: The number of values to copy from `storage`.
+  ///   - capacity: Optionally, specifies the total number of values for which to allocate
+  ///               memory in the vector.
+  public convenience init(copying buffer: Float64Buffer, count: Int, capacity: Int? = nil) {
+
+    self.init(count: capacity ?? count)
+
+    let countu = vDSP_Length(count)
+    vDSP_mmovD(buffer, storage, countu, 1, countu, countu)
 
   }
 

@@ -51,10 +51,13 @@ public struct STFT: Collection {
   ///   - windowSize: The size of the window function in samples.
   ///   - hopSize: The hop size in samples.
   ///   - buffer: The buffer holding samples for the input signal.
-  ///   - sampleRate: The sample rate to retrieve from `buffer`.
-  ///   - time: The time associated with the first sample in `buffer`.
+  ///   - representation: Specifies how energy values should be calculated. Default is `magnitude`.
   /// - Throws: `Error.fftSetupFailed` if `vDSP_create_fftsetup` fails.
-  public init(windowSize: Int, hopSize: Int, buffer: AVAudioPCMBuffer) throws {
+  public init(windowSize: Int,
+              hopSize: Int,
+              buffer: AVAudioPCMBuffer,
+              representation: FFT.BinRepresentation = .magnitude) throws
+  {
 
     // Initialize the sample rate property.
     guard let sampleRate = SampleRate(buffer: buffer) else {
@@ -73,8 +76,8 @@ public struct STFT: Collection {
 
     // Initialize `windowSize` and `window`.
     self.windowSize = windowSize
-    let window = Float64Buffer.allocate(capacity: windowSize)
-    vDSP_hann_windowD(window, vDSP_Length(windowSize), Int32(vDSP_HANN_NORM))
+    
+    let window = Window(size: windowSize, zeroPhase: false, kind: .hanningNormalized)
 
     self.hopSize = hopSize
 
@@ -84,14 +87,6 @@ public struct STFT: Collection {
     // Allocate memory for the frames.
     let frames = UnsafeMutablePointer<BinVector>.allocate(capacity: frameCount)
 
-    // Calculate the `windowSize` represented as a power of 2.
-//    let log2N = vDSP_Length(log2(Float(windowSize)))
-
-    // Create the FFT support structure.
-//    guard let fftSetup = vDSP_create_fftsetupD(log2N, FFTRadix(FFT_RADIX2)) else {
-//      throw Error.fftSetupFailed
-//    }
-
     // Create a closure for calculating the number of samples remaining.
     let remainingSamples: (Int) -> Int = { N - hopSize * $0 }
 
@@ -99,33 +94,22 @@ public struct STFT: Collection {
     DispatchQueue.concurrentPerform(iterations: frameCount) {
       frameIndex in
 
-      // Allocate memory for applying the window to `signal`. `SignalVector` below will free.
-      let windowedData = Float64Buffer.allocate(capacity: windowSize)
-
-      // Initialize all the samples to 0
-      windowedData.initialize(repeating: 0, count: windowSize)
-
       // Calculate the number of samples.
-      let sampleCount = vDSP_Length(
-        Swift.max(0, Swift.min(windowSize, remainingSamples(frameIndex)))
-      )
+      let sampleCount = Swift.max(0, Swift.min(windowSize, remainingSamples(frameIndex)))
 
-      // Check whether there are samples to which the window should be applied.
-      if sampleCount > 0 {
+      // Wrap the signal in a vector.
+      var signalʹ = SignalVector(copying: signal + (frameIndex * hopSize),
+                                  count: sampleCount,
+                                  capacity: windowSize)
 
-        // Apply the window to the signal storing the result in `windowedData`.
-        vDSP_vmulD(signal + (frameIndex * hopSize), 1, window, 1, windowedData, 1, sampleCount)
-
-      }
-
-      // Wrap the windowed data in a vector.
-      let signal = SignalVector(storage: windowedData, count: windowSize, assumeOwnership: true)
+      // Window the signal.
+      window.window(signal: &signalʹ)
 
       // Perform the FFT calculation.
-      let calculation = FFT(signal: signal,
+      let calculation = FFT(signal: signalʹ,
                             sampleRate: sampleRate,
                             windowSize: windowSize,
-                            hopSize: hopSize)
+                            representation: representation)
 
       // Copy the calculation to `frames[m]`.
       (frames + frameIndex).initialize(to: calculation.bins)
@@ -134,12 +118,6 @@ public struct STFT: Collection {
 
     // Initialize the `frames` property.
     self.frames = Array(UnsafeBufferPointer(start: frames, count: frameCount))
-
-    // Destroy the setup structure.
-//    vDSP_destroy_fftsetup(fftSetup)
-
-    // Deallocate the window.
-    window.deallocate()
 
     // Deallocate the frames.
     frames.deallocate()

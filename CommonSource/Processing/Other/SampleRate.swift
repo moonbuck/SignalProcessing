@@ -11,6 +11,7 @@ import AVFoundation
 /// Represents the three different sample rates utilized by `MultirateAudioPCMBuffer`.
 public enum SampleRate: Int, CustomStringConvertible, ExpressibleByIntegerLiteral {
 
+  case Fs48000 = 48000  /// A sample rate of 48000 Hz
   case Fs44100 = 44100  /// A sample rate of 44100 Hz
   case Fs22050 = 22050  /// A sample rate of 22050 Hz
   case Fs4410 = 4410    /// A sample rate of 4410 Hz
@@ -22,12 +23,14 @@ public enum SampleRate: Int, CustomStringConvertible, ExpressibleByIntegerLitera
   /// - Parameter rawValue: The desired sample rate in Hz.
   public init(rawValue: Int) {
     switch rawValue {
+      case 48000:           self = .Fs48000
       case 44100:           self = .Fs44100
       case 22050:           self = .Fs22050
       case 4410:            self = .Fs4410
       case 882:             self = .Fs882
       case 441:             self = .Fs441
-      case 33075..<Int.max: self = .Fs44100
+      case 46050..<Int.max: self = .Fs48000
+      case 33075..<46050:   self = .Fs44100
       case 13230..<33075:   self = .Fs22050
       case 2646..<13230:    self = .Fs4410
       case 662..<2646:      self = .Fs882
@@ -43,6 +46,7 @@ public enum SampleRate: Int, CustomStringConvertible, ExpressibleByIntegerLitera
   public init?(buffer: AVAudioPCMBuffer) {
 
     switch buffer.format.sampleRate {
+      case 48000: self = .Fs48000
       case 44100: self = .Fs44100
       case 22050: self = .Fs22050
       case 4410:  self = .Fs4410
@@ -60,7 +64,8 @@ public enum SampleRate: Int, CustomStringConvertible, ExpressibleByIntegerLitera
   /// The range of pitch values for which the sample rate is ideal.
   public var pitchRange: CountableClosedRange<Pitch> {
     switch self {
-      case .Fs44100: return 121...127
+      case .Fs48000,
+           .Fs44100: return 121...127
       case .Fs22050: return 95...120
       case .Fs4410:  return 59...94
       case .Fs882:   return 20...58

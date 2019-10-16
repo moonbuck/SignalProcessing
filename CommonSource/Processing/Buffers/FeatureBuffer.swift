@@ -161,11 +161,14 @@ extension FeatureBuffer where Vector == PitchVector {
         
         self.init(buffer: frames, frameCount: frameCount, featureRate: featureRate)
 
-      case let .stft(windowSize, hopSize, sampleRate):
+      case let .stft(windowSize, hopSize, sampleRate, representation):
         // Extraction via Fast Fourier Transform.
 
         // Calculate the STFT.
-        let stftResult = try STFT(windowSize: windowSize, hopSize: hopSize, buffer: buffer.mono64)
+        let stftResult = try STFT(windowSize: windowSize,
+                                  hopSize: hopSize,
+                                  buffer: buffer.mono64,
+                                  representation: representation)
 
         // Allocate memory for the frames.
         let frames = UnsafeMutablePointer<PitchVector>.allocate(capacity: stftResult.count)

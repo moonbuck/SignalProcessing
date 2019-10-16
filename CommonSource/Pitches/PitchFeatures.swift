@@ -121,7 +121,10 @@ public struct PitchFeatures: ParameterizedFeatureCollection {
   /// - filterbank: Filterbank based extraction.
   public indirect enum ExtractionMethod {
 
-    case stft       (windowSize: Int, hopSize: Int, sampleRate: SampleRate)
+    case stft       (windowSize: Int,
+                     hopSize: Int,
+                     sampleRate: SampleRate,
+                     representation: FFT.BinRepresentation)
     case filterbank (windowSize: Int, hopSize: Int)
 
     public static var `default`: ExtractionMethod {

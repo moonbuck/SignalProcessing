@@ -7,7 +7,6 @@
 //
 import Foundation
 import XCTest
-import Essentia
 import Accelerate
 import MoonKit
 @testable import SignalProcessing

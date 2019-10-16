@@ -19,14 +19,42 @@ public struct FFT {
   /// Storage for the energy values.
   public let bins: BinVector
 
+  /// Initializer that derives sample rate and window size from the specified buffer.
+  ///
+  /// - Parameters:
+  ///   - buffer: The buffer of audio samples.
+  ///   - representation: Specifies how energy values should be calculated. Default is `magnitude`.
+  public init(samples buffer: AVAudioPCMBuffer, representation: BinRepresentation = .magnitude) {
+
+    guard let sampleRate = SampleRate(buffer: buffer) else {
+      fatalError("\(#function) Unsupported sample rate: \(buffer.format.sampleRate)")
+    }
+
+    let windowSize = Int(buffer.frameLength)
+
+    let signal = SignalVector(buffer: buffer)
+
+    self.init(signal: signal,
+              sampleRate: sampleRate,
+              windowSize: windowSize,
+              representation: representation)
+
+  }
+
   /// Initializing with a pointer to the signal's samples and their count; as well as, the window
-  /// and hop sizes. This initializer creates single use values to pass to
-  /// `init(signal:sampleRate:setup:log2N`.
+  /// size. This initializer creates single use values to pass to
+  /// `init(signal:sampleRate:setup:log2N)`.
   ///
   /// - Parameters:
   ///   - signal: The samples for the signal to transform.
   ///   - sampleRate: The sample rate.
-  public init(signal: SignalVector, sampleRate: SampleRate, windowSize: Int, hopSize: Int) {
+  ///   - windowSize: The window size for the calculation.
+  ///   - representation: Specifies how energy values should be calculated. Default is `magnitude`
+  public init(signal: SignalVector,
+              sampleRate: SampleRate,
+              windowSize: Int,
+              representation: BinRepresentation = .magnitude)
+  {
 
     // Calculate the `windowSize` represented as a power of 2.
     let log2N = vDSP_Length(log2(Float(windowSize)))
@@ -38,7 +66,11 @@ public struct FFT {
 
     defer { vDSP_destroy_fftsetupD(fftSetup) }
 
-    self.init(signal: signal, sampleRate: sampleRate, setup: fftSetup, log2N: log2N)
+    self.init(signal: signal,
+              sampleRate: sampleRate,
+              setup: fftSetup,
+              log2N: log2N,
+              representation: representation)
 
   }
 
@@ -50,10 +82,12 @@ public struct FFT {
   ///   - sampleRate: The sample rate.
   ///   - setup: The setup structure to use in calculations.
   ///   - log2N: The precalculated base 2 log value for `N`.
+  ///   - representation: Specifies how energy values should be calculated. Default is `magnitude`.
   public init(signal: SignalVector,
               sampleRate: SampleRate,
               setup: FFTSetupD,
-              log2N: vDSP_Length)
+              log2N: vDSP_Length,
+              representation: BinRepresentation = .magnitude)
   {
 
     // Initialize the sample rate property.
@@ -91,16 +125,38 @@ public struct FFT {
     // Allocate memory for the energy values.
     bins = BinVector(count: Int(K) + 1)
 
-    // Initialize `energy` with the squared magnitudes from the complex buffer.
-    vDSP_zvmagsD(&complexBuffer, 1, bins.storage, 1, K + 1)
+    // Initialize `bins` by calculating energies from the complex buffer.
+    switch representation {
 
-    // Take the square root of the squared magnitudes.
-    var binCount = Int32(bins.count)
-    vvsqrt(bins.storage, bins.storage, &binCount)
+      case .magnitude:
+        // Calculate energy as magnitude.
+
+        vDSP_zvabsD(&complexBuffer, 1, bins.storage, 1, K + 1)
+
+      case .magnitudeSquared:
+        // Calculate energy as magnitude squared.
+
+        vDSP_zvmagsD(&complexBuffer, 1, bins.storage, 1, K + 1)
+        
+    }
 
     // Deallocate memory.
     complexBuffer.realp.deallocate()
     complexBuffer.imagp.deallocate()
+
+  }
+
+}
+
+extension FFT {
+
+  /// An enumeration of possible energy representations stored by the bins.
+  ///
+  /// - magnitude: The bins will store energy as each value's magnitude.
+  /// - magnitudeSquared: The bins will store energy as each value's magnitude squared.
+  public enum BinRepresentation {
+
+    case magnitude, magnitudeSquared
 
   }
 
