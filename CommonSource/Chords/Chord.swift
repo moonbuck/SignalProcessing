@@ -61,7 +61,7 @@ public struct Chord: RawRepresentable {
     var chromas = self.chromas
 
     // Get the index for the fifth or return all the chromas.
-    guard let fifth = self[.P5], let index = chromas.index(of: fifth) else { return chromas }
+    guard let fifth = self[.P5], let index = chromas.firstIndex(of: fifth) else { return chromas }
 
     // Remove the fifth.
     chromas.remove(at: index)
@@ -111,7 +111,7 @@ public struct Chord: RawRepresentable {
   public subscript(chroma: Chroma) -> ChordInterval? {
 
     // Get the index of `chroma` in `chromas` or return `nil`.
-    guard let index = chromas.index(of: chroma) else { return nil }
+    guard let index = chromas.firstIndex(of: chroma) else { return nil }
 
     // Return the corresponding interval.
     return index == 0 ? .P1 : pattern.intervals[index - 1]

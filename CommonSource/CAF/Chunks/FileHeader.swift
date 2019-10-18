@@ -30,11 +30,13 @@ extension CAFFile {
       guard data.count == MemoryLayout<CAFFileHeader>.size else { return nil }
 
       self = data.withUnsafeBytes {
-        (pointer: UnsafePointer<CAFFileHeader>) -> FileHeader in
+        guard let header = ($0.baseAddress?.assumingMemoryBound(to: CAFFileHeader.self)
+                                ?? nil)?.pointee
+        else { fatalError("\(#function) ") }
 
-        FileHeader(type: FourCharacterCode(value: pointer.pointee.mFileType.bigEndian),
-                   version: pointer.pointee.mFileVersion.bigEndian,
-                   flags: pointer.pointee.mFileFlags.bigEndian)
+        return FileHeader(type: FourCharacterCode(value: header.mFileType.bigEndian),
+                          version: header.mFileVersion.bigEndian,
+                          flags: header.mFileFlags.bigEndian)
 
       }
 

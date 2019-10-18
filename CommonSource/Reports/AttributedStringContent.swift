@@ -683,7 +683,7 @@ extension NSMutableAttributedString {
         let range = NSRange(location: length - 2 - chroma.description.count,
                             length: chroma.description.count)
         addAttribute(.underlineStyle,
-                     value: NSUnderlineStyle.styleSingle.rawValue,
+                     value: NSUnderlineStyle.single.rawValue,
                      range: range)
 
       }
@@ -693,7 +693,7 @@ extension NSMutableAttributedString {
         let range = NSRange(location: length - 2 - chroma.description.count,
                             length: chroma.description.count)
         addAttribute(.underlineStyle,
-                     value: NSUnderlineStyle.styleDouble.rawValue,
+                     value: NSUnderlineStyle.double.rawValue,
                      range: range)
 
       }

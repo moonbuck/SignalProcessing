@@ -164,7 +164,7 @@ public struct FeatureReport: Report, ReportContentProvider {
     )
 
     // Append an attribute to keep the frame label and table on the same page.
-    text.addAttribute(NSAttributedStringKey(rawValue: ReportRenderer.samePageAttributeName),
+    text.addAttribute(NSAttributedString.Key(rawValue: ReportRenderer.samePageAttributeName),
                       value: true,
                       range: NSRange(location: rangeStart, length: text.length - rangeStart - 1))
 
@@ -205,7 +205,7 @@ public struct FeatureReport: Report, ReportContentProvider {
     text.append(vector: matchedChromaFeatures.features[frame], boldIndices: boldIndices)
 
     // Keep the vector label and table together.
-    text.addAttribute(NSAttributedStringKey(rawValue: ReportRenderer.samePageAttributeName),
+    text.addAttribute(NSAttributedString.Key(rawValue: ReportRenderer.samePageAttributeName),
                       value: true,
                       range: NSRange(location: rangeStart, length: text.length - rangeStart - 1))
 
@@ -250,7 +250,7 @@ public struct FeatureReport: Report, ReportContentProvider {
       text.append(template: matchedChord.template)
       
       // Keep the template label and table together.
-      text.addAttribute(NSAttributedStringKey(rawValue: ReportRenderer.samePageAttributeName),
+      text.addAttribute(NSAttributedString.Key(rawValue: ReportRenderer.samePageAttributeName),
                         value: true,
                         range: NSRange(location: rangeStart, length: text.length - rangeStart - 1))
 
@@ -280,7 +280,7 @@ public struct FeatureReport: Report, ReportContentProvider {
       text.append(template: matchedChord.template)
 
       // Keep the template label and table together.
-      text.addAttribute(NSAttributedStringKey(rawValue: ReportRenderer.samePageAttributeName),
+      text.addAttribute(NSAttributedString.Key(rawValue: ReportRenderer.samePageAttributeName),
                         value: true,
                         range: NSRange(location: rangeStart, length: text.length - rangeStart - 1))
 
@@ -308,7 +308,7 @@ public struct FeatureReport: Report, ReportContentProvider {
       text.append(template: expectedChord.template)
 
       // Keep the expected label and table together.
-      text.addAttribute(NSAttributedStringKey(rawValue: ReportRenderer.samePageAttributeName),
+      text.addAttribute(NSAttributedString.Key(rawValue: ReportRenderer.samePageAttributeName),
                         value: true,
                         range: NSRange(location: rangeStart, length: text.length - rangeStart))
 
@@ -505,7 +505,7 @@ public struct FeatureReport: Report, ReportContentProvider {
     if matchedChromaFeatures.count <= 50 {
 
       // Add an attribute to ensure the table is not broken across pages.
-      text.addAttribute(NSAttributedStringKey(rawValue: ReportRenderer.samePageAttributeName), value: true, range: text.textRange)
+      text.addAttribute(NSAttributedString.Key(rawValue: ReportRenderer.samePageAttributeName), value: true, range: text.textRange)
 
     }
 

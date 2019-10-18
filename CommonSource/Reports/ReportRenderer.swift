@@ -244,7 +244,7 @@ public final class ReportRenderer {
       frameSize.width = contentBounds.size.width
 
       // Enumerate 'same-page' attributes in `text`.
-      text.enumerateAttribute(NSAttributedStringKey(rawValue: samePageAttributeName),
+      text.enumerateAttribute(NSAttributedString.Key(rawValue: samePageAttributeName),
                               in: text.textRange,
                               options: [])
       {

@@ -150,7 +150,7 @@ public struct Window {
 
     guard zeroPhase && size == signal.count else { return }
 
-    var buffer = UnsafeMutableBufferPointer(start: signal.storage, count: signal.count)
+    let buffer = UnsafeMutableBufferPointer(start: signal.storage, count: signal.count)
 
     let halfSize = size / 2
 

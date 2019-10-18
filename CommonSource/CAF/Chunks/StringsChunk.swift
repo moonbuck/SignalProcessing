@@ -33,7 +33,10 @@ extension CAFFile {
       guard data.count >= 4 else { return nil }
 
       let numEntries = data[data.subrange(offset: 0, length: 4)].withUnsafeBytes {
-        (pointer: UnsafePointer<UInt32>) -> Int in Int(pointer.pointee.bigEndian)
+        (pointer: UnsafeRawBufferPointer) -> Int in
+        guard let bytes = (pointer.baseAddress?.assumingMemoryBound(to: UInt32.self) ?? nil)?.pointee
+          else { fatalError("\(#function) ") }
+          return Int(bytes.bigEndian)
       }
 
       guard data.count >= MemoryLayout<StringID>.size * numEntries + 4 else { return nil }
@@ -47,13 +50,19 @@ extension CAFFile {
       while ids.count < numEntries {
 
         let id = data[data.subrange(start: start, length: 4)].withUnsafeBytes {
-          (pointer: UnsafePointer<UInt32>) -> UInt32 in pointer.pointee.bigEndian
+          (pointer: UnsafeRawBufferPointer) -> UInt32 in
+          guard let bytes = (pointer.baseAddress?.assumingMemoryBound(to: UInt32.self) ?? nil)?.pointee
+            else { fatalError("\(#function) ") }
+            return bytes.bigEndian
         }
 
         start += 4
 
         let startByteOffset = data[data.subrange(start: start, length: 8)].withUnsafeBytes {
-          (pointer: UnsafePointer<Int64>) -> Int64 in pointer.pointee.bigEndian
+          (pointer: UnsafeRawBufferPointer) -> Int64 in
+          guard let bytes = (pointer.baseAddress?.assumingMemoryBound(to: Int64.self) ?? nil)?.pointee
+            else { fatalError("\(#function) ") }
+            return bytes.bigEndian
         }
 
         start += 8

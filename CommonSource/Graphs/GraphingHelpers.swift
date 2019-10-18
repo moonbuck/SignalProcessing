@@ -109,7 +109,7 @@ internal func drawXLabels(in context: CGContext,
   })
 
   // Create the attributes with which to draw the labels.
-  let attributes: [NSAttributedStringKey:Any] = [.font: font]
+  let attributes: [NSAttributedString.Key:Any] = [.font: font]
 
   // Calculate the label sizes.
   let labelSizes = xLabels.map({($0 as NSString).size(withAttributes: attributes)})
@@ -176,7 +176,7 @@ internal func draw(yLabels: [String],
                    in context: CGContext,
                    plotRect: CGRect,
                    alignment: NSTextAlignment,
-                   minSpace: CGFloat = 4) -> [NSAttributedStringKey:Any]
+                   minSpace: CGFloat = 4) -> [NSAttributedString.Key:Any]
 {
 
   // Get the total number of rows.
@@ -198,7 +198,7 @@ internal func draw(yLabels: [String],
   style.maximumLineHeight = pointSize
 
   // Create the attributes dictionary for sizing and drawing the label.
-  let attributes: [NSAttributedStringKey:Any] = [.font: font, .paragraphStyle: style]
+  let attributes: [NSAttributedString.Key:Any] = [.font: font, .paragraphStyle: style]
 
   // Map the labels to their sizes.
   let labelSizes = yLabels.map({($0 as NSString).size(withAttributes: attributes)})
@@ -356,7 +356,7 @@ internal func draw(colorMap: ColorMap,
                    in context: CGContext,
                    plotRect: CGRect,
                    mapWidth: CGFloat,
-                   labelAttributes: [NSAttributedStringKey:Any])
+                   labelAttributes: [NSAttributedString.Key:Any])
 {
 
   // Calculate the height for each color index's rectangle.
@@ -430,7 +430,7 @@ internal func draw(title: String?, in context: CGContext, imageRect: CGRect) {
   // Create a font for the title.
   let font = (CTFont.bold as Font).withSize(22)
 
-  let attributes: [NSAttributedStringKey:Any] = [.font: font, .paragraphStyle: style]
+  let attributes: [NSAttributedString.Key:Any] = [.font: font, .paragraphStyle: style]
 
   // Get the height of the title.
   let titleHeight = title.size(withAttributes: attributes).height

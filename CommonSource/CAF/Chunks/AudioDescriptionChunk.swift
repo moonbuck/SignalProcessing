@@ -67,22 +67,24 @@ extension CAFFile {
     public init?(data: Data) {
 
       guard data.count == MemoryLayout<CAFAudioDescription>.size else { return nil }
+      self = data.withUnsafeBytes({
+        guard let description = ($0.baseAddress?.assumingMemoryBound(to: CAFAudioDescription.self)
+                                  ?? nil)?.pointee
+          else { fatalError("\(#function) ") }
 
-      self = data.withUnsafeBytes {
-        (pointer: UnsafePointer<CAFAudioDescription>) -> AudioDescriptionChunkData in
-
-        let formatFlags = CAFFormatFlags(rawValue: pointer.pointee.mFormatFlags.rawValue.bigEndian)
+        let formatFlags = CAFFormatFlags(rawValue: description.mFormatFlags.rawValue.bigEndian)
 
         return AudioDescriptionChunkData(
-          sampleRate: Float64(bitPattern: pointer.pointee.mSampleRate.bitPattern.bigEndian),
-          formatID: FourCharacterCode(value: pointer.pointee.mFormatID.bigEndian),
+          sampleRate: Float64(bitPattern: description.mSampleRate.bitPattern.bigEndian),
+          formatID: FourCharacterCode(value: description.mFormatID.bigEndian),
           formatFlags: LinearPCMFormatFlags(flags: formatFlags),
-          bytesPerPacket: pointer.pointee.mBytesPerPacket.bigEndian,
-          framesPerPacket: pointer.pointee.mFramesPerPacket.bigEndian,
-          channelsPerFrame: pointer.pointee.mChannelsPerFrame.bigEndian,
-          bitsPerChannel: pointer.pointee.mBitsPerChannel.bigEndian
+          bytesPerPacket: description.mBytesPerPacket.bigEndian,
+          framesPerPacket: description.mFramesPerPacket.bigEndian,
+          channelsPerFrame: description.mChannelsPerFrame.bigEndian,
+          bitsPerChannel: description.mBitsPerChannel.bigEndian
         )
-      }
+
+      })
 
     }
 

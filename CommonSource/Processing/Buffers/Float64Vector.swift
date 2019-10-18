@@ -206,12 +206,12 @@ extension Float64Vector {
 
       case .orderedAscending:
         indices.reverse()
-        if let dropIndex = indices.index(where: {storage[$0] > threshold}) {
+        if let dropIndex = indices.firstIndex(where: {storage[$0] > threshold}) {
           indices.removeSubrange(dropIndex..<indices.endIndex)
         }
 
       default:
-        if let dropIndex = indices.index(where: {storage[$0] < threshold}) {
+        if let dropIndex = indices.firstIndex(where: {storage[$0] < threshold}) {
           indices.removeSubrange(dropIndex..<indices.endIndex)
         }
 

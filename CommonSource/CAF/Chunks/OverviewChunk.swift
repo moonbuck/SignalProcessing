@@ -26,11 +26,17 @@ extension CAFFile {
       guard data.count >= 8 else { return nil }
 
       editCount = data[data.subrange(offset: 0, length: 4)].withUnsafeBytes {
-        (pointer: UnsafePointer<UInt32>) -> Int in Int(pointer.pointee.bigEndian)
+        (pointer: UnsafeRawBufferPointer) -> Int in
+        guard let bytes = (pointer.baseAddress?.assumingMemoryBound(to: UInt32.self) ?? nil)?.pointee
+          else { fatalError("\(#function) ") }
+          return Int(bytes.bigEndian)
       }
 
       framesPerSample = data[data.subrange(offset: 4, length: 4)].withUnsafeBytes {
-        (pointer: UnsafePointer<UInt32>) -> Int in Int(pointer.pointee.bigEndian)
+        (pointer: UnsafeRawBufferPointer) -> Int in
+        guard let bytes = (pointer.baseAddress?.assumingMemoryBound(to: UInt32.self) ?? nil)?.pointee
+          else { fatalError("\(#function) ") }
+          return Int(bytes.bigEndian)
       }
 
       size = data.count - 8

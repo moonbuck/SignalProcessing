@@ -98,7 +98,7 @@ public struct ChromaReport: Report, ReportContentProvider {
     text.append(vector: features[frame], boldCount: 3)
 
     // Append an attribute to keep the frame label and table on the same page.
-    text.addAttribute(NSAttributedStringKey(rawValue: ReportRenderer.samePageAttributeName),
+    text.addAttribute(NSAttributedString.Key(rawValue: ReportRenderer.samePageAttributeName),
                       value: true,
                       range: text.textRange)
 

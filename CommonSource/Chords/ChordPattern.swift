@@ -119,7 +119,7 @@ public struct ChordPattern: OptionSet {
   /// - Parameter suffix: The suffix of the desired pattern.
   public init?(suffix: String) {
     let suffix = presentationalSuffix(for: suffix)
-    guard let index = ChordPattern.suffixIndex .index(where: {$1 == suffix}) else {
+    guard let index = ChordPattern.suffixIndex .firstIndex(where: {$1 == suffix}) else {
       return nil
     }
 
@@ -374,7 +374,7 @@ extension ChordPattern: ExpressibleByStringLiteral {
   public init(stringLiteral value: String) {
 
     let value = presentationalSuffix(for: value)
-    if let index = ChordPattern.suffixIndex .index(where: {$1 == value}) {
+    if let index = ChordPattern.suffixIndex .firstIndex(where: {$1 == value}) {
       let (rawValue, _) = ChordPattern.suffixIndex[index]
       self.init(rawValue: rawValue)
     } else {

@@ -193,16 +193,25 @@ extension CAFFile {
       guard data.count == MemoryLayout<AudioChannelLayout>.size else { return nil }
 
       let layoutTag = data[data.subrange(offset: 0, length: 4)].withUnsafeBytes {
-        (pointer: UnsafePointer<UInt32>) -> UInt32 in pointer.pointee.bigEndian
+        (pointer: UnsafeRawBufferPointer) -> UInt32 in
+        guard let bytes = (pointer.baseAddress?.assumingMemoryBound(to: UInt32.self) ?? nil)?.pointee
+          else { fatalError("\(#function) ") }
+          return bytes.bigEndian
       }
 
       let bitmap =
         AudioChannelBitmap(rawValue: data[data.subrange(offset: 4, length: 4)].withUnsafeBytes {
-          (pointer: UnsafePointer<UInt32>) -> UInt32 in pointer.pointee.bigEndian
+          (pointer: UnsafeRawBufferPointer) -> UInt32 in
+          guard let bytes = (pointer.baseAddress?.assumingMemoryBound(to: UInt32.self) ?? nil)?.pointee
+            else { fatalError("\(#function) ") }
+            return bytes.bigEndian
       })
 
       let numberChannelDescriptions = data[data.subrange(offset: 8, length: 4)].withUnsafeBytes {
-        (pointer: UnsafePointer<UInt32>) -> Int in Int(pointer.pointee.bigEndian)
+        (pointer: UnsafeRawBufferPointer) -> Int in
+        guard let bytes = (pointer.baseAddress?.assumingMemoryBound(to: UInt32.self) ?? nil)?.pointee
+          else { fatalError("\(#function) ") }
+          return Int(bytes.bigEndian)
       }
 
       if numberChannelDescriptions == 0 {
@@ -220,14 +229,19 @@ extension CAFFile {
         while descriptions.count < numberChannelDescriptions {
 
           let description = data[data.subrange(start: start, length: size)].withUnsafeBytes({
-            (pointer: UnsafePointer<AudioChannelDescription>) -> ChannelDescription in
-            ChannelDescription(
-              label: pointer.pointee.mChannelLabel.bigEndian,
-              flags: AudioChannelFlags(rawValue: pointer.pointee.mChannelFlags.rawValue.bigEndian),
+            (pointer: UnsafeRawBufferPointer) -> ChannelDescription in
+
+            guard let descriptionʹ = (pointer.baseAddress?
+              .assumingMemoryBound(to: AudioChannelDescription.self) ?? nil)?.pointee
+              else { fatalError("\(#function) ") }
+
+            return ChannelDescription(
+              label: descriptionʹ.mChannelLabel.bigEndian,
+              flags: AudioChannelFlags(rawValue: descriptionʹ.mChannelFlags.rawValue.bigEndian),
               coordinates: (
-                Float32(bitPattern: pointer.pointee.mCoordinates.0.bitPattern.bigEndian),
-                Float32(bitPattern: pointer.pointee.mCoordinates.1.bitPattern.bigEndian),
-                Float32(bitPattern: pointer.pointee.mCoordinates.2.bitPattern.bigEndian)
+                Float32(bitPattern: descriptionʹ.mCoordinates.0.bitPattern.bigEndian),
+                Float32(bitPattern: descriptionʹ.mCoordinates.1.bitPattern.bigEndian),
+                Float32(bitPattern: descriptionʹ.mCoordinates.2.bitPattern.bigEndian)
               )
             )
           })
@@ -281,7 +295,7 @@ extension CAFFile.ChannelLayoutChunkData {
     public var description: String {
       return """
         ChannelDescription { label: \(labelDescription); \
-        flags: \(_channelFlagsDescription); coordinates: (\
+        flags: \(flagsDescription); coordinates: (\
         \(coordinates.0), \(coordinates.1), \(coordinates.2)) }
         """
     }

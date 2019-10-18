@@ -120,11 +120,17 @@ extension CAFFile {
       guard data.count >= 8 else { return nil }
 
       timeType = data[data.subrange(offset: 0, length: 4)].withUnsafeBytes {
-        (pointer: UnsafePointer<UInt32>) -> UInt32 in pointer.pointee.bigEndian
+        (pointer: UnsafeRawBufferPointer) -> UInt32 in
+        guard let bytes = (pointer.baseAddress?.assumingMemoryBound(to: UInt32.self) ?? nil)?.pointee
+          else { fatalError("\(#function) ") }
+          return bytes.bigEndian
       }
 
       let markerCount = data[data.subrange(offset: 4, length: 4)].withUnsafeBytes {
-        (pointer: UnsafePointer<UInt32>) -> Int in Int(pointer.pointee.bigEndian)
+        (pointer: UnsafeRawBufferPointer) -> Int in
+        guard let bytes = (pointer.baseAddress?.assumingMemoryBound(to: UInt32.self) ?? nil)?.pointee
+          else { fatalError("\(#function) ") }
+          return Int(bytes.bigEndian)
       }
 
       guard data.count - 8 == MemoryLayout<CAFMarker>.size * markerCount else { return nil }
@@ -137,20 +143,28 @@ extension CAFFile {
       while markers.count < markerCount {
 
         let type = data[data.subrange(start: start, length: 4)].withUnsafeBytes {
-          (pointer: UnsafePointer<UInt32>) -> UInt32 in pointer.pointee.bigEndian
+          (pointer: UnsafeRawBufferPointer) -> UInt32 in
+          guard let bytes = (pointer.baseAddress?.assumingMemoryBound(to: UInt32.self) ?? nil)?.pointee
+            else { fatalError("\(#function) ") }
+            return bytes.bigEndian
         }
 
         start += 4
 
         let framePosition = data[data.subrange(start: start, length: 8)].withUnsafeBytes {
-          (pointer: UnsafePointer<Float64>) -> Float64 in
-          Float64(bitPattern: pointer.pointee.bitPattern.bigEndian)
+          (pointer: UnsafeRawBufferPointer) -> Float64 in
+          guard let bytes = (pointer.baseAddress?.assumingMemoryBound(to: Float64.self) ?? nil)?.pointee
+            else { fatalError("\(#function) ") }
+            return Float64(bitPattern: bytes.bitPattern.bigEndian)
         }
 
         start += 8
 
         let id = data[data.subrange(start: start, length: 4)].withUnsafeBytes {
-          (pointer: UnsafePointer<UInt32>) -> UInt32 in pointer.pointee.bigEndian
+          (pointer: UnsafeRawBufferPointer) -> UInt32 in
+          guard let bytes = (pointer.baseAddress?.assumingMemoryBound(to: UInt32.self) ?? nil)?.pointee
+            else { fatalError("\(#function) ") }
+            return bytes.bigEndian
         }
 
         start += 4
@@ -161,19 +175,24 @@ extension CAFFile {
           data[timeRange].filter({$0 != 0xFF}).isEmpty
             ? nil
             : data[timeRange].withUnsafeBytes({
-              (pointer: UnsafePointer<CAF_SMPTE_Time>) -> CAF_SMPTE_Time in
-              CAF_SMPTE_Time(
-                mHours: pointer.pointee.mHours.bigEndian,
-                mMinutes: pointer.pointee.mMinutes.bigEndian,
-                mSeconds: pointer.pointee.mSeconds.bigEndian,
-                mFrames: pointer.pointee.mFrames.bigEndian,
-                mSubFrameSampleOffset: pointer.pointee.mSubFrameSampleOffset.bigEndian)
+              (pointer: UnsafeRawBufferPointer) -> CAF_SMPTE_Time in
+              guard let bytes = (pointer.baseAddress?.assumingMemoryBound(to: CAF_SMPTE_Time.self) ?? nil)?.pointee
+                else { fatalError("\(#function) ") }
+              return CAF_SMPTE_Time(
+                mHours: bytes.mHours.bigEndian,
+                mMinutes: bytes.mMinutes.bigEndian,
+                mSeconds: bytes.mSeconds.bigEndian,
+                mFrames: bytes.mFrames.bigEndian,
+                mSubFrameSampleOffset: bytes.mSubFrameSampleOffset.bigEndian)
             })
 
         start += MemoryLayout<CAF_SMPTE_Time>.size
 
         let channel = data[data.subrange(start: start, length: 4)].withUnsafeBytes {
-          (pointer: UnsafePointer<UInt32>) -> UInt32 in pointer.pointee.bigEndian
+          (pointer: UnsafeRawBufferPointer) -> UInt32 in
+          guard let bytes = (pointer.baseAddress?.assumingMemoryBound(to: UInt32.self) ?? nil)?.pointee
+            else { fatalError("\(#function) ") }
+            return bytes.bigEndian
         }
 
         start += 4

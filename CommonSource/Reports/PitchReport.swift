@@ -100,7 +100,7 @@ public struct PitchReport: Report, ReportContentProvider {
     )
 
     // Append an attribute to keep the frame label and table on the same page.
-    text.addAttribute(NSAttributedStringKey(rawValue: ReportRenderer.samePageAttributeName), value: true, range: text.textRange)
+    text.addAttribute(NSAttributedString.Key(rawValue: ReportRenderer.samePageAttributeName), value: true, range: text.textRange)
 
     // Append a blank line.
     text += "\n"

@@ -24,13 +24,16 @@ extension CAFFile {
 
       guard data.count == ChunkHeader.headerSize else { return nil }
 
-      self = data.withUnsafeBytes {
-        (pointer: UnsafePointer<CAFChunkHeader>) -> ChunkHeader in
+      self = data.withUnsafeBytes({
+        guard let chunk = ($0.baseAddress?.assumingMemoryBound(to: CAFChunkHeader.self)
+                                  ?? nil)?.pointee
+          else { fatalError("\(#function) ") }
 
-        ChunkHeader(type: FourCharacterCode(value: pointer.pointee.mChunkType.bigEndian),
-                    size: Int(pointer.pointee.mChunkSize.bigEndian))
+        return ChunkHeader(type: FourCharacterCode(value: chunk.mChunkType.bigEndian),
+                           size: Int(chunk.mChunkSize.bigEndian))
 
-      }
+      })
+
 
     }
 
