@@ -281,9 +281,9 @@ public class Resampler {
 
     let gotData = resampler.process(source: data, destination: &out, count: count)
 
-    let outPointer = UnsafeMutablePointer(&out)
-
-    let gotPad = resampler.process(source: &pad, destination: outPointer + gotData, count: pad.count)
+    let gotPad = out.withUnsafeMutableBufferPointer {
+      resampler.process(source: &pad, destination: $0.baseAddress! + gotData, count: pad.count)
+    }
 
     let got = gotData + gotPad
 

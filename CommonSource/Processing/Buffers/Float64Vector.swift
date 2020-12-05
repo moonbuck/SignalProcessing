@@ -667,7 +667,7 @@ public final class SignalVector: Collection, Float64Vector, Equatable {
   ///
   /// - Parameter array: The array to wrap, allowing access to the array's storage via `storage`.
   public init(array: inout [Float64]) {
-    storage = Float64Buffer(&array)
+    storage = array.withUnsafeMutableBufferPointer { $0.baseAddress! }
     count = array.count
     ownsMemory = false
   }

@@ -286,11 +286,11 @@ extension NSMutableAttributedString {
     // Initialize `methodDesc`.
     switch extractionMethod {
 
-      case .stft(let p):
-        self += ("STFT { Window Size: \(p.windowSize), Hop Size: \(p.hopSize) }\n", .ctLightItalic)
+      case .stft(let windowSize, let hopSize, _, _):
+        self += ("STFT { Window Size: \(windowSize), Hop Size: \(hopSize) }\n", .ctLightItalic)
 
-      case .filterbank(let p):
-        self += ("Filterbank { Window Size: \(p.windowSize), Hop Size: \(p.hopSize) }\n", .ctLightItalic)
+      case .filterbank(let windowSize, let hopSize):
+        self += ("Filterbank { Window Size: \(windowSize), Hop Size: \(hopSize) }\n", .ctLightItalic)
 
     }
 
