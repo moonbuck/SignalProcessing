@@ -1042,6 +1042,7 @@
 					};
 					C2F81B451FDB038800D344FE = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 1220;
 						ProvisioningStyle = Automatic;
 					};
 					C2F81B5B1FDB03CA00D344FE = {
@@ -1718,7 +1719,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.moondeerstudios.SignalProcessing-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1737,7 +1738,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.moondeerstudios.SignalProcessing-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
