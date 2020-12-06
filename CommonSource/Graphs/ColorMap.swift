@@ -230,8 +230,6 @@ public struct ColorMap: Collection {
       case .data: fatalError("Only size `.infinite` is supported by kind `.data`.")
     }
 
-    print("colors = \(colors)")
-
   }
 
 }
