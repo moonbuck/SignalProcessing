@@ -86,7 +86,12 @@ enum TimeSignature: Hashable, ByteArrayConvertible {
 
   }
 
-  var hashValue: Int { return beatsPerBar ^ _mixInt(Int(beatUnit)) }
+  func hash(into hasher: inout Hasher) {
+    beatsPerBar.hash(into: &hasher)
+    beatUnit.hash(into: &hasher)
+  }
+
+//  var hashValue: Int { return beatsPerBar ^ _mixInt(Int(beatUnit)) }
 
   /// Returns `true` iff `lhs` and `rhs` are of the same case excluding `other`, or if
   /// `lhs` and `rhs` are both of case `other` with equal `upper` and `lower` values.

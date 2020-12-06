@@ -218,7 +218,6 @@ func text(from output: Output) -> String {
   let valueWidth = 16
   let indexColumnWidth = 8
   let line = "─" * (columnWidth + indexColumnWidth)
-  let spacer = " " * valueWidth
   let indexLabel = "Index".padded(to: indexColumnWidth, alignment: .center)
   let valueLabel = "Value".padded(to: columnWidth, alignment: .center)
   let tableHeader: String = "\(indexLabel)\(valueLabel)\n\(line)"

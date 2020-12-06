@@ -65,11 +65,15 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "--verbose"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "--number-markers"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--dir=/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/MIDI"
+            argument = "--dir=/Users/Moondeer/Projects/ChordFinder/Data/audio/chords/MIDI/Fresh"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

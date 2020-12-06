@@ -169,7 +169,7 @@ enum MIDIEvent: Hashable, CustomStringConvertible {
 
   }
 
-  var hashValue: Int {
+  func hash(into hasher: inout Hasher) {
 
     // Group the MIDI event's raw bytes into `UInt64` values.
     let byteGroups = bytes.segment(8).map(UInt64.init)
@@ -184,7 +184,9 @@ enum MIDIEvent: Hashable, CustomStringConvertible {
     let timeHash = time.hashValue
 
     // Return the result of combining the three hash values using a bitwise XOR.
-    return bytesHash ^ deltaHash ^ timeHash
+    bytesHash.hash(into: &hasher)
+    deltaHash.hash(into: &hasher)
+    timeHash.hash(into: &hasher)
 
   }
 
@@ -349,11 +351,13 @@ enum MIDIEvent: Hashable, CustomStringConvertible {
 
     }
 
-    var hashValue: Int {
+    func hash(into hasher: inout Hasher) {
 
       // Return the result of combining the hash values for `time`, `data`, and `delta`
       // using a bitwise XOR.
-      return time.hashValue ^ data.hashValue ^ (delta?.hashValue ?? 0)
+      time.hash(into: &hasher)
+      data.hash(into: &hasher)
+      (delta ?? 0).hash(into: &hasher)
 
     }
 
@@ -621,7 +625,7 @@ enum MIDIEvent: Hashable, CustomStringConvertible {
 
       }
 
-      var hashValue: Int {
+      func hash(into hasher: inout Hasher) {
 
         // Get the hash value for the data's type value.
         let typeHash = type.hashValue
@@ -662,7 +666,8 @@ enum MIDIEvent: Hashable, CustomStringConvertible {
         }
 
         // Return the bitwise XOR of two hash values.
-        return typeHash ^ dataHash
+        typeHash.hash(into: &hasher)
+        dataHash.hash(into: &hasher)
 
       }
 
@@ -922,15 +927,15 @@ enum MIDIEvent: Hashable, CustomStringConvertible {
 
     }
 
-    var hashValue: Int {
+    func hash(into hasher: inout Hasher) {
 
       // Return the bitwise XOR of hash values of the channel event's properties,
       // substituting `0` for any `nil` property values.
-      return time.hashValue
-           ^ (delta?.hashValue ?? 0)
-           ^ status.hashValue
-           ^ data1.hashValue
-           ^ (data2?.hashValue ?? 0)
+      time.hash(into: &hasher)
+      (delta ?? 0).hash(into: &hasher)
+      status.hash(into: &hasher)
+      data1.hash(into: &hasher)
+      (data2 ?? 0).hash(into: &hasher)
 
     }
 
@@ -967,10 +972,11 @@ enum MIDIEvent: Hashable, CustomStringConvertible {
 
       var description: String { return "\(kind) (\(channel))" }
 
-      var hashValue: Int {
+      func hash(into hasher: inout Hasher) {
 
         // Return the bitwise XOR of the hash values for `kind` and `channel`.
-        return kind.hashValue ^ channel.hashValue
+        kind.hash(into: &hasher)
+        channel.hash(into: &hasher)
 
       }
 

@@ -158,7 +158,7 @@ private func extractFeaturesUsingSignalProcessing(buffer: AVAudioPCMBuffer) -> O
   if quantization != .bin {
 
     let method: PitchFeatures.ExtractionMethod =
-      .stft(windowSize: windowSize, hopSize: hopSize, sampleRate: .Fs44100)
+      .stft(windowSize: windowSize, hopSize: hopSize, sampleRate: .Fs44100, representation: .magnitude)
 
     var filters: [FeatureFilter] = []
 
