@@ -38,9 +38,9 @@ public enum SampleRate: Int, CustomStringConvertible, ExpressibleByIntegerLitera
     }
   }
 
-  /// Initializing with the case corresponding to the sample rate of an audio buffer. If the
-  /// specified buffer uses a sample rate that does not correspond to a raw value for one of the
-  /// cases, `nil` is returned.
+  /// Initializing with the case corresponding to the sample rate of an audio buffer. If
+  ///  the specified buffer uses a sample rate that does not correspond to a raw value
+  ///   for one of the cases, `nil` is returned.
   ///
   /// - Parameter buffer: The buffer whose sample rate shall be used.
   public init?(buffer: AVAudioPCMBuffer) {
