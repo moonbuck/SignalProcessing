@@ -170,7 +170,7 @@ extension AVAudioPCMBuffer {
 
     let channels = Float64Buffer2D.allocate(capacity: Int(format.channelCount))
 
-    for (index, channelBuffer) in underlyingBuffers.enumerated() {
+    for (index, channelBuffer) in underlyingBuffers.enumerated() { 
 
       guard let channelData = channelBuffer.mData else { return nil }
 
