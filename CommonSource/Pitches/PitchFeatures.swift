@@ -30,13 +30,6 @@ public struct PitchFeatures: ParameterizedFeatureCollection {
   /// The total number of pitch features.
   public var count: Int { return features.count }
 
-  /// The most likely root chromas per frame as a tuple of the most likely by count, by energy,
-  /// and by the averaged count and energy rankings.
-//  public let mostLikelyRoots: [PossibleRoots]
-
-  /// The estimated number of notes per frame.
-//  public let noteCountEstimates: [Int]
-
   /// Returns the successor for the specified index.
   ///
   /// - Parameter i: The index whose successor should be returned.
@@ -53,8 +46,6 @@ public struct PitchFeatures: ParameterizedFeatureCollection {
     features = buffer.array
     featureRate = buffer.featureRate
     self.parameters = parameters
-//    mostLikelyRoots = features.map(estimateRoot(for:))
-//    noteCountEstimates = Array<Int>(repeating: 3, count: features.count)
   }
 
   /// Initializing with the URL for an audio file.
@@ -95,7 +86,7 @@ public struct PitchFeatures: ParameterizedFeatureCollection {
   }
 
   /// A structure for grouping various parameters used during pitch feature extraction.
-  public struct Parameters {
+  public struct Parameters: CustomStringConvertible {
 
     /// The method used to extract the pitch features from a buffer of audio.
     public var method: ExtractionMethod
@@ -111,15 +102,24 @@ public struct PitchFeatures: ParameterizedFeatureCollection {
 
     }
 
-    public static var `default`: Parameters { return Parameters() }
+    public static var `default`: Parameters { Parameters() }
+
+    public var description: String {
+      """
+      method: \(method)
+      filters:
+        \(filters.map(\FeatureFilter.description).joined(separator: "\n  "))
+      """
+    }
 
   }
 
-  /// An enumeration of the available methods that can be used to extract pitch features from
-  /// a buffer of audio.
+  /// An enumeration of the available methods that can be used to extract
+  /// pitch features from a buffer of audio.
+  ///
   /// - stft: Fast Fourier Transform based extraction.
   /// - filterbank: Filterbank based extraction.
-  public indirect enum ExtractionMethod {
+  public indirect enum ExtractionMethod: CustomStringConvertible {
 
     case stft       (windowSize: Int,
                      hopSize: Int,
@@ -131,20 +131,21 @@ public struct PitchFeatures: ParameterizedFeatureCollection {
       return .filterbank(windowSize: 4410, hopSize: 2205)
     }
 
+    public var description: String {
+      switch self {
+        case let .stft(ws, hs, sr, rep):
+          return """
+            STFT (window: \(ws), hop: \(hs), sample rate: \(sr), representation: \(rep))
+            """
+        case let .filterbank(ws, hs):
+          return """
+            Filterbank (window: \(ws), hop: \(hs))
+            """
+      }
+    }
+
   }
 
 
 }
-
-/*
-public struct PossibleRoots {
-
-  let byFrequency: Pitch
-  let byCount: Chroma
-  let byEnergy: Chroma
-  let averaged: Chroma
-
-}
-*/
-
 

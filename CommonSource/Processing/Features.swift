@@ -58,25 +58,17 @@ public struct Features {
       let pitchBuffer = PitchBuffer(pitchFeatures)
 
       // Calculate the downsample factor.
-      let downsampleFactor = Int(pitchFeatures.featureRate/chromaFeatures.featureRate)
+      let decimation = Int(pitchFeatures.featureRate/chromaFeatures.featureRate)
 
       // Create the smoothing settings.
       let smoothingSettings = SmoothingSettings(windowSize: 21,
-                                                downsampleFactor: downsampleFactor)
+                                                decimation: decimation)
 
       // Smooth/downsample the pitch features.
       let smoothedPitchBuffer = smooth(buffer: pitchBuffer, settings: smoothingSettings)
 
-      // Create the normalization settings
-//      let normalizationSettings: NormalizationSettings = .lᵖNorm(space: .l¹, threshold: 0.001)
-
-      // Normalize the smoothed pitch features.
-//      normalize(buffer: smoothedPitchBuffer, settings: normalizationSettings)
-
       var parameters = pitchFeatures.parameters
-      parameters.filters = parameters.filters + [.smoothing(settings: smoothingSettings)]//,
-//                                                 .normalization(settings: normalizationSettings)]
-
+      parameters.filters = parameters.filters + [.smoothing(settings: smoothingSettings)]
 
 
       // Initialize the property.
@@ -92,7 +84,8 @@ public struct Features {
 
   }
 
-  /// A simple structure encapsulating parameters for extracting pitch and chroma features.
+  /// A simple structure encapsulating parameters for extracting pitch and
+  /// chroma features.
   public struct Recipe {
 
     /// Parameters for pitch feature extraction.
@@ -110,10 +103,11 @@ public struct Features {
     ///   - pitchFeatureParameters: Parameters for pitch feature extraction.
     ///   - chromaVariant: The chroma feature variant to extract.
     ///   - scoreAdjustments: The adjusments to make when generating similarity scores.
-    public init(pitchFeatureParameters: PitchFeatures.Parameters = PitchFeatures.Parameters(),
-                chromaVariant: ChromaFeatures.Variant = .default,
-                scoreAdjustments: [ScoreAdjustment] = ScoreAdjustment.defaultAdjustments)
-    {
+    public init(
+      pitchFeatureParameters: PitchFeatures.Parameters = PitchFeatures.Parameters(),
+      chromaVariant: ChromaFeatures.Variant = .default,
+      scoreAdjustments: [ScoreAdjustment] = ScoreAdjustment.defaultAdjustments
+    ) {
       self.pitchFeatureParameters = pitchFeatureParameters
       self.chromaVariant = chromaVariant
       self.scoreAdjustments = scoreAdjustments

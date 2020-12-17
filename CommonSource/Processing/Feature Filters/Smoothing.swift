@@ -1,6 +1,6 @@
 //
 //  Smoothing.swift
-//  Chord Finder
+//  Signal Processing
 //
 //  Created by Jason Cardwell on 8/23/17.
 //  Copyright (c) 2017 Moondeer Studios. All rights reserved.
@@ -14,18 +14,19 @@ public struct SmoothingSettings {
   /// The size of the window used as a FIR filter. Use `1` to prevent filtering.
   public var windowSize: Int
 
-  /// The decimation factor used in downsampling. Use `1` to preserve the current feature rate.
-  public var downsampleFactor: Int
+  /// The decimation factor used in downsampling. Use `1` to preserve the current
+  /// feature rate.
+  public var decimation: Int
 
   /// Initializing with default property values.
   ///
   /// - Parameters:
   ///   - windowSize: The size of the window used as a FIR filter. Use `1` to prevent filtering.
-  ///   - downsampleFactor: The decimation factor used in downsampling. Use `1` to preserve the
+  ///   - decimation: The decimation factor used in downsampling. Use `1` to preserve the
   ///                       current feature rate.
-  public init(windowSize: Int = 21, downsampleFactor: Int = 5) {
+  public init(windowSize: Int = 21, decimation: Int = 5) {
     self.windowSize = windowSize
-    self.downsampleFactor = downsampleFactor
+    self.decimation = decimation
   }
 
   public static var `default`: SmoothingSettings { return SmoothingSettings() }
@@ -78,7 +79,7 @@ public func smooth<Vector>(buffer: FeatureBuffer<Vector>,
   normalize(vector: window, count: settings.windowSize, settings: .lᵖNorm(space: .l¹, threshold: 0))
 
   // Calculate the new frame count after decimation.
-  let newRowCount = Int((Float(buffer.count)/Float(settings.downsampleFactor)).rounded(.up))
+  let newRowCount = Int((Float(buffer.count)/Float(settings.decimation)).rounded(.up))
 
   // Create a contiguous buffer to hold the downsampled/filtered values.
   var columnsʹ = Float64Buffer.allocate(capacity: newRowCount * vcount)
@@ -88,7 +89,7 @@ public func smooth<Vector>(buffer: FeatureBuffer<Vector>,
 
     // Filter and decimate the frame values for the chroma band.
     vDSP_desampD(columns + (column * (buffer.count + padAmount)),
-                 settings.downsampleFactor,
+                 settings.decimation,
                  window,
                  columnsʹ + (column * newRowCount),
                  vDSP_Length(newRowCount),
@@ -118,7 +119,7 @@ public func smooth<Vector>(buffer: FeatureBuffer<Vector>,
 
   return FeatureBuffer(buffer: processedBuffer,
                        frameCount: newRowCount,
-                       featureRate: buffer.featureRate / Float(settings.downsampleFactor))
+                       featureRate: buffer.featureRate / Float(settings.decimation))
 
 }
 
@@ -170,7 +171,7 @@ public func smooth<Source>(source: Source, settings: SmoothingSettings) -> [Sour
   normalize(vector: window, count: settings.windowSize, settings: .lᵖNorm(space: .l¹, threshold: 0))
 
   // Calculate the new frame count after decimation.
-  let newRowCount = Int((Float(source.count)/Float(settings.downsampleFactor)).rounded(.up))
+  let newRowCount = Int((Float(source.count)/Float(settings.decimation)).rounded(.up))
 
   // Create a contiguous buffer to hold the downsampled/filtered values.
   var columnsʹ = Float64Buffer.allocate(capacity: newRowCount * vcount)
@@ -180,7 +181,7 @@ public func smooth<Source>(source: Source, settings: SmoothingSettings) -> [Sour
 
     // Filter and decimate the frame values for the chroma band.
     vDSP_desampD(columns + (column * (source.count + padAmount)),
-                 settings.downsampleFactor,
+                 settings.decimation,
                  window,
                  columnsʹ + (column * newRowCount),
                  vDSP_Length(newRowCount),

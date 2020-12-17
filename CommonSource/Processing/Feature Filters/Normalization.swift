@@ -29,7 +29,7 @@ public enum NormalizationSettings {
 /// An enumeration of supported norm spaces.
 /// - l¹: The ℓ¹ norm.
 /// - l²: The ℓ² norm.
-public enum NormSpace {
+public enum NormSpace: CustomStringConvertible {
 
   case l¹, l²
 
@@ -58,6 +58,10 @@ public enum NormSpace {
       
     }
     
+  }
+
+  public var description: String {
+    switch self { case .l¹: return "l¹"; case .l²: return "l²" }
   }
 
 }

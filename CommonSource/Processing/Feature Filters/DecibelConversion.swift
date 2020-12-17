@@ -26,7 +26,7 @@ public struct DecibelConversionSettings {
 
   }
 
-  public static var `default`: DecibelConversionSettings { return DecibelConversionSettings() }
+  public static var `default`: DecibelConversionSettings { DecibelConversionSettings() }
 
   /// An enumeration for specifying the multiplier used for conversion to decibels.
   ///

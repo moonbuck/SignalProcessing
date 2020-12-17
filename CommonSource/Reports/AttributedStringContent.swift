@@ -393,7 +393,7 @@ extension NSMutableAttributedString {
 
     if let smoothing = smoothing {
       self += ("{ Window Size: \(smoothing.windowSize), ", .ctLightItalic)
-      self += ("Downsample Factor: \(smoothing.downsampleFactor) }\n", .ctLightItalic)
+      self += ("Downsample Factor: \(smoothing.decimation) }\n", .ctLightItalic)
     } else {
       self += ("No\n", .ctLightItalic)
     }
